@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
 namespace Farmacop
 {
-    public partial class Formulario : Form
+    public partial class PaginaPrincipal : UserControl
     {
-        public Formulario()
+        public PaginaPrincipal()
         {
             InitializeComponent();
         }
