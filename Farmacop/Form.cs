@@ -15,6 +15,7 @@ namespace Farmacop
     public partial class Form : System.Windows.Forms.Form
     {
         #region fields
+        PrincipalPage PPage = null;
         public static string HOST = "jfrodriguez.pw";
         public static string DB = "FarmacopDB";
         public static string USER = "clientuser";
@@ -50,8 +51,12 @@ namespace Farmacop
 
         private void Formulario_Resize(object sender, EventArgs e)
         {
-            if(!logged)
+            if (!logged)
                 CenterLoginContent();
+            else {
+                PPage.Height = this.Height;
+                PPage.Width = this.Width;
+            }
         }
 
         private void TbxPass_GotFocus(object sender, EventArgs e)
@@ -80,7 +85,8 @@ namespace Farmacop
                                 {
                                     logged = true;
                                     this.Controls.Clear();
-                                    this.Controls.Add(new PaginaPrincipal());
+                                    PPage = new PrincipalPage();
+                                    this.Controls.Add(PPage);
                                 }
                                 else
                                     throw new Exception();
@@ -92,6 +98,7 @@ namespace Farmacop
                         {
                             SystemSounds.Beep.Play();
                             MessageBox.Show("El usuario o la contraseña no son correctos");
+                            tbxEmail.Focus();
                         }
                     }
 

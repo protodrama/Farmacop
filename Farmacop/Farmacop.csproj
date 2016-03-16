@@ -55,11 +55,11 @@
     <Compile Include="Form.Designer.cs">
       <DependentUpon>Form.cs</DependentUpon>
     </Compile>
-    <Compile Include="PaginaPrincipal.cs">
+    <Compile Include="PrincipalPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PaginaPrincipal.Designer.cs">
-      <DependentUpon>PaginaPrincipal.cs</DependentUpon>
+    <Compile Include="PrincipalPage.Designer.cs">
+      <DependentUpon>PrincipalPage.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,8 +67,8 @@
     <EmbeddedResource Include="Form.resx">
       <DependentUpon>Form.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PaginaPrincipal.resx">
-      <DependentUpon>PaginaPrincipal.cs</DependentUpon>
+    <EmbeddedResource Include="PrincipalPage.resx">
+      <DependentUpon>PrincipalPage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

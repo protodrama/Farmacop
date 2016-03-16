@@ -47,7 +47,7 @@ namespace Farmacop
         public string GetCredentials(string correo)
         {
             string data = null;
-            string sql = "select Correo,Contrasena,Tipo from Usuarios where Correo like \"" + correo+"\"";
+            string sql = "select Correo,Contrasena,Tipo from Usuarios where Correo like \"" + correo +"\"";
 
             MySqlCommand cmd = new MySqlCommand(sql,conexion); //Comando de consulta sql
             MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
