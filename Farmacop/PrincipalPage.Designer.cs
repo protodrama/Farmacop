@@ -33,17 +33,24 @@
             this.Menu1 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblProfile = new System.Windows.Forms.Label();
             this.Menu2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.Menu3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.Menu4 = new System.Windows.Forms.FlowLayoutPanel();
-            this.Menu5 = new System.Windows.Forms.FlowLayoutPanel();
-            this.Menu6 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblUsers = new System.Windows.Forms.Label();
+            this.Menu3 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblMedic = new System.Windows.Forms.Label();
+            this.Menu4 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblRecepies = new System.Windows.Forms.Label();
+            this.Menu5 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblControl = new System.Windows.Forms.Label();
+            this.Menu6 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblLogout = new System.Windows.Forms.Label();
+            this.SplitContaint = new System.Windows.Forms.SplitContainer();
+            this.TitlePanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.PanelTitle = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblTitle = new System.Windows.Forms.Label();
+            this.titleline = new System.Windows.Forms.Panel();
+            this.Panel2Containt = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.SplitPrincipal)).BeginInit();
             this.SplitPrincipal.Panel1.SuspendLayout();
+            this.SplitPrincipal.Panel2.SuspendLayout();
             this.SplitPrincipal.SuspendLayout();
             this.MenuPanel.SuspendLayout();
             this.Menu1.SuspendLayout();
@@ -52,6 +59,12 @@
             this.Menu4.SuspendLayout();
             this.Menu5.SuspendLayout();
             this.Menu6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContaint)).BeginInit();
+            this.SplitContaint.Panel1.SuspendLayout();
+            this.SplitContaint.Panel2.SuspendLayout();
+            this.SplitContaint.SuspendLayout();
+            this.TitlePanel.SuspendLayout();
+            this.PanelTitle.SuspendLayout();
             this.SuspendLayout();
             // 
             // SplitPrincipal
@@ -68,6 +81,10 @@
             this.SplitPrincipal.Panel1.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.SplitPrincipal.Panel1.BackColor = System.Drawing.SystemColors.HotTrack;
             this.SplitPrincipal.Panel1.Controls.Add(this.MenuPanel);
+            // 
+            // SplitPrincipal.Panel2
+            // 
+            this.SplitPrincipal.Panel2.Controls.Add(this.SplitContaint);
             this.SplitPrincipal.Size = new System.Drawing.Size(1405, 840);
             this.SplitPrincipal.SplitterDistance = 415;
             this.SplitPrincipal.SplitterWidth = 1;
@@ -129,58 +146,6 @@
             this.Menu2.MouseEnter += new System.EventHandler(this.Menu_MouseEnter);
             this.Menu2.MouseLeave += new System.EventHandler(this.Menu_MouseLeave);
             // 
-            // Menu3
-            // 
-            this.Menu3.Controls.Add(this.lblMedic);
-            this.Menu3.Location = new System.Drawing.Point(0, 200);
-            this.Menu3.Margin = new System.Windows.Forms.Padding(0);
-            this.Menu3.Name = "Menu3";
-            this.Menu3.Size = new System.Drawing.Size(468, 100);
-            this.Menu3.TabIndex = 4;
-            this.Menu3.Tag = "Medic";
-            this.Menu3.Click += new System.EventHandler(this.Menu_Click);
-            this.Menu3.MouseEnter += new System.EventHandler(this.Menu_MouseEnter);
-            this.Menu3.MouseLeave += new System.EventHandler(this.Menu_MouseLeave);
-            // 
-            // Menu4
-            // 
-            this.Menu4.Controls.Add(this.lblRecepies);
-            this.Menu4.Location = new System.Drawing.Point(0, 300);
-            this.Menu4.Margin = new System.Windows.Forms.Padding(0);
-            this.Menu4.Name = "Menu4";
-            this.Menu4.Size = new System.Drawing.Size(468, 100);
-            this.Menu4.TabIndex = 5;
-            this.Menu4.Tag = "Recepies";
-            this.Menu4.Click += new System.EventHandler(this.Menu_Click);
-            this.Menu4.MouseEnter += new System.EventHandler(this.Menu_MouseEnter);
-            this.Menu4.MouseLeave += new System.EventHandler(this.Menu_MouseLeave);
-            // 
-            // Menu5
-            // 
-            this.Menu5.Controls.Add(this.lblControl);
-            this.Menu5.Location = new System.Drawing.Point(0, 400);
-            this.Menu5.Margin = new System.Windows.Forms.Padding(0);
-            this.Menu5.Name = "Menu5";
-            this.Menu5.Size = new System.Drawing.Size(468, 100);
-            this.Menu5.TabIndex = 6;
-            this.Menu5.Tag = "Control";
-            this.Menu5.Click += new System.EventHandler(this.Menu_Click);
-            this.Menu5.MouseEnter += new System.EventHandler(this.Menu_MouseEnter);
-            this.Menu5.MouseLeave += new System.EventHandler(this.Menu_MouseLeave);
-            // 
-            // Menu6
-            // 
-            this.Menu6.Controls.Add(this.lblLogout);
-            this.Menu6.Location = new System.Drawing.Point(0, 500);
-            this.Menu6.Margin = new System.Windows.Forms.Padding(0);
-            this.Menu6.Name = "Menu6";
-            this.Menu6.Size = new System.Drawing.Size(468, 100);
-            this.Menu6.TabIndex = 7;
-            this.Menu6.Tag = "Logout";
-            this.Menu6.Click += new System.EventHandler(this.Menu_Click);
-            this.Menu6.MouseEnter += new System.EventHandler(this.Menu_MouseEnter);
-            this.Menu6.MouseLeave += new System.EventHandler(this.Menu_MouseLeave);
-            // 
             // lblUsers
             // 
             this.lblUsers.AutoSize = true;
@@ -194,6 +159,19 @@
             this.lblUsers.Tag = "Users";
             this.lblUsers.Text = "Usuarios";
             this.lblUsers.MouseEnter += new System.EventHandler(this.lblMenu_MouseEnter);
+            // 
+            // Menu3
+            // 
+            this.Menu3.Controls.Add(this.lblMedic);
+            this.Menu3.Location = new System.Drawing.Point(0, 200);
+            this.Menu3.Margin = new System.Windows.Forms.Padding(0);
+            this.Menu3.Name = "Menu3";
+            this.Menu3.Size = new System.Drawing.Size(468, 100);
+            this.Menu3.TabIndex = 4;
+            this.Menu3.Tag = "Medic";
+            this.Menu3.Click += new System.EventHandler(this.Menu_Click);
+            this.Menu3.MouseEnter += new System.EventHandler(this.Menu_MouseEnter);
+            this.Menu3.MouseLeave += new System.EventHandler(this.Menu_MouseLeave);
             // 
             // lblMedic
             // 
@@ -209,6 +187,19 @@
             this.lblMedic.Text = "Medicamentos";
             this.lblMedic.MouseEnter += new System.EventHandler(this.lblMenu_MouseEnter);
             // 
+            // Menu4
+            // 
+            this.Menu4.Controls.Add(this.lblRecepies);
+            this.Menu4.Location = new System.Drawing.Point(0, 300);
+            this.Menu4.Margin = new System.Windows.Forms.Padding(0);
+            this.Menu4.Name = "Menu4";
+            this.Menu4.Size = new System.Drawing.Size(468, 100);
+            this.Menu4.TabIndex = 5;
+            this.Menu4.Tag = "Recepies";
+            this.Menu4.Click += new System.EventHandler(this.Menu_Click);
+            this.Menu4.MouseEnter += new System.EventHandler(this.Menu_MouseEnter);
+            this.Menu4.MouseLeave += new System.EventHandler(this.Menu_MouseLeave);
+            // 
             // lblRecepies
             // 
             this.lblRecepies.AutoSize = true;
@@ -222,6 +213,19 @@
             this.lblRecepies.Tag = "Recepies";
             this.lblRecepies.Text = "Recetas";
             this.lblRecepies.MouseEnter += new System.EventHandler(this.lblMenu_MouseEnter);
+            // 
+            // Menu5
+            // 
+            this.Menu5.Controls.Add(this.lblControl);
+            this.Menu5.Location = new System.Drawing.Point(0, 400);
+            this.Menu5.Margin = new System.Windows.Forms.Padding(0);
+            this.Menu5.Name = "Menu5";
+            this.Menu5.Size = new System.Drawing.Size(468, 100);
+            this.Menu5.TabIndex = 6;
+            this.Menu5.Tag = "Control";
+            this.Menu5.Click += new System.EventHandler(this.Menu_Click);
+            this.Menu5.MouseEnter += new System.EventHandler(this.Menu_MouseEnter);
+            this.Menu5.MouseLeave += new System.EventHandler(this.Menu_MouseLeave);
             // 
             // lblControl
             // 
@@ -237,6 +241,19 @@
             this.lblControl.Text = "Control de recetas";
             this.lblControl.MouseEnter += new System.EventHandler(this.lblMenu_MouseEnter);
             // 
+            // Menu6
+            // 
+            this.Menu6.Controls.Add(this.lblLogout);
+            this.Menu6.Location = new System.Drawing.Point(0, 500);
+            this.Menu6.Margin = new System.Windows.Forms.Padding(0);
+            this.Menu6.Name = "Menu6";
+            this.Menu6.Size = new System.Drawing.Size(468, 100);
+            this.Menu6.TabIndex = 7;
+            this.Menu6.Tag = "Logout";
+            this.Menu6.Click += new System.EventHandler(this.Menu_Click);
+            this.Menu6.MouseEnter += new System.EventHandler(this.Menu_MouseEnter);
+            this.Menu6.MouseLeave += new System.EventHandler(this.Menu_MouseLeave);
+            // 
             // lblLogout
             // 
             this.lblLogout.AutoSize = true;
@@ -251,6 +268,71 @@
             this.lblLogout.Text = "Salir";
             this.lblLogout.MouseEnter += new System.EventHandler(this.lblMenu_MouseEnter);
             // 
+            // SplitContaint
+            // 
+            this.SplitContaint.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SplitContaint.Location = new System.Drawing.Point(0, 0);
+            this.SplitContaint.Name = "SplitContaint";
+            this.SplitContaint.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // SplitContaint.Panel1
+            // 
+            this.SplitContaint.Panel1.Controls.Add(this.TitlePanel);
+            // 
+            // SplitContaint.Panel2
+            // 
+            this.SplitContaint.Panel2.Controls.Add(this.Panel2Containt);
+            this.SplitContaint.Size = new System.Drawing.Size(989, 840);
+            this.SplitContaint.SplitterDistance = 58;
+            this.SplitContaint.SplitterWidth = 1;
+            this.SplitContaint.TabIndex = 0;
+            // 
+            // TitlePanel
+            // 
+            this.TitlePanel.Controls.Add(this.PanelTitle);
+            this.TitlePanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.TitlePanel.Location = new System.Drawing.Point(0, 0);
+            this.TitlePanel.Name = "TitlePanel";
+            this.TitlePanel.Size = new System.Drawing.Size(989, 53);
+            this.TitlePanel.TabIndex = 0;
+            // 
+            // PanelTitle
+            // 
+            this.PanelTitle.Controls.Add(this.lblTitle);
+            this.PanelTitle.Controls.Add(this.titleline);
+            this.PanelTitle.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.PanelTitle.Location = new System.Drawing.Point(3, 3);
+            this.PanelTitle.Name = "PanelTitle";
+            this.PanelTitle.Size = new System.Drawing.Size(983, 50);
+            this.PanelTitle.TabIndex = 0;
+            // 
+            // lblTitle
+            // 
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.ForeColor = System.Drawing.Color.MediumBlue;
+            this.lblTitle.Location = new System.Drawing.Point(150, 3);
+            this.lblTitle.Margin = new System.Windows.Forms.Padding(150, 3, 3, 0);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(75, 32);
+            this.lblTitle.TabIndex = 0;
+            this.lblTitle.Text = "Perfil";
+            // 
+            // titleline
+            // 
+            this.titleline.BackColor = System.Drawing.Color.MediumBlue;
+            this.titleline.Location = new System.Drawing.Point(3, 38);
+            this.titleline.Name = "titleline";
+            this.titleline.Size = new System.Drawing.Size(1600, 3);
+            this.titleline.TabIndex = 1;
+            // 
+            // Panel2Containt
+            // 
+            this.Panel2Containt.Location = new System.Drawing.Point(0, 0);
+            this.Panel2Containt.Name = "Panel2Containt";
+            this.Panel2Containt.Size = new System.Drawing.Size(989, 781);
+            this.Panel2Containt.TabIndex = 0;
+            // 
             // PrincipalPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -261,6 +343,7 @@
             this.Size = new System.Drawing.Size(1405, 840);
             this.SizeChanged += new System.EventHandler(this.PaginaPrincipal_SizeChanged);
             this.SplitPrincipal.Panel1.ResumeLayout(false);
+            this.SplitPrincipal.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitPrincipal)).EndInit();
             this.SplitPrincipal.ResumeLayout(false);
             this.MenuPanel.ResumeLayout(false);
@@ -276,6 +359,13 @@
             this.Menu5.PerformLayout();
             this.Menu6.ResumeLayout(false);
             this.Menu6.PerformLayout();
+            this.SplitContaint.Panel1.ResumeLayout(false);
+            this.SplitContaint.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContaint)).EndInit();
+            this.SplitContaint.ResumeLayout(false);
+            this.TitlePanel.ResumeLayout(false);
+            this.PanelTitle.ResumeLayout(false);
+            this.PanelTitle.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -295,5 +385,11 @@
         public System.Windows.Forms.Label lblMedic;
         public System.Windows.Forms.Label lblUsers;
         public System.Windows.Forms.Label lblProfile;
+        private System.Windows.Forms.FlowLayoutPanel TitlePanel;
+        public System.Windows.Forms.SplitContainer SplitContaint;
+        private System.Windows.Forms.FlowLayoutPanel PanelTitle;
+        public System.Windows.Forms.Label lblTitle;
+        public System.Windows.Forms.Panel titleline;
+        private System.Windows.Forms.FlowLayoutPanel Panel2Containt;
     }
 }

@@ -46,7 +46,7 @@ namespace Farmacop
         //Comprobar credenciales
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            ComprobarLogin();
+            CheckLogin();
         }
 
         private void Formulario_Resize(object sender, EventArgs e)
@@ -66,7 +66,7 @@ namespace Farmacop
         #endregion
 
         #region Methods
-        private void ComprobarLogin()
+        private void CheckLogin()
         {
             if (!tbxEmail.Text.Equals("") && !tbxPass.Text.Equals(""))
             {
@@ -81,12 +81,20 @@ namespace Farmacop
                             if (data.Split(':')[2].Equals("Paciente"))
                                 throw new Exception();
                             if (tbxEmail.Text.Equals(data.Split(':')[0])) {
-                                if (ComprobarContrasena(tbxPass.Text, data.Split(':')[1]))
+                                if (CheckPassword(tbxPass.Text, data.Split(':')[1]))
                                 {
-                                    logged = true;
-                                    this.Controls.Clear();
-                                    PPage = new PrincipalPage();
-                                    this.Controls.Add(PPage);
+                                    try {
+                                        logged = true;
+                                        this.Controls.Clear();
+                                        PPage = new PrincipalPage();
+                                        this.Controls.Add(PPage);
+                                    }
+                                    catch(Exception e)
+                                    {
+                                        SystemSounds.Beep.Play();
+                                        MessageBox.Show(e.Message);
+                                        this.Close();
+                                    }
                                 }
                                 else
                                     throw new Exception();
@@ -131,7 +139,7 @@ namespace Farmacop
             }
         }
 
-        private bool ComprobarContrasena(string clave, string original)
+        private bool CheckPassword(string clave, string original)
         {
             MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
             byte[] TextoEnBytes = Encoding.UTF8.GetBytes(clave);
@@ -145,6 +153,28 @@ namespace Farmacop
             }
 
             return Criptograma.ToString().Equals(original);
+        }
+
+        private void GetUserData(string email)
+        {
+            try {
+                string data = DBConection.GetUserData(email);
+                string[] dataValues = data.Split(':');
+
+                Sesion.Name = dataValues[0];
+                Sesion.FirstSurname = dataValues[1];
+                Sesion.SecondSurname = dataValues[2];
+                Sesion.Email = dataValues[3];
+                Sesion.PassWord = dataValues[4];
+                if (dataValues[5].Equals("Admin"))
+                    Sesion.UserType = UserType.Administrador;
+                else
+                    Sesion.UserType = UserType.Medico;
+            }
+            catch(Exception e)
+            {
+                throw new Exception("Error al obtener los datos del usuario. Consulte con el administrador");
+            }
         }
         #endregion
     }

@@ -11,9 +11,14 @@ namespace Farmacop
 {
     public partial class PrincipalPage : UserControl
     {
+
+        ProfilePanel Profilepanel;
+
         public PrincipalPage()
         {
             InitializeComponent();
+            Profilepanel = new ProfilePanel();
+            Panel2Containt.Controls.Add(Profilepanel);
         }
 
         #region Events
@@ -22,6 +27,9 @@ namespace Farmacop
             SplitPrincipal.Height = this.Height;
             SplitPrincipal.Width = this.Width;
             MenuPanel.Height = SplitPrincipal.Height;
+            SplitContaint.Width = SplitPrincipal.Panel2.Width;
+            TitlePanel.Width = SplitPrincipal.Panel2.Width;
+            PanelTitle.Width = SplitPrincipal.Panel2.Width;
         }
 
         private void Menu_Click(object sender, EventArgs e)
@@ -29,16 +37,22 @@ namespace Farmacop
             switch (((FlowLayoutPanel)sender).Tag.ToString())
             {
                 case "Profile":
+                    lblTitle.Text = "Perfil";
                     break;
                 case "Users":
+                    lblTitle.Text = "Usuarios";
                     break;
                 case "Medic":
+                    lblTitle.Text = "Medicamentos";
                     break;
                 case "Recepies":
+                    lblTitle.Text = "Recetas";
                     break;
                 case "Control":
+                    lblTitle.Text = "Control de tomas";
                     break;
                 case "Logout":
+                    //Mostrar mensaje y cerrar app si acepta
                     break;
             }
         }

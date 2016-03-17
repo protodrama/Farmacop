@@ -66,9 +66,28 @@ namespace Farmacop
             return data;
         }
 
+        //Obtiene los datos del usuario en cuestión
         public string GetUserData(string correo)
         {
-            return null;
+            string data = null;
+            string sql = "select Correo,Contrasena,Tipo,Nombre,Apellido1,Apellido2 from Usuarios where Correo like \"" + correo + "\"";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
+            MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
+
+            if (DataReader.HasRows)  //Si tiene filas lee el contenido y devuelve las credenciales
+                while (DataReader.Read())
+                {
+                    try
+                    {
+                        data = DataReader["Nombre"].ToString() + ":" + DataReader["Apellido1"].ToString() + ":" + DataReader["Apellido2"].ToString() +
+                            DataReader["Correo"].ToString() + ":" + DataReader["Contrasena"].ToString() + ":" + DataReader["Tipo"].ToString();
+                    }
+                    catch (Exception e) { throw; }
+                }
+
+            DataReader.Close();
+            return data;
         }
     }
 }
