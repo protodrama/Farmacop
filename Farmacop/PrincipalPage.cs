@@ -60,9 +60,7 @@ namespace Farmacop
                 case "Logout":
                     //Mostrar mensaje y cerrar app si acepta
                     if(DialogResult.Yes == MessageBox.Show("¿Seguro que desea salir de la aplicación?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
-                    {
-
-                    }
+                        this.ParentForm.Close();
                     break;
             }
         }
