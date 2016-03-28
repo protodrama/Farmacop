@@ -16,10 +16,6 @@ namespace Farmacop
     {
         #region fields
         PrincipalPage PPage = null;
-        public static string HOST = "jfrodriguez.pw";
-        public static string DB = "FarmacopDB";
-        public static string USER = "clientuser";
-        public static string PASS = "hx3CfFQFdrRJVRsd";
         bool logged = false;
         DAO DBConection;     //Conector a la base de datos
         #endregion
@@ -73,7 +69,7 @@ namespace Farmacop
                 try
                 {
                     Cursor.Current = Cursors.WaitCursor;
-                    if (DBConection.Conectar(HOST, DB, USER, PASS))
+                    if (DBConection.Conectar(Sesion.HOST, Sesion.DB, Sesion.USER, Sesion.PASS))
                     {
                         try
                         {

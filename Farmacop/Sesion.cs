@@ -11,6 +11,11 @@ namespace Farmacop
     public static class Sesion
     {
         #region Fields
+        public static string HOST = "jfrodriguez.pw";
+        public static string DB = "FarmacopDB";
+        public static string USER = "clientuser";
+        public static string PASS = "hx3CfFQFdrRJVRsd";
+
         static string email;
         public static string Email { get { return email; } set { email = value; } }
 

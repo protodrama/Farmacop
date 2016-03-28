@@ -22,9 +22,9 @@ namespace Farmacop
             try{
                 
             }
-            catch(Exception e)
+            catch(Exception ex)
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show(ex.Message);
             }
         }
     }
