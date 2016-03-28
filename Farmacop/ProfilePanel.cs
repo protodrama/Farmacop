@@ -15,5 +15,17 @@ namespace Farmacop
         {
             InitializeComponent();
         }
+
+        private void btnModifyPass_Click(object sender, EventArgs e)
+        {
+            //Modify password if everything is ok
+            try{
+                
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
     }
 }

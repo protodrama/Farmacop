@@ -60,11 +60,11 @@
             this.lblIniciarSesion.TabIndex = 1;
             this.lblIniciarSesion.Text = "Iniciar sesión";
             // 
-            // tbxCorreo
+            // tbxEmail
             // 
             this.tbxEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbxEmail.Location = new System.Drawing.Point(619, 242);
-            this.tbxEmail.Name = "tbxCorreo";
+            this.tbxEmail.Name = "tbxEmail";
             this.tbxEmail.Size = new System.Drawing.Size(220, 26);
             this.tbxEmail.TabIndex = 1;
             // 
@@ -107,7 +107,7 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Contraseña:";
             // 
-            // Formulario
+            // Form
             // 
             this.AcceptButton = this.btnEntrar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -123,7 +123,7 @@
             this.Controls.Add(this.pctbxFarmacop);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Formulario";
+            this.Name = "Form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Farmacop";
             this.Resize += new System.EventHandler(this.Formulario_Resize);

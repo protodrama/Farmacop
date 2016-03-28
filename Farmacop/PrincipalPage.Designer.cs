@@ -271,6 +271,7 @@
             // SplitContaint
             // 
             this.SplitContaint.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SplitContaint.IsSplitterFixed = true;
             this.SplitContaint.Location = new System.Drawing.Point(0, 0);
             this.SplitContaint.Name = "SplitContaint";
             this.SplitContaint.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -286,6 +287,7 @@
             this.SplitContaint.SplitterDistance = 58;
             this.SplitContaint.SplitterWidth = 1;
             this.SplitContaint.TabIndex = 0;
+            this.SplitContaint.TabStop = false;
             // 
             // TitlePanel
             // 

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Media;
-using System.Security.Cryptography;
+
 
 namespace Farmacop
 {
@@ -139,20 +139,10 @@ namespace Farmacop
             }
         }
 
-        private bool CheckPassword(string clave, string original)
+        private bool CheckPassword(string pass, string original)
         {
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            byte[] TextoEnBytes = Encoding.UTF8.GetBytes(clave);
-
-            byte[] CriptogramaBytes = md5.ComputeHash(TextoEnBytes);
-            StringBuilder Criptograma = new StringBuilder();
-
-            for (int i = 0; i < CriptogramaBytes.Length; i++)
-            {
-                Criptograma.Append(CriptogramaBytes[i].ToString("x2"));
-            }
-
-            return Criptograma.ToString().Equals(original);
+            string Cripto = Sesion.StringToMD5(pass);
+            return Cripto.ToString().Equals(original);
         }
 
         private void GetUserData(string email)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Security.Cryptography;
 
 namespace Farmacop
 {
@@ -9,6 +10,7 @@ namespace Farmacop
 
     public static class Sesion
     {
+        #region Fields
         static string email;
         public static string Email { get { return email; } set { email = value; } }
 
@@ -26,7 +28,25 @@ namespace Farmacop
 
         static UserType type;
         public static UserType UserType { get { return type; } set { type = value; } }
+        #endregion
 
+        #region Static Methods
+        static public string StringToMD5(string value)
+        {
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            byte[] TextoEnBytes = Encoding.UTF8.GetBytes(value);
+
+            byte[] CriptoBytes = md5.ComputeHash(TextoEnBytes);
+            StringBuilder Cripto = new StringBuilder();
+
+            for (int i = 0; i < CriptoBytes.Length; i++)
+            {
+                Cripto.Append(CriptoBytes[i].ToString("x2"));
+            }
+
+            return Cripto.ToString();
+        }
+        #endregion
 
 
     }

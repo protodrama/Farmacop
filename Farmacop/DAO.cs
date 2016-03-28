@@ -44,10 +44,10 @@ namespace Farmacop
         #endregion
 
         //Obtiene las credenciales del usuario indicado
-        public string GetCredentials(string correo)
+        public string GetCredentials(string email)
         {
             string data = null;
-            string sql = "select Correo,Contrasena,Tipo from Usuarios where Correo like \"" + correo +"\"";
+            string sql = "select Correo,Contrasena,Tipo from Usuarios where Correo like \"" + email +"\"";
 
             MySqlCommand cmd = new MySqlCommand(sql,conexion); //Comando de consulta sql
             MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
@@ -67,10 +67,10 @@ namespace Farmacop
         }
 
         //Obtiene los datos del usuario en cuestión
-        public string GetUserData(string correo)
+        public string GetUserData(string email)
         {
             string data = null;
-            string sql = "select Correo,Contrasena,Tipo,Nombre,Apellido1,Apellido2 from Usuarios where Correo like \"" + correo + "\"";
+            string sql = "select Correo,Contrasena,Tipo,Nombre,Apellido1,Apellido2 from Usuarios where Correo like \"" + email + "\"";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
             MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
@@ -88,6 +88,14 @@ namespace Farmacop
 
             DataReader.Close();
             return data;
+        }
+
+        public bool UpdateUserPassWord(string email, string newPass)
+        {
+            string sql = "update Usuarios set Contrasena = " + newPass + " where Correo like \""+ email +"\"";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
         }
     }
 }
