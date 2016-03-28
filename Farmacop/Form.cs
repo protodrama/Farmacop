@@ -17,7 +17,7 @@ namespace Farmacop
         #region fields
         PrincipalPage PPage = null;
         bool logged = false;
-        DAO DBConection;     //Conector a la base de datos
+        public DAO DBConection;     //Conector a la base de datos
         #endregion
 
         #region Initialize
@@ -62,6 +62,7 @@ namespace Farmacop
 
         private void lnkNewUser_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            //Lanzar formulario de modificación de contraseña cuando todo vaya ok
 
         }
         #endregion
@@ -86,9 +87,11 @@ namespace Farmacop
                                 {
                                     try {
                                         logged = true;
+                                        GetUserData(tbxEmail.Text);
                                         this.Controls.Clear();
-                                        PPage = new PrincipalPage();
+                                        PPage = new PrincipalPage(DBConection);
                                         this.Controls.Add(PPage);
+                                        
                                     }
                                     catch(Exception e)
                                     {

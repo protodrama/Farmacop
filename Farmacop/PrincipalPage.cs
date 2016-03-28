@@ -11,13 +11,17 @@ namespace Farmacop
 {
     public partial class PrincipalPage : UserControl
     {
-
         ProfilePanel Profilepanel;
 
         public PrincipalPage()
         {
             InitializeComponent();
-            Profilepanel = new ProfilePanel();
+        }
+
+        public PrincipalPage(DAO DBConnection)
+        {
+            InitializeComponent();
+            Profilepanel = new ProfilePanel(DBConnection);
             Panel2Containt.Controls.Add(Profilepanel);
         }
 

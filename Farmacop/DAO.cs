@@ -8,7 +8,7 @@ namespace Farmacop
 {
     //Esta clase se encargará de realizar las conexiones a la base de datos
 
-    class DAO
+    public class DAO
     {
         //Conexión a base de datos MySql
         private MySqlConnection conexion;
@@ -80,7 +80,7 @@ namespace Farmacop
                 {
                     try
                     {
-                        data = DataReader["Nombre"].ToString() + ":" + DataReader["Apellido1"].ToString() + ":" + DataReader["Apellido2"].ToString() +
+                        data = DataReader["Nombre"].ToString() + ":" + DataReader["Apellido1"].ToString() + ":" + DataReader["Apellido2"].ToString() + ":" +
                             DataReader["Correo"].ToString() + ":" + DataReader["Contrasena"].ToString() + ":" + DataReader["Tipo"].ToString();
                     }
                     catch (Exception e) { throw; }
@@ -92,7 +92,7 @@ namespace Farmacop
 
         public bool UpdateUserPassWord(string email, string newPass)
         {
-            string sql = "update Usuarios set Contrasena = " + newPass + " where Correo like \""+ email +"\"";
+            string sql = "update Usuarios set Contrasena = \"" + newPass + "\" where Correo like \""+ email +"\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;
