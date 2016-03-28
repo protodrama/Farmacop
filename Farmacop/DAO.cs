@@ -90,9 +90,19 @@ namespace Farmacop
             return data;
         }
 
+        //Actualiza la contraseña de un usuario
         public bool UpdateUserPassWord(string email, string newPass)
         {
             string sql = "update Usuarios set Contrasena = \"" + newPass + "\" where Correo like \""+ email +"\"";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
+        }
+
+        //Actualiza los datos de un usuario
+        public bool UpdateUserData(string Name, string FApl, string SApl, string FNac, string email)
+        {
+            string sql = "update Usuarios set Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \"" + FNac + "\" where Correo like \"" + email + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;

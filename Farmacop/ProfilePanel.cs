@@ -72,5 +72,73 @@ namespace Farmacop
                 txtOriginalPass.Text = "";
             }
         }
+
+        private void txtbxFNac_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            string allowed = "1234567890/\b";
+
+            if (!allowed.Contains(e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void txtbxFNac_Leave(object sender, EventArgs e)
+        {
+            try
+            {
+                DateTime Date = DateTime.Parse(txtbxFNac.Text);
+                if (Date.Date > DateTime.Now.Date)
+                    throw new Exception();
+                else
+                    if(DateTime.Now.Year - Date.Date.Year >= 100)
+                        throw new Exception();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Fecha incorrecta. Introduzca una fecha válida con el formato DD/MM/YYYY","Error");
+                txtbxFNac.Text = "";
+                txtbxFNac.Focus();
+            }
+        }
+
+        private void btnModPData_Click(object sender, EventArgs e)
+        {
+            string Name, FApl, SApl, FNac;
+
+            if (txtbxName.Text.Equals(""))
+                Name = Sesion.Name;
+            else
+                Name = txtbxName.Text;
+
+            if (txtbxFApl.Text.Equals(""))
+                FApl = Sesion.FirstSurname;
+            else
+                FApl = txtbxFApl.Text;
+
+            if (txtbxSApl.Text.Equals(""))
+                SApl = Sesion.SecondSurname;
+            else
+                SApl = txtbxSApl.Text;
+
+            if (txtbxFNac.Text.Equals(""))
+                FNac = DateTime.Parse(Sesion.FNac).Date.ToShortDateString();
+            else
+                FNac = DateTime.Parse(txtbxFNac.Text).Date.ToShortDateString();
+
+            if (Sesion.DBConnection.UpdateUserData(Name, FApl, SApl, FNac, Sesion.Email))
+            {
+                MessageBox.Show("Datos actualizados con éxito");
+                Sesion.Name = Name;
+                Sesion.FirstSurname = FApl;
+                Sesion.SecondSurname = SApl;
+                Sesion.FNac = FNac;
+                Inicialize();
+                txtbxFApl.Text = "";
+                txtbxFNac.Text = "";
+                txtbxName.Text = "";
+                txtbxSApl.Text = "";
+            }
+            else
+                MessageBox.Show("Error al actualizar los datos");
+        }
     }
 }
