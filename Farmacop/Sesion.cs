@@ -16,6 +16,8 @@ namespace Farmacop
         public static string USER = "clientuser";
         public static string PASS = "hx3CfFQFdrRJVRsd";
 
+        public static DAO DBConnection;
+
         static string email;
         public static string Email { get { return email; } set { email = value; } }
 
@@ -36,6 +38,11 @@ namespace Farmacop
         #endregion
 
         #region Static Methods
+        static public bool Connect()
+        {
+            return DBConnection.Conectar(HOST, DB, USER, PASS);
+        }
+
         static public string StringToMD5(string value)
         {
             MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();

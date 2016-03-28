@@ -17,7 +17,6 @@ namespace Farmacop
         #region fields
         PrincipalPage PPage = null;
         bool logged = false;
-        public DAO DBConection;     //Conector a la base de datos
         #endregion
 
         #region Initialize
@@ -25,7 +24,7 @@ namespace Farmacop
         {
             InitializeComponent();
             CenterLoginContent();
-            DBConection = new DAO();
+            Sesion.DBConnection = new DAO();
             tbxPass.GotFocus += TbxPass_GotFocus;
         }
 
@@ -75,11 +74,11 @@ namespace Farmacop
                 try
                 {
                     Cursor.Current = Cursors.WaitCursor;
-                    if (DBConection.Conectar(Sesion.HOST, Sesion.DB, Sesion.USER, Sesion.PASS))
+                    if (Sesion.Connect())
                     {
                         try
                         {
-                            string data = DBConection.GetCredentials(tbxEmail.Text);
+                            string data = Sesion.DBConnection.GetCredentials(tbxEmail.Text);
                             if (data.Split(':')[2].Equals("Paciente"))
                                 throw new Exception();
                             if (tbxEmail.Text.Equals(data.Split(':')[0])) {
@@ -89,7 +88,7 @@ namespace Farmacop
                                         logged = true;
                                         GetUserData(tbxEmail.Text);
                                         this.Controls.Clear();
-                                        PPage = new PrincipalPage(DBConection);
+                                        PPage = new PrincipalPage();
                                         this.Controls.Add(PPage);
                                         
                                     }
@@ -152,7 +151,7 @@ namespace Farmacop
         private void GetUserData(string email)
         {
             try {
-                string data = DBConection.GetUserData(email);
+                string data = Sesion.DBConnection.GetUserData(email);
                 string[] dataValues = data.Split(':');
 
                 Sesion.Name = dataValues[0];

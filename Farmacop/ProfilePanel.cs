@@ -11,17 +11,10 @@ namespace Farmacop
 {
     public partial class ProfilePanel : UserControl
     {
-        DAO DBConnection;
 
         public ProfilePanel()
         {
             InitializeComponent();
-        }
-
-        public ProfilePanel(DAO Connection)
-        {
-            InitializeComponent();
-            this.DBConnection = Connection;
         }
 
         private void btnModifyPass_Click(object sender, EventArgs e)
@@ -34,7 +27,7 @@ namespace Farmacop
                     {
                         if (txtNewPass.Text.Equals(txtNewPass2.Text))
                         {
-                            if (DBConnection.UpdateUserPassWord(Sesion.Email, Sesion.StringToMD5(txtNewPass.Text)))
+                            if (Sesion.DBConnection.UpdateUserPassWord(Sesion.Email, Sesion.StringToMD5(txtNewPass.Text)))
                                 MessageBox.Show("Contraseña modificada con éxito");
                             else
                                 throw new Exception("Error al modificar la contraseña");

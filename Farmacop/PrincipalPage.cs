@@ -16,12 +16,7 @@ namespace Farmacop
         public PrincipalPage()
         {
             InitializeComponent();
-        }
-
-        public PrincipalPage(DAO DBConnection)
-        {
-            InitializeComponent();
-            Profilepanel = new ProfilePanel(DBConnection);
+            Profilepanel = new ProfilePanel();
             Panel2Containt.Controls.Add(Profilepanel);
         }
 
