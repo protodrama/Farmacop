@@ -36,7 +36,7 @@
             this.btnEntrar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.lnkNewUser = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pctbxFarmacop)).BeginInit();
             this.SuspendLayout();
             // 
@@ -108,17 +108,18 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "Contraseña:";
             // 
-            // linkLabel1
+            // lnkNewUser
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(68, 70);
-            this.linkLabel1.Location = new System.Drawing.Point(636, 398);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(203, 30);
-            this.linkLabel1.TabIndex = 6;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Si es la primera vez que entras añade \r\nuna contraseña a tu usuario aquí";
-            this.linkLabel1.UseCompatibleTextRendering = true;
+            this.lnkNewUser.AutoSize = true;
+            this.lnkNewUser.LinkArea = new System.Windows.Forms.LinkArea(68, 70);
+            this.lnkNewUser.Location = new System.Drawing.Point(636, 398);
+            this.lnkNewUser.Name = "lnkNewUser";
+            this.lnkNewUser.Size = new System.Drawing.Size(203, 30);
+            this.lnkNewUser.TabIndex = 6;
+            this.lnkNewUser.TabStop = true;
+            this.lnkNewUser.Text = "Si es la primera vez que entras añade \r\nuna contraseña a tu usuario aquí";
+            this.lnkNewUser.UseCompatibleTextRendering = true;
+            this.lnkNewUser.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkNewUser_LinkClicked);
             // 
             // Form
             // 
@@ -127,7 +128,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1419, 821);
-            this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.lnkNewUser);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnEntrar);
@@ -156,7 +157,7 @@
         private System.Windows.Forms.Button btnEntrar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel lnkNewUser;
     }
 }
 

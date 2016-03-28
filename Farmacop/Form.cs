@@ -59,6 +59,11 @@ namespace Farmacop
         {
             tbxPass.Text = "";
         }
+
+        private void lnkNewUser_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
         #endregion
 
         #region Methods
@@ -163,5 +168,7 @@ namespace Farmacop
             }
         }
         #endregion
+
+
     }
 }
