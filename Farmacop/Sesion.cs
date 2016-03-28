@@ -35,6 +35,9 @@ namespace Farmacop
 
         static UserType type;
         public static UserType UserType { get { return type; } set { type = value; } }
+
+        static string fNac;
+        public static string FNac { get { return fNac; } set { fNac = value; } }
         #endregion
 
         #region Static Methods

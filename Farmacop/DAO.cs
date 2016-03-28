@@ -70,7 +70,7 @@ namespace Farmacop
         public string GetUserData(string email)
         {
             string data = null;
-            string sql = "select Correo,Contrasena,Tipo,Nombre,Apellido1,Apellido2 from Usuarios where Correo like \"" + email + "\"";
+            string sql = "select Correo,Contrasena,Tipo,Nombre,Apellido1,Apellido2,FechaNac from Usuarios where Correo like \"" + email + "\"";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
             MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
@@ -80,8 +80,8 @@ namespace Farmacop
                 {
                     try
                     {
-                        data = DataReader["Nombre"].ToString() + ":" + DataReader["Apellido1"].ToString() + ":" + DataReader["Apellido2"].ToString() + ":" +
-                            DataReader["Correo"].ToString() + ":" + DataReader["Contrasena"].ToString() + ":" + DataReader["Tipo"].ToString();
+                        data = DataReader["Nombre"].ToString() + ";" + DataReader["Apellido1"].ToString() + ";" + DataReader["Apellido2"].ToString() + ";" +
+                            DataReader["Correo"].ToString() + ";" + DataReader["Contrasena"].ToString() + ";" + DataReader["FechaNac"].ToString() + ";" + DataReader["Tipo"].ToString();
                     }
                     catch (Exception e) { throw; }
                 }

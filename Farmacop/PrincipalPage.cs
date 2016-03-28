@@ -37,21 +37,32 @@ namespace Farmacop
             {
                 case "Profile":
                     lblTitle.Text = "Perfil";
+                    Profilepanel = new ProfilePanel();
+                    Panel2Containt.Controls.Clear();
+                    Panel2Containt.Controls.Add(Profilepanel);
                     break;
                 case "Users":
                     lblTitle.Text = "Usuarios";
+                    Panel2Containt.Controls.Clear();
                     break;
                 case "Medic":
                     lblTitle.Text = "Medicamentos";
+                    Panel2Containt.Controls.Clear();
                     break;
                 case "Recepies":
                     lblTitle.Text = "Recetas";
+                    Panel2Containt.Controls.Clear();
                     break;
                 case "Control":
                     lblTitle.Text = "Control de tomas";
+                    Panel2Containt.Controls.Clear();
                     break;
                 case "Logout":
                     //Mostrar mensaje y cerrar app si acepta
+                    if(DialogResult.Yes == MessageBox.Show("¿Seguro que desea salir de la aplicación?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+                    {
+
+                    }
                     break;
             }
         }

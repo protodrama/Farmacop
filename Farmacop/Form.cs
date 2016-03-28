@@ -152,14 +152,15 @@ namespace Farmacop
         {
             try {
                 string data = Sesion.DBConnection.GetUserData(email);
-                string[] dataValues = data.Split(':');
+                string[] dataValues = data.Split(';');
 
                 Sesion.Name = dataValues[0];
                 Sesion.FirstSurname = dataValues[1];
                 Sesion.SecondSurname = dataValues[2];
                 Sesion.Email = dataValues[3];
                 Sesion.PassWord = dataValues[4];
-                if (dataValues[5].Equals("Admin"))
+                Sesion.FNac = dataValues[5].Split(' ')[0].ToString();
+                if (dataValues[6].Equals("Admin"))
                     Sesion.UserType = UserType.Administrador;
                 else
                     Sesion.UserType = UserType.Medico;

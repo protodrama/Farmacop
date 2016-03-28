@@ -15,6 +15,20 @@ namespace Farmacop
         public ProfilePanel()
         {
             InitializeComponent();
+            Inicialize();
+        }
+
+        public void Inicialize()
+        {
+            lblName.Text = Sesion.Name;
+            lblApl1.Text = Sesion.FirstSurname;
+            lblApl2.Text = Sesion.SecondSurname;
+            lblEmail.Text = Sesion.Email;
+            lblFNac.Text = Sesion.FNac;
+            if (Sesion.UserType == UserType.Administrador)
+                lblTUser.Text = "Admin";
+            else
+                lblTUser.Text = "Médico";
         }
 
         private void btnModifyPass_Click(object sender, EventArgs e)
