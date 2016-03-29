@@ -33,7 +33,7 @@ namespace Farmacop
 
         private void Menu_Click(object sender, EventArgs e)
         {
-            switch (((FlowLayoutPanel)sender).Tag.ToString())
+            switch (((Control)sender).Tag.ToString())
             {
                 case "Profile":
                     lblTitle.Text = "Perfil";

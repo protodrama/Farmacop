@@ -102,7 +102,7 @@ namespace Farmacop
         //Actualiza los datos de un usuario
         public bool UpdateUserData(string Name, string FApl, string SApl, string FNac, string email)
         {
-            string sql = "update Usuarios set Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \"" + FNac + "\" where Correo like \"" + email + "\"";
+            string sql = "update Usuarios set Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\' where Correo like \"" + email + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;

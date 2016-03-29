@@ -86,6 +86,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="asdfasf.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="asdfasf.Designer.cs">
+      <DependentUpon>asdfasf.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAO.cs" />
     <Compile Include="Form.cs">
       <SubType>Form</SubType>

@@ -131,6 +131,7 @@
             this.lblProfile.TabIndex = 0;
             this.lblProfile.Tag = "Profile";
             this.lblProfile.Text = "Perfil";
+            this.lblProfile.Click += new System.EventHandler(this.Menu_Click);
             this.lblProfile.MouseEnter += new System.EventHandler(this.lblMenu_MouseEnter);
             // 
             // Menu2
@@ -158,6 +159,7 @@
             this.lblUsers.TabIndex = 1;
             this.lblUsers.Tag = "Users";
             this.lblUsers.Text = "Usuarios";
+            this.lblUsers.Click += new System.EventHandler(this.Menu_Click);
             this.lblUsers.MouseEnter += new System.EventHandler(this.lblMenu_MouseEnter);
             // 
             // Menu3
@@ -185,6 +187,7 @@
             this.lblMedic.TabIndex = 1;
             this.lblMedic.Tag = "Medic";
             this.lblMedic.Text = "Medicamentos";
+            this.lblMedic.Click += new System.EventHandler(this.Menu_Click);
             this.lblMedic.MouseEnter += new System.EventHandler(this.lblMenu_MouseEnter);
             // 
             // Menu4
@@ -212,6 +215,7 @@
             this.lblRecepies.TabIndex = 1;
             this.lblRecepies.Tag = "Recepies";
             this.lblRecepies.Text = "Recetas";
+            this.lblRecepies.Click += new System.EventHandler(this.Menu_Click);
             this.lblRecepies.MouseEnter += new System.EventHandler(this.lblMenu_MouseEnter);
             // 
             // Menu5
@@ -239,6 +243,7 @@
             this.lblControl.TabIndex = 1;
             this.lblControl.Tag = "Control";
             this.lblControl.Text = "Control de recetas";
+            this.lblControl.Click += new System.EventHandler(this.Menu_Click);
             this.lblControl.MouseEnter += new System.EventHandler(this.lblMenu_MouseEnter);
             // 
             // Menu6
@@ -266,6 +271,7 @@
             this.lblLogout.TabIndex = 1;
             this.lblLogout.Tag = "Logout";
             this.lblLogout.Text = "Salir";
+            this.lblLogout.Click += new System.EventHandler(this.Menu_Click);
             this.lblLogout.MouseEnter += new System.EventHandler(this.lblMenu_MouseEnter);
             // 
             // SplitContaint

@@ -85,12 +85,15 @@ namespace Farmacop
         {
             try
             {
-                DateTime Date = DateTime.Parse(txtbxFNac.Text);
-                if (Date.Date > DateTime.Now.Date)
-                    throw new Exception();
-                else
-                    if(DateTime.Now.Year - Date.Date.Year >= 100)
+                if (txtbxFNac.Text != "")
+                {
+                    DateTime Date = DateTime.Parse(txtbxFNac.Text);
+                    if (Date.Date > DateTime.Now.Date)
                         throw new Exception();
+                    else
+                        if (DateTime.Now.Year - Date.Date.Year >= 100)
+                        throw new Exception();
+                }
             }
             catch(Exception ex)
             {
@@ -120,9 +123,9 @@ namespace Farmacop
                 SApl = txtbxSApl.Text;
 
             if (txtbxFNac.Text.Equals(""))
-                FNac = DateTime.Parse(Sesion.FNac).Date.ToShortDateString();
+                FNac = DateTime.Parse(Sesion.FNac).ToString("yyyy-MM-dd");
             else
-                FNac = DateTime.Parse(txtbxFNac.Text).Date.ToShortDateString();
+                FNac = DateTime.Parse(txtbxFNac.Text).ToString("yyyy-MM-dd");
 
             if (Sesion.DBConnection.UpdateUserData(Name, FApl, SApl, FNac, Sesion.Email))
             {
@@ -130,7 +133,7 @@ namespace Farmacop
                 Sesion.Name = Name;
                 Sesion.FirstSurname = FApl;
                 Sesion.SecondSurname = SApl;
-                Sesion.FNac = FNac;
+                Sesion.FNac = DateTime.Parse(FNac).ToString("dd/MM/yyyy"); ;
                 Inicialize();
                 txtbxFApl.Text = "";
                 txtbxFNac.Text = "";
