@@ -12,6 +12,7 @@ namespace Farmacop
     public partial class PrincipalPage : UserControl
     {
         ProfilePanel Profilepanel;
+        MedPanel Medpanel;
 
         public PrincipalPage()
         {
@@ -47,7 +48,9 @@ namespace Farmacop
                     break;
                 case "Medic":
                     lblTitle.Text = "Medicamentos";
+                    Medpanel = new MedPanel();
                     Panel2Containt.Controls.Clear();
+                    Panel2Containt.Controls.Add(Medpanel);
                     break;
                 case "Recepies":
                     lblTitle.Text = "Recetas";
