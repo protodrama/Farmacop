@@ -15,6 +15,7 @@ namespace Farmacop
         public static string DB = "FarmacopDB";
         public static string USER = "clientuser";
         public static string PASS = "hx3CfFQFdrRJVRsd";
+        public static List<Medicamento> MedList;
 
         public static DAO DBConnection;
 

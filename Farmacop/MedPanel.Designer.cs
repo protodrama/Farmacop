@@ -45,9 +45,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtbxMedNewName = new System.Windows.Forms.TextBox();
             this.MedTable = new System.Windows.Forms.DataGridView();
-            this.MedName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.grpbxAddM.SuspendLayout();
             this.grpbxModMed.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MedTable)).BeginInit();
@@ -72,7 +69,7 @@
             this.btnAgregar.Location = new System.Drawing.Point(493, 39);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(75, 23);
-            this.btnAgregar.TabIndex = 4;
+            this.btnAgregar.TabIndex = 2;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = true;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
@@ -102,7 +99,7 @@
             this.cbbxType.Location = new System.Drawing.Point(321, 42);
             this.cbbxType.Name = "cbbxType";
             this.cbbxType.Size = new System.Drawing.Size(121, 21);
-            this.cbbxType.TabIndex = 3;
+            this.cbbxType.TabIndex = 1;
             // 
             // label2
             // 
@@ -176,17 +173,18 @@
             // 
             // txtbxMedAMod
             // 
+            this.txtbxMedAMod.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.txtbxMedAMod.Location = new System.Drawing.Point(36, 41);
             this.txtbxMedAMod.Name = "txtbxMedAMod";
             this.txtbxMedAMod.Size = new System.Drawing.Size(199, 20);
-            this.txtbxMedAMod.TabIndex = 10;
+            this.txtbxMedAMod.TabIndex = 3;
             // 
             // btnMod
             // 
             this.btnMod.Location = new System.Drawing.Point(493, 65);
             this.btnMod.Name = "btnMod";
             this.btnMod.Size = new System.Drawing.Size(75, 23);
-            this.btnMod.TabIndex = 9;
+            this.btnMod.TabIndex = 6;
             this.btnMod.Text = "Modificar";
             this.btnMod.UseVisualStyleBackColor = true;
             // 
@@ -215,7 +213,7 @@
             this.cbbxTypeMod.Location = new System.Drawing.Point(321, 86);
             this.cbbxTypeMod.Name = "cbbxTypeMod";
             this.cbbxTypeMod.Size = new System.Drawing.Size(121, 21);
-            this.cbbxTypeMod.TabIndex = 8;
+            this.cbbxTypeMod.TabIndex = 5;
             // 
             // label3
             // 
@@ -240,40 +238,24 @@
             this.txtbxMedNewName.Location = new System.Drawing.Point(36, 86);
             this.txtbxMedNewName.Name = "txtbxMedNewName";
             this.txtbxMedNewName.Size = new System.Drawing.Size(199, 20);
-            this.txtbxMedNewName.TabIndex = 5;
+            this.txtbxMedNewName.TabIndex = 4;
             // 
             // MedTable
             // 
+            this.MedTable.AllowUserToAddRows = false;
+            this.MedTable.AllowUserToDeleteRows = false;
+            this.MedTable.AllowUserToResizeColumns = false;
+            this.MedTable.AllowUserToResizeRows = false;
             this.MedTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.MedTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.MedName,
-            this.Type,
-            this.Delete});
-            this.MedTable.Location = new System.Drawing.Point(212, 303);
+            this.MedTable.Location = new System.Drawing.Point(309, 268);
             this.MedTable.Name = "MedTable";
             this.MedTable.RowHeadersVisible = false;
-            this.MedTable.Size = new System.Drawing.Size(424, 356);
-            this.MedTable.TabIndex = 2;
-            // 
-            // MedName
-            // 
-            this.MedName.HeaderText = "Nombre";
-            this.MedName.Name = "MedName";
-            this.MedName.ReadOnly = true;
-            this.MedName.Width = 200;
-            // 
-            // Type
-            // 
-            this.Type.HeaderText = "Tipo";
-            this.Type.Name = "Type";
-            this.Type.ReadOnly = true;
-            this.Type.Width = 120;
-            // 
-            // Delete
-            // 
-            this.Delete.HeaderText = "Eliminar";
-            this.Delete.Name = "Delete";
-            this.Delete.ReadOnly = true;
+            this.MedTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.MedTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.MedTable.ShowEditingIcon = false;
+            this.MedTable.Size = new System.Drawing.Size(203, 356);
+            this.MedTable.TabIndex = 7;
+            this.MedTable.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MedTable_CellContentClick);
             // 
             // MedPanel
             // 
@@ -312,8 +294,5 @@
         private System.Windows.Forms.TextBox txtbxMedAMod;
         private System.Windows.Forms.Label lblTypeMedMod;
         private System.Windows.Forms.DataGridView MedTable;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MedName;
-        private System.Windows.Forms.DataGridViewButtonColumn Delete;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Type;
     }
 }

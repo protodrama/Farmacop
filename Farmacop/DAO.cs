@@ -107,5 +107,40 @@ namespace Farmacop
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;
         }
+
+        //Obtiene todos los medicamentos de la base de datos
+        public List<Medicamento> GetAllMedicaments()
+        {
+            List<Medicamento> MedicamentList = null;
+            string sql = "select Nombre,Tipo from Medicamentos";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
+            MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
+
+            if (DataReader.HasRows)
+            {
+                MedicamentList = new List<Medicamento>();
+                while (DataReader.Read())
+                {
+                    Medicamento Tmp = new Medicamento(DataReader.GetString("Nombre"),DataReader.GetString("Tipo"));
+                    MedicamentList.Add(Tmp);
+                }
+            }
+            
+            DataReader.Close();
+            return MedicamentList;
+        }
+
+        //Elimina el medicamento a partir del nombre que se le indique
+        public bool DeleteMedicament(string name)
+        {
+            string sql = "delete from Medicamentos where Nombre like \"" + name + "\"";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
+        }
+
+        //Inserta un medicamento
+        //public 
     }
 }

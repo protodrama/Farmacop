@@ -38,7 +38,8 @@ namespace Farmacop
             {
                 case "Profile":
                     lblTitle.Text = "Perfil";
-                    Profilepanel = new ProfilePanel();
+                    if(Profilepanel == null)
+                        Profilepanel = new ProfilePanel();
                     Panel2Containt.Controls.Clear();
                     Panel2Containt.Controls.Add(Profilepanel);
                     break;
@@ -48,7 +49,8 @@ namespace Farmacop
                     break;
                 case "Medic":
                     lblTitle.Text = "Medicamentos";
-                    Medpanel = new MedPanel();
+                    if(Medpanel == null)
+                        Medpanel = new MedPanel();
                     Panel2Containt.Controls.Clear();
                     Panel2Containt.Controls.Add(Medpanel);
                     break;
