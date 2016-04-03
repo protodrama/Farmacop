@@ -5,21 +5,21 @@ using System.Text;
 
 namespace Farmacop
 {
-    public class Medicamento
+    public class Medicament
     {
-        private string _nombre;
-        private string _tipo;
+        private string _name;
+        private string _type;
 
         public string Nombre
         {
             get
             {
-                return _nombre;
+                return _name;
             }
 
             set
             {
-                _nombre = value;
+                _name = value;
             }
         }
 
@@ -27,19 +27,19 @@ namespace Farmacop
         {
             get
             {
-                return _tipo;
+                return _type;
             }
 
             set
             {
-                _tipo = value;
+                _type = value;
             }
         }
 
-        public Medicamento(string nombre, string tipo)
+        public Medicament(string name, string type)
         {
-            this.Nombre = nombre;
-            this.Tipo = tipo;
+            this.Nombre = name;
+            this.Tipo = type;
         }
     }
 }

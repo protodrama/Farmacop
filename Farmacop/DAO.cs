@@ -109,9 +109,9 @@ namespace Farmacop
         }
 
         //Obtiene todos los medicamentos de la base de datos
-        public List<Medicamento> GetAllMedicaments()
+        public List<Medicament> GetAllMedicaments()
         {
-            List<Medicamento> MedicamentList = null;
+            List<Medicament> MedicamentList = null;
             string sql = "select Nombre,Tipo from Medicamentos";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
@@ -119,10 +119,10 @@ namespace Farmacop
 
             if (DataReader.HasRows)
             {
-                MedicamentList = new List<Medicamento>();
+                MedicamentList = new List<Medicament>();
                 while (DataReader.Read())
                 {
-                    Medicamento Tmp = new Medicamento(DataReader.GetString("Nombre"),DataReader.GetString("Tipo"));
+                    Medicament Tmp = new Medicament(DataReader.GetString("Nombre"),DataReader.GetString("Tipo"));
                     MedicamentList.Add(Tmp);
                 }
             }
@@ -141,6 +141,21 @@ namespace Farmacop
         }
 
         //Inserta un medicamento
-        //public 
+        public bool InsertMedicament(string name, string type)
+        {
+            string sql = "insert into Medicamentos (Nombre,Tipo) values (\"" + name + "\", \"" + type +"\")";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
+        }
+
+        //Modifica un medicamento
+        public bool UpdateMedicament(string oldname, string newname, string type)
+        {
+            string sql = "update Medicamentos set Nombre = \"" + newname + "\", Tipo = \"" + type + "\" where Nombre like \"" + oldname + "\"";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
+        }
     }
 }

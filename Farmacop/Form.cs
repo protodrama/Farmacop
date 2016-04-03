@@ -12,7 +12,7 @@ using System.Media;
 namespace Farmacop
 {
     
-    public partial class Form : System.Windows.Forms.Form
+    public partial class FormP : Form
     {
         #region fields
         PrincipalPage PPage = null;
@@ -20,7 +20,7 @@ namespace Farmacop
         #endregion
 
         #region Initialize
-        public Form()
+        public FormP()
         {
             InitializeComponent();
             CenterLoginContent();

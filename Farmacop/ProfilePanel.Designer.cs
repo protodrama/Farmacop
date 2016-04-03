@@ -50,15 +50,16 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtbxFNac = new System.Windows.Forms.TextBox();
+            this.txtbxSApl = new System.Windows.Forms.TextBox();
+            this.txtbxFApl = new System.Windows.Forms.TextBox();
+            this.txtbxName = new System.Windows.Forms.TextBox();
+            this.btnModPData = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.btnModPData = new System.Windows.Forms.Button();
-            this.txtbxName = new System.Windows.Forms.TextBox();
-            this.txtbxFApl = new System.Windows.Forms.TextBox();
-            this.txtbxSApl = new System.Windows.Forms.TextBox();
-            this.txtbxFNac = new System.Windows.Forms.TextBox();
+            this.btnCalendar = new System.Windows.Forms.Button();
             this.PassBox.SuspendLayout();
             this.grpUserData.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -267,6 +268,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnCalendar);
             this.groupBox1.Controls.Add(this.txtbxFNac);
             this.groupBox1.Controls.Add(this.txtbxSApl);
             this.groupBox1.Controls.Add(this.txtbxFApl);
@@ -282,6 +284,46 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Modificar datos";
+            // 
+            // txtbxFNac
+            // 
+            this.txtbxFNac.Location = new System.Drawing.Point(148, 158);
+            this.txtbxFNac.Name = "txtbxFNac";
+            this.txtbxFNac.Size = new System.Drawing.Size(101, 20);
+            this.txtbxFNac.TabIndex = 13;
+            this.txtbxFNac.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtbxFNac_KeyPress);
+            this.txtbxFNac.Leave += new System.EventHandler(this.txtbxFNac_Leave);
+            // 
+            // txtbxSApl
+            // 
+            this.txtbxSApl.Location = new System.Drawing.Point(148, 123);
+            this.txtbxSApl.Name = "txtbxSApl";
+            this.txtbxSApl.Size = new System.Drawing.Size(126, 20);
+            this.txtbxSApl.TabIndex = 12;
+            // 
+            // txtbxFApl
+            // 
+            this.txtbxFApl.Location = new System.Drawing.Point(148, 88);
+            this.txtbxFApl.Name = "txtbxFApl";
+            this.txtbxFApl.Size = new System.Drawing.Size(126, 20);
+            this.txtbxFApl.TabIndex = 11;
+            // 
+            // txtbxName
+            // 
+            this.txtbxName.Location = new System.Drawing.Point(149, 56);
+            this.txtbxName.Name = "txtbxName";
+            this.txtbxName.Size = new System.Drawing.Size(125, 20);
+            this.txtbxName.TabIndex = 10;
+            // 
+            // btnModPData
+            // 
+            this.btnModPData.Location = new System.Drawing.Point(126, 196);
+            this.btnModPData.Name = "btnModPData";
+            this.btnModPData.Size = new System.Drawing.Size(114, 23);
+            this.btnModPData.TabIndex = 9;
+            this.btnModPData.Text = "Modificar datos";
+            this.btnModPData.UseVisualStyleBackColor = true;
+            this.btnModPData.Click += new System.EventHandler(this.btnModPData_Click);
             // 
             // label7
             // 
@@ -319,45 +361,15 @@
             this.label10.TabIndex = 5;
             this.label10.Text = "Nombre:";
             // 
-            // btnModPData
+            // btnCalendar
             // 
-            this.btnModPData.Location = new System.Drawing.Point(126, 196);
-            this.btnModPData.Name = "btnModPData";
-            this.btnModPData.Size = new System.Drawing.Size(114, 23);
-            this.btnModPData.TabIndex = 9;
-            this.btnModPData.Text = "Modificar datos";
-            this.btnModPData.UseVisualStyleBackColor = true;
-            this.btnModPData.Click += new System.EventHandler(this.btnModPData_Click);
-            // 
-            // txtbxName
-            // 
-            this.txtbxName.Location = new System.Drawing.Point(149, 56);
-            this.txtbxName.Name = "txtbxName";
-            this.txtbxName.Size = new System.Drawing.Size(125, 20);
-            this.txtbxName.TabIndex = 10;
-            // 
-            // txtbxFApl
-            // 
-            this.txtbxFApl.Location = new System.Drawing.Point(148, 88);
-            this.txtbxFApl.Name = "txtbxFApl";
-            this.txtbxFApl.Size = new System.Drawing.Size(126, 20);
-            this.txtbxFApl.TabIndex = 11;
-            // 
-            // txtbxSApl
-            // 
-            this.txtbxSApl.Location = new System.Drawing.Point(148, 123);
-            this.txtbxSApl.Name = "txtbxSApl";
-            this.txtbxSApl.Size = new System.Drawing.Size(126, 20);
-            this.txtbxSApl.TabIndex = 12;
-            // 
-            // txtbxFNac
-            // 
-            this.txtbxFNac.Location = new System.Drawing.Point(148, 158);
-            this.txtbxFNac.Name = "txtbxFNac";
-            this.txtbxFNac.Size = new System.Drawing.Size(126, 20);
-            this.txtbxFNac.TabIndex = 13;
-            this.txtbxFNac.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtbxFNac_KeyPress);
-            this.txtbxFNac.Leave += new System.EventHandler(this.txtbxFNac_Leave);
+            this.btnCalendar.Location = new System.Drawing.Point(249, 156);
+            this.btnCalendar.Name = "btnCalendar";
+            this.btnCalendar.Size = new System.Drawing.Size(27, 23);
+            this.btnCalendar.TabIndex = 14;
+            this.btnCalendar.Text = "...";
+            this.btnCalendar.UseVisualStyleBackColor = true;
+            this.btnCalendar.Click += new System.EventHandler(this.btnCalendar_Click);
             // 
             // ProfilePanel
             // 
@@ -410,5 +422,6 @@
         private System.Windows.Forms.TextBox txtbxSApl;
         private System.Windows.Forms.TextBox txtbxFApl;
         private System.Windows.Forms.TextBox txtbxName;
+        private System.Windows.Forms.Button btnCalendar;
     }
 }

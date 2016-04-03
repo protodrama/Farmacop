@@ -45,6 +45,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtbxMedNewName = new System.Windows.Forms.TextBox();
             this.MedTable = new System.Windows.Forms.DataGridView();
+            this.btnReload = new System.Windows.Forms.Button();
             this.grpbxAddM.SuspendLayout();
             this.grpbxModMed.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MedTable)).BeginInit();
@@ -178,6 +179,7 @@
             this.txtbxMedAMod.Name = "txtbxMedAMod";
             this.txtbxMedAMod.Size = new System.Drawing.Size(199, 20);
             this.txtbxMedAMod.TabIndex = 3;
+            this.txtbxMedAMod.TextChanged += new System.EventHandler(this.txtbxMedAMod_TextChanged);
             // 
             // btnMod
             // 
@@ -187,6 +189,7 @@
             this.btnMod.TabIndex = 6;
             this.btnMod.Text = "Modificar";
             this.btnMod.UseVisualStyleBackColor = true;
+            this.btnMod.Click += new System.EventHandler(this.btnMod_Click);
             // 
             // cbbxTypeMod
             // 
@@ -257,10 +260,21 @@
             this.MedTable.TabIndex = 7;
             this.MedTable.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MedTable_CellContentClick);
             // 
+            // btnReload
+            // 
+            this.btnReload.Location = new System.Drawing.Point(351, 630);
+            this.btnReload.Name = "btnReload";
+            this.btnReload.Size = new System.Drawing.Size(105, 23);
+            this.btnReload.TabIndex = 8;
+            this.btnReload.Text = "Actualizar tabla";
+            this.btnReload.UseVisualStyleBackColor = true;
+            this.btnReload.Click += new System.EventHandler(this.btnReload_Click);
+            // 
             // MedPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnReload);
             this.Controls.Add(this.MedTable);
             this.Controls.Add(this.grpbxModMed);
             this.Controls.Add(this.grpbxAddM);
@@ -294,5 +308,6 @@
         private System.Windows.Forms.TextBox txtbxMedAMod;
         private System.Windows.Forms.Label lblTypeMedMod;
         private System.Windows.Forms.DataGridView MedTable;
+        private System.Windows.Forms.Button btnReload;
     }
 }

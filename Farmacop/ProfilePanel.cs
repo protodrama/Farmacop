@@ -11,6 +11,7 @@ namespace Farmacop
 {
     public partial class ProfilePanel : UserControl
     {
+        MonthCalendar mCalendar;
 
         public ProfilePanel()
         {
@@ -91,15 +92,14 @@ namespace Farmacop
                     if (Date.Date > DateTime.Now.Date)
                         throw new Exception();
                     else
-                        if (DateTime.Now.Year - Date.Date.Year >= 100)
-                        throw new Exception();
+                        if (DateTime.Now.Year - Date.Date.Year >= 200)
+                            throw new Exception();
                 }
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Fecha incorrecta. Introduzca una fecha válida con el formato DD/MM/YYYY","Error");
+                MessageBox.Show("Fecha incorrecta o fuera de rango (Fecha actual como máximo). Introduzca una fecha válida con el formato DD/MM/YYYY","Error");
                 txtbxFNac.Text = "";
-                txtbxFNac.Focus();
             }
         }
 
@@ -142,6 +142,33 @@ namespace Farmacop
             }
             else
                 MessageBox.Show("Error al actualizar los datos");
+        }
+
+        private void btnCalendar_Click(object sender, EventArgs e)
+        {
+            mCalendar = new MonthCalendar()
+            {
+                Left = 660,
+                Top = 160
+            };
+            mCalendar.MouseLeave += MCalendar_MouseLeave;
+            mCalendar.DateSelected += MCalendar_DateSelected;
+            this.Controls.Add(mCalendar);
+            mCalendar.BringToFront();
+            btnCalendar.Enabled = false;
+        }
+
+        private void MCalendar_MouseLeave(object sender, EventArgs e)
+        {
+            this.Controls.Remove(mCalendar);
+            btnCalendar.Enabled = true;
+        }
+
+        private void MCalendar_DateSelected(object sender, DateRangeEventArgs e)
+        {
+            txtbxFNac.Text = mCalendar.SelectionRange.Start.ToString("dd/MM/yyyy");
+            this.Controls.Remove(mCalendar);
+            btnCalendar.Enabled = true;
         }
     }
 }
