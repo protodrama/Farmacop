@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Farmacop.exe" size="154112">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Farmacop.exe" size="268800">
       <assemblyIdentity name="Farmacop" version="1.0.0.0" publicKeyToken="FEC53EB71171C619" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>DseYF3uyy30z6tgkS1ECPJ57SJA=</dsig:DigestValue>
+        <dsig:DigestValue>PpYzmTU1jgwypsjGKY7mrSqGoBM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -72,6 +72,15 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
       <dsig:DigestValue>rVaSKNDHdAAAWBZgC6hE58XNTgs=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Pictures\Cruz.png" size="8893">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>M8qg3aD7Jc3G4KXuMfY6vK5R+RM=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Pictures\Farmacop0.png" size="6070">

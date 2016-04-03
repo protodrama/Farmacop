@@ -16,6 +16,7 @@ namespace Farmacop
     {
         #region fields
         PrincipalPage PPage = null;
+        FormReg FReg = null;
         bool logged = false;
         #endregion
 
@@ -62,7 +63,8 @@ namespace Farmacop
         private void lnkNewUser_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             //Lanzar formulario de modificación de contraseña cuando todo vaya ok
-
+            FReg = new FormReg();
+            FReg.ShowDialog();
         }
         #endregion
 

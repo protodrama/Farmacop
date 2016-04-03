@@ -47,6 +47,11 @@ namespace Farmacop
             return DBConnection.Conectar(HOST, DB, USER, PASS);
         }
 
+        static public void Disconnect()
+        {
+            DBConnection.Desconectar();
+        }
+
         static public string StringToMD5(string value)
         {
             MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();

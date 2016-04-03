@@ -47,7 +47,7 @@ namespace Farmacop
         public string GetCredentials(string email)
         {
             string data = null;
-            string sql = "select Correo,Contrasena,Tipo from Usuarios where Correo like \"" + email +"\"";
+            string sql = "select Correo,Contrasena,Tipo from Usuarios where Correo like \"" + email +"\" and Activa = 1";
 
             MySqlCommand cmd = new MySqlCommand(sql,conexion); //Comando de consulta sql
             MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
@@ -88,6 +88,38 @@ namespace Farmacop
 
             DataReader.Close();
             return data;
+        }
+
+        //Activa un usuario desde el formulario de activación del login
+        public bool ActivateUserWithPass(string email, string pass)
+        {
+            string sql = "update Usuarios set Activa = 1, Contrasena = \"" + Sesion.StringToMD5(pass) + "\" where Correo like \"" + email + "\"";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
+        }
+
+        //Obtiene las cuentas que no están activadas y no son pacientes para poder activarlas en el formulario de activación debajo de la pantalla de login
+        public List<string> GetNonActiveUserEMailForRegist()
+        {
+            List<string> EmailList = new List<string>();
+            string sql = "select Correo from Usuarios where Activa = 0 and Tipo not like \"Paciente\"";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            MySqlDataReader DataReader = cmd.ExecuteReader();     
+
+            if (DataReader.HasRows)
+                while (DataReader.Read())
+                {
+                    try
+                    {
+                        EmailList.Add(DataReader["Correo"].ToString());
+                    }
+                    catch (Exception e) { throw; }
+                }
+
+            DataReader.Close();
+            return EmailList;
         }
 
         //Actualiza la contraseña de un usuario

@@ -50,6 +50,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnCalendar = new System.Windows.Forms.Button();
             this.txtbxFNac = new System.Windows.Forms.TextBox();
             this.txtbxSApl = new System.Windows.Forms.TextBox();
             this.txtbxFApl = new System.Windows.Forms.TextBox();
@@ -59,7 +60,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.btnCalendar = new System.Windows.Forms.Button();
             this.PassBox.SuspendLayout();
             this.grpUserData.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -285,6 +285,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Modificar datos";
             // 
+            // btnCalendar
+            // 
+            this.btnCalendar.Location = new System.Drawing.Point(249, 156);
+            this.btnCalendar.Name = "btnCalendar";
+            this.btnCalendar.Size = new System.Drawing.Size(27, 23);
+            this.btnCalendar.TabIndex = 14;
+            this.btnCalendar.Text = "...";
+            this.btnCalendar.UseVisualStyleBackColor = true;
+            this.btnCalendar.Click += new System.EventHandler(this.btnCalendar_Click);
+            // 
             // txtbxFNac
             // 
             this.txtbxFNac.Location = new System.Drawing.Point(148, 158);
@@ -360,16 +370,6 @@
             this.label10.Size = new System.Drawing.Size(47, 13);
             this.label10.TabIndex = 5;
             this.label10.Text = "Nombre:";
-            // 
-            // btnCalendar
-            // 
-            this.btnCalendar.Location = new System.Drawing.Point(249, 156);
-            this.btnCalendar.Name = "btnCalendar";
-            this.btnCalendar.Size = new System.Drawing.Size(27, 23);
-            this.btnCalendar.TabIndex = 14;
-            this.btnCalendar.Text = "...";
-            this.btnCalendar.UseVisualStyleBackColor = true;
-            this.btnCalendar.Click += new System.EventHandler(this.btnCalendar_Click);
             // 
             // ProfilePanel
             // 

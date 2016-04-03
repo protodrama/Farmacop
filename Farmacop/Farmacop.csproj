@@ -87,11 +87,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAO.cs" />
-    <Compile Include="Form.cs">
+    <Compile Include="FormP.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form.Designer.cs">
-      <DependentUpon>Form.cs</DependentUpon>
+    <Compile Include="FormP.Designer.cs">
+      <DependentUpon>FormP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormReg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReg.Designer.cs">
+      <DependentUpon>FormReg.cs</DependentUpon>
     </Compile>
     <Compile Include="Medicamento.cs" />
     <Compile Include="MedPanel.cs">
@@ -115,8 +121,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sesion.cs" />
-    <EmbeddedResource Include="Form.resx">
-      <DependentUpon>Form.cs</DependentUpon>
+    <EmbeddedResource Include="FormP.resx">
+      <DependentUpon>FormP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReg.resx">
+      <DependentUpon>FormReg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MedPanel.resx">
       <DependentUpon>MedPanel.cs</DependentUpon>
@@ -135,6 +144,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Farmacop_ClaveTemporal.pfx" />
     <None Include="Properties\Settings.settings">
@@ -151,9 +161,11 @@
     <Content Include="MySql.Data.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Pictures\Cruz.png" />
     <Content Include="Pictures\Farmacop0.png" />
     <Content Include="Pictures\Ico.ico" />
     <Content Include="Pictures\Icono.png" />
+    <None Include="Pictures\Tick_verde.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
