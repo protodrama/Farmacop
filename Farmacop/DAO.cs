@@ -47,7 +47,7 @@ namespace Farmacop
         public string GetCredentials(string email)
         {
             string data = null;
-            string sql = "select Correo,Contrasena,Tipo from Usuarios where Correo like \"" + email +"\" and Activa = 1";
+            string sql = "select Correo,Contrasena,Tipo from Usuarios where Correo like \"" + email +"\" and Validada = 1";
 
             MySqlCommand cmd = new MySqlCommand(sql,conexion); //Comando de consulta sql
             MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
@@ -59,18 +59,19 @@ namespace Farmacop
                     {
                         data = DataReader["Correo"].ToString() + ":" + DataReader["Contrasena"].ToString() + ":" + DataReader["Tipo"].ToString();
                     }
-                    catch (Exception e) { throw; }
+                    catch (Exception e) { throw new Exception("Error al conectar al servidor."); }
             }
 
             DataReader.Close();
             return data;
         }
 
+        #region Usuarios
         //Obtiene los datos del usuario en cuestión
         public string GetUserData(string email)
         {
             string data = null;
-            string sql = "select Correo,Contrasena,Tipo,Nombre,Apellido1,Apellido2,FechaNac from Usuarios where Correo like \"" + email + "\"";
+            string sql = "select Correo,Contrasena,Tipo,Nombre,Apellido1,Apellido2,FechaNac from Usuarios where Correo like \"" + email + "\" and Validada = 1";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
             MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
@@ -90,10 +91,10 @@ namespace Farmacop
             return data;
         }
 
-        //Activa un usuario desde el formulario de activación del login
+        //Validada un usuario desde el formulario de activación del login
         public bool ActivateUserWithPass(string email, string pass)
         {
-            string sql = "update Usuarios set Activa = 1, Contrasena = \"" + Sesion.StringToMD5(pass) + "\" where Correo like \"" + email + "\"";
+            string sql = "update Usuarios set Validada = 1, Contrasena = \"" + Sesion.StringToMD5(pass) + "\" where Correo like \"" + email + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;
@@ -103,7 +104,7 @@ namespace Farmacop
         public List<string> GetNonActiveUserEMailForRegist()
         {
             List<string> EmailList = new List<string>();
-            string sql = "select Correo from Usuarios where Activa = 0 and Tipo not like \"Paciente\"";
+            string sql = "select Correo from Usuarios where Validada = 0 and Tipo not like \"Paciente\"";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             MySqlDataReader DataReader = cmd.ExecuteReader();     
@@ -140,6 +141,36 @@ namespace Farmacop
             return qr > 0;
         }
 
+        public List<User> GetAllUsersData()
+        {
+            List<User> Users = new List<User>();
+            string sql = "";
+            if (Sesion.UserType == UserType.Administrador)
+                sql = "select Correo,Nombre,Apellido1,Apellido2,FechaNac,Tipo from Usuarios where Validada = 1 and Correo not like \"" + Sesion.Email + "\"";
+            else
+                sql = "select Correo,Nombre,Apellido1,Apellido2,FechaNac,Tipo from Usuarios where Validada = 1 and Correo not like \"" + Sesion.Email + "\" and Tipo not like \"Admin\"";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            MySqlDataReader DataReader = cmd.ExecuteReader();
+
+            if (DataReader.HasRows)
+                while (DataReader.Read())
+                {
+                    try
+                    {
+                        Users.Add(new User(DataReader["Nombre"].ToString(), DataReader["Apellido1"].ToString() + " " + DataReader["Apellido2"].ToString(), DataReader["Correo"].ToString(),
+                            DateTime.Parse(DataReader["FechaNac"].ToString()).ToString("dd/MM/yyyy"), DataReader["Tipo"].ToString()));
+                    }
+                    catch (Exception e) { throw; }
+                }
+
+            DataReader.Close();
+
+            return Users;
+        }
+        #endregion
+
+        #region Medicamentos
         //Obtiene todos los medicamentos de la base de datos
         public List<Medicament> GetAllMedicaments()
         {
@@ -189,5 +220,6 @@ namespace Farmacop
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;
         }
+        #endregion
     }
 }

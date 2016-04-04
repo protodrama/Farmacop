@@ -13,6 +13,7 @@ namespace Farmacop
     {
         ProfilePanel Profilepanel;
         MedPanel Medpanel;
+        UsersPanel UserPanel;
 
         public PrincipalPage()
         {
@@ -45,12 +46,13 @@ namespace Farmacop
                     break;
                 case "Users":
                     lblTitle.Text = "Usuarios";
+                    UserPanel = new UsersPanel();
                     Panel2Containt.Controls.Clear();
+                    Panel2Containt.Controls.Add(UserPanel);
                     break;
                 case "Medic":
                     lblTitle.Text = "Medicamentos";
-                    if(Medpanel == null)
-                        Medpanel = new MedPanel();
+                    Medpanel = new MedPanel();
                     Panel2Containt.Controls.Clear();
                     Panel2Containt.Controls.Add(Medpanel);
                     break;

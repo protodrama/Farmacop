@@ -249,6 +249,8 @@
             this.MedTable.AllowUserToDeleteRows = false;
             this.MedTable.AllowUserToResizeColumns = false;
             this.MedTable.AllowUserToResizeRows = false;
+            this.MedTable.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.MedTable.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.MedTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.MedTable.Location = new System.Drawing.Point(309, 268);
             this.MedTable.Name = "MedTable";

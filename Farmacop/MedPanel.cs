@@ -46,7 +46,8 @@ namespace Farmacop
                 MedTable.Width += BtnDeleteColumn.Width + 5;
                 MedTable.Left = (this.Width / 2) - (MedTable.Width / 2);
             }
-
+            MedTable.ColumnHeadersDefaultCellStyle.BackColor = Color.LightBlue;
+            MedTable.EnableHeadersVisualStyles = false;
         }
 
         private void GetData()
