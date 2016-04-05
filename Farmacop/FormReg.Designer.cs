@@ -32,7 +32,7 @@
             this.btnAccept = new System.Windows.Forms.Button();
             this.lblNewPass2 = new System.Windows.Forms.Label();
             this.lblNewPass = new System.Windows.Forms.Label();
-            this.lblPassNow = new System.Windows.Forms.Label();
+            this.lblEmail = new System.Windows.Forms.Label();
             this.txtNewPass2 = new System.Windows.Forms.TextBox();
             this.txtNewPass = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
@@ -47,7 +47,7 @@
             this.btnAccept.Location = new System.Drawing.Point(97, 139);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(129, 23);
-            this.btnAccept.TabIndex = 13;
+            this.btnAccept.TabIndex = 3;
             this.btnAccept.Text = "Aceptar";
             this.btnAccept.UseVisualStyleBackColor = true;
             this.btnAccept.Click += new System.EventHandler(this.btnAccept_Click);
@@ -70,21 +70,21 @@
             this.lblNewPass.TabIndex = 11;
             this.lblNewPass.Text = "Contraseña:";
             // 
-            // lblPassNow
+            // lblEmail
             // 
-            this.lblPassNow.AutoSize = true;
-            this.lblPassNow.Location = new System.Drawing.Point(83, 15);
-            this.lblPassNow.Name = "lblPassNow";
-            this.lblPassNow.Size = new System.Drawing.Size(41, 13);
-            this.lblPassNow.TabIndex = 10;
-            this.lblPassNow.Text = "Correo:";
+            this.lblEmail.AutoSize = true;
+            this.lblEmail.Location = new System.Drawing.Point(83, 15);
+            this.lblEmail.Name = "lblEmail";
+            this.lblEmail.Size = new System.Drawing.Size(41, 13);
+            this.lblEmail.TabIndex = 10;
+            this.lblEmail.Text = "Correo:";
             // 
             // txtNewPass2
             // 
             this.txtNewPass2.Location = new System.Drawing.Point(130, 102);
             this.txtNewPass2.Name = "txtNewPass2";
             this.txtNewPass2.Size = new System.Drawing.Size(287, 20);
-            this.txtNewPass2.TabIndex = 9;
+            this.txtNewPass2.TabIndex = 2;
             this.txtNewPass2.UseSystemPasswordChar = true;
             // 
             // txtNewPass
@@ -92,7 +92,7 @@
             this.txtNewPass.Location = new System.Drawing.Point(130, 57);
             this.txtNewPass.Name = "txtNewPass";
             this.txtNewPass.Size = new System.Drawing.Size(287, 20);
-            this.txtNewPass.TabIndex = 8;
+            this.txtNewPass.TabIndex = 1;
             this.txtNewPass.UseSystemPasswordChar = true;
             // 
             // txtEmail
@@ -100,7 +100,7 @@
             this.txtEmail.Location = new System.Drawing.Point(130, 12);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(287, 20);
-            this.txtEmail.TabIndex = 7;
+            this.txtEmail.TabIndex = 0;
             this.txtEmail.Leave += new System.EventHandler(this.txtEmail_Leave);
             // 
             // btnCancel
@@ -108,7 +108,7 @@
             this.btnCancel.Location = new System.Drawing.Point(256, 139);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(129, 23);
-            this.btnCancel.TabIndex = 14;
+            this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "Cancelar";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -143,7 +143,7 @@
             this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.lblNewPass2);
             this.Controls.Add(this.lblNewPass);
-            this.Controls.Add(this.lblPassNow);
+            this.Controls.Add(this.lblEmail);
             this.Controls.Add(this.txtNewPass2);
             this.Controls.Add(this.txtNewPass);
             this.Controls.Add(this.txtEmail);
@@ -167,7 +167,7 @@
         private System.Windows.Forms.Button btnAccept;
         private System.Windows.Forms.Label lblNewPass2;
         private System.Windows.Forms.Label lblNewPass;
-        private System.Windows.Forms.Label lblPassNow;
+        private System.Windows.Forms.Label lblEmail;
         private System.Windows.Forms.TextBox txtNewPass2;
         public System.Windows.Forms.TextBox txtNewPass;
         public System.Windows.Forms.TextBox txtEmail;

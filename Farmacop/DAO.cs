@@ -141,14 +141,15 @@ namespace Farmacop
             return qr > 0;
         }
 
+        //Obtiene todos los usuarios para la tabla de Usuarios
         public List<User> GetAllUsersData()
         {
             List<User> Users = new List<User>();
             string sql = "";
-            if (Sesion.UserType == UserType.Administrador)
-                sql = "select Correo,Nombre,Apellido1,Apellido2,FechaNac,Tipo from Usuarios where Validada = 1 and Correo not like \"" + Sesion.Email + "\"";
+            if (Sesion.UserType == UserType.Admin)
+                sql = "select Correo,Nombre,Apellido1,Apellido2,FechaNac,Tipo,Deshabilitada from Usuarios where Validada = 1 and Correo not like \"" + Sesion.Email + "\"";
             else
-                sql = "select Correo,Nombre,Apellido1,Apellido2,FechaNac,Tipo from Usuarios where Validada = 1 and Correo not like \"" + Sesion.Email + "\" and Tipo not like \"Admin\"";
+                sql = "select Correo,Nombre,Apellido1,Apellido2,FechaNac,Tipo,Deshabilitada from Usuarios where Validada = 1 and Correo not like \"" + Sesion.Email + "\" and Tipo not like \"Admin\" and Tipo not like \"Medico\"";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             MySqlDataReader DataReader = cmd.ExecuteReader();
@@ -159,7 +160,7 @@ namespace Farmacop
                     try
                     {
                         Users.Add(new User(DataReader["Nombre"].ToString(), DataReader["Apellido1"].ToString() + " " + DataReader["Apellido2"].ToString(), DataReader["Correo"].ToString(),
-                            DateTime.Parse(DataReader["FechaNac"].ToString()).ToString("dd/MM/yyyy"), DataReader["Tipo"].ToString()));
+                            DateTime.Parse(DataReader["FechaNac"].ToString()).ToString("dd/MM/yyyy"), DataReader["Tipo"].ToString(), DataReader["FechaNac"].ToString().Equals("1")));
                     }
                     catch (Exception e) { throw; }
                 }
@@ -199,7 +200,11 @@ namespace Farmacop
         {
             string sql = "delete from Medicamentos where Nombre like \"" + name + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
+            int qr = 0;
+            try {
+                qr = cmd.ExecuteNonQuery();
+            }
+            catch(Exception e) { }
             return qr > 0;
         }
 

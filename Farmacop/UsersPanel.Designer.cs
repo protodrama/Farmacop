@@ -49,19 +49,21 @@
             this.UsersGridView.AllowUserToResizeRows = false;
             this.UsersGridView.BackgroundColor = System.Drawing.SystemColors.Control;
             this.UsersGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.UsersGridView.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
             this.UsersGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.UsersGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.UsersGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.UsersGridView.GridColor = System.Drawing.SystemColors.AppWorkspace;
             this.UsersGridView.Location = new System.Drawing.Point(76, 140);
             this.UsersGridView.MultiSelect = false;
             this.UsersGridView.Name = "UsersGridView";
             this.UsersGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.UsersGridView.RowHeadersVisible = false;
-            this.UsersGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.UsersGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.UsersGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.UsersGridView.ShowEditingIcon = false;
             this.UsersGridView.Size = new System.Drawing.Size(604, 335);
             this.UsersGridView.TabIndex = 2;
+            this.UsersGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.UsersGridView_CellContentClick);
             // 
             // UsersPanel
             // 

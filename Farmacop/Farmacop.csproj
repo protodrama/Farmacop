@@ -106,6 +106,12 @@
     <Compile Include="MedPanel.Designer.cs">
       <DependentUpon>MedPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModifyUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModifyUserForm.Designer.cs">
+      <DependentUpon>ModifyUserForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PrincipalPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -136,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MedPanel.resx">
       <DependentUpon>MedPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModifyUserForm.resx">
+      <DependentUpon>ModifyUserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PrincipalPage.resx">
       <DependentUpon>PrincipalPage.cs</DependentUpon>

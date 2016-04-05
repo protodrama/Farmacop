@@ -12,6 +12,7 @@ namespace Farmacop
         private string _email;
         private string _fechaN;
         private string _tipo;
+        private bool _deshabilitada;
 
         public string Nombre
         {
@@ -78,15 +79,34 @@ namespace Farmacop
             }
         }
 
+        private bool Deshabilitado
+        {
+            get
+            {
+                return _deshabilitada;
+            }
+
+            set
+            {
+                _deshabilitada = value;
+            }
+        }
+
         public User() { }
 
-        public User(string name, string surname, string email, string birthDate, string type)
+        public User(string name, string surname, string email, string birthDate, string type, bool enabled)
         {
             this.Nombre = name;
             this.Apellidos = surname;
             this.Email = email;
             this.Nacimiento = birthDate;
             this.Tipo = type;
+            this.Deshabilitado = enabled;
+        }
+
+        public bool IsEnabled()
+        {
+            return Deshabilitado;
         }
     }
 }

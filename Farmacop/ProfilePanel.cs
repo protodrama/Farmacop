@@ -26,7 +26,7 @@ namespace Farmacop
             lblApl2.Text = Sesion.SecondSurname;
             lblEmail.Text = Sesion.Email;
             lblFNac.Text = Sesion.FNac;
-            if (Sesion.UserType == UserType.Administrador)
+            if (Sesion.UserType == UserType.Admin)
                 lblTUser.Text = "Admin";
             else
                 lblTUser.Text = "Médico";
@@ -74,35 +74,6 @@ namespace Farmacop
             }
         }
 
-        private void txtbxFNac_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            string allowed = "1234567890/\b";
-
-            if (!allowed.Contains(e.KeyChar))
-                e.Handled = true;
-        }
-
-        private void txtbxFNac_Leave(object sender, EventArgs e)
-        {
-            try
-            {
-                if (txtbxFNac.Text != "")
-                {
-                    DateTime Date = DateTime.Parse(txtbxFNac.Text);
-                    if (Date.Date > DateTime.Now.Date)
-                        throw new Exception();
-                    else
-                        if (DateTime.Now.Year - Date.Date.Year >= 200)
-                            throw new Exception();
-                }
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("Fecha incorrecta o fuera de rango (Fecha actual como máximo). Introduzca una fecha válida con el formato DD/MM/YYYY","Error");
-                txtbxFNac.Text = "";
-            }
-        }
-
         private void btnModPData_Click(object sender, EventArgs e)
         {
             string Name, FApl, SApl, FNac;
@@ -144,7 +115,34 @@ namespace Farmacop
                 MessageBox.Show("Error al actualizar los datos");
         }
 
-        private void btnCalendar_Click(object sender, EventArgs e)
+        private void MCalendar_MouseLeave(object sender, EventArgs e)
+        {
+            this.Controls.Remove(mCalendar);
+        }
+
+        private void MCalendar_DateSelected(object sender, DateRangeEventArgs e)
+        {
+            txtbxFNac.Enabled = true;
+            txtbxFNac.Text = mCalendar.SelectionRange.Start.ToString("dd/MM/yyyy");
+            this.Controls.Remove(mCalendar);
+            try
+            {
+                DateTime Date = DateTime.Parse(txtbxFNac.Text);
+                if (Date.Date > DateTime.Now.Date)
+                    throw new Exception();
+                else
+                    if (DateTime.Now.Year - Date.Date.Year >= 200)
+                    throw new Exception();
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fecha fuera de rango (Fecha actual como máximo).", "Error");
+                txtbxFNac.Text = "";
+            }
+        }
+
+        private void txtbxFNac_Click(object sender, EventArgs e)
         {
             mCalendar = new MonthCalendar()
             {
@@ -155,20 +153,7 @@ namespace Farmacop
             mCalendar.DateSelected += MCalendar_DateSelected;
             this.Controls.Add(mCalendar);
             mCalendar.BringToFront();
-            btnCalendar.Enabled = false;
-        }
-
-        private void MCalendar_MouseLeave(object sender, EventArgs e)
-        {
-            this.Controls.Remove(mCalendar);
-            btnCalendar.Enabled = true;
-        }
-
-        private void MCalendar_DateSelected(object sender, DateRangeEventArgs e)
-        {
-            txtbxFNac.Text = mCalendar.SelectionRange.Start.ToString("dd/MM/yyyy");
-            this.Controls.Remove(mCalendar);
-            btnCalendar.Enabled = true;
+            txtbxFNac.Enabled = false;
         }
     }
 }

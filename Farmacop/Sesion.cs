@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 
 namespace Farmacop
 {
-    public enum UserType {Administrador,Medico,Paciente}; //Tipos de usuarios
+    public enum UserType {Admin,Medico,Paciente}; //Tipos de usuarios
 
     public static class Sesion
     {

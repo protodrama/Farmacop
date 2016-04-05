@@ -50,7 +50,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnCalendar = new System.Windows.Forms.Button();
             this.txtbxFNac = new System.Windows.Forms.TextBox();
             this.txtbxSApl = new System.Windows.Forms.TextBox();
             this.txtbxFApl = new System.Windows.Forms.TextBox();
@@ -86,7 +85,7 @@
             this.btnModifyPass.Location = new System.Drawing.Point(298, 163);
             this.btnModifyPass.Name = "btnModifyPass";
             this.btnModifyPass.Size = new System.Drawing.Size(129, 23);
-            this.btnModifyPass.TabIndex = 6;
+            this.btnModifyPass.TabIndex = 8;
             this.btnModifyPass.Text = "Modificar contraseña";
             this.btnModifyPass.UseVisualStyleBackColor = true;
             this.btnModifyPass.Click += new System.EventHandler(this.btnModifyPass_Click);
@@ -123,7 +122,7 @@
             this.txtNewPass2.Location = new System.Drawing.Point(268, 130);
             this.txtNewPass2.Name = "txtNewPass2";
             this.txtNewPass2.Size = new System.Drawing.Size(287, 20);
-            this.txtNewPass2.TabIndex = 2;
+            this.txtNewPass2.TabIndex = 7;
             this.txtNewPass2.UseSystemPasswordChar = true;
             // 
             // txtNewPass
@@ -131,7 +130,7 @@
             this.txtNewPass.Location = new System.Drawing.Point(268, 85);
             this.txtNewPass.Name = "txtNewPass";
             this.txtNewPass.Size = new System.Drawing.Size(287, 20);
-            this.txtNewPass.TabIndex = 1;
+            this.txtNewPass.TabIndex = 6;
             this.txtNewPass.UseSystemPasswordChar = true;
             // 
             // txtOriginalPass
@@ -139,7 +138,7 @@
             this.txtOriginalPass.Location = new System.Drawing.Point(268, 40);
             this.txtOriginalPass.Name = "txtOriginalPass";
             this.txtOriginalPass.Size = new System.Drawing.Size(287, 20);
-            this.txtOriginalPass.TabIndex = 0;
+            this.txtOriginalPass.TabIndex = 5;
             this.txtOriginalPass.UseSystemPasswordChar = true;
             // 
             // grpUserData
@@ -268,7 +267,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.btnCalendar);
             this.groupBox1.Controls.Add(this.txtbxFNac);
             this.groupBox1.Controls.Add(this.txtbxSApl);
             this.groupBox1.Controls.Add(this.txtbxFApl);
@@ -285,52 +283,41 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Modificar datos";
             // 
-            // btnCalendar
-            // 
-            this.btnCalendar.Location = new System.Drawing.Point(249, 156);
-            this.btnCalendar.Name = "btnCalendar";
-            this.btnCalendar.Size = new System.Drawing.Size(27, 23);
-            this.btnCalendar.TabIndex = 14;
-            this.btnCalendar.Text = "...";
-            this.btnCalendar.UseVisualStyleBackColor = true;
-            this.btnCalendar.Click += new System.EventHandler(this.btnCalendar_Click);
-            // 
             // txtbxFNac
             // 
             this.txtbxFNac.Location = new System.Drawing.Point(148, 158);
             this.txtbxFNac.Name = "txtbxFNac";
-            this.txtbxFNac.Size = new System.Drawing.Size(101, 20);
-            this.txtbxFNac.TabIndex = 13;
-            this.txtbxFNac.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtbxFNac_KeyPress);
-            this.txtbxFNac.Leave += new System.EventHandler(this.txtbxFNac_Leave);
+            this.txtbxFNac.Size = new System.Drawing.Size(126, 20);
+            this.txtbxFNac.TabIndex = 3;
+            this.txtbxFNac.Click += new System.EventHandler(this.txtbxFNac_Click);
             // 
             // txtbxSApl
             // 
             this.txtbxSApl.Location = new System.Drawing.Point(148, 123);
             this.txtbxSApl.Name = "txtbxSApl";
             this.txtbxSApl.Size = new System.Drawing.Size(126, 20);
-            this.txtbxSApl.TabIndex = 12;
+            this.txtbxSApl.TabIndex = 2;
             // 
             // txtbxFApl
             // 
             this.txtbxFApl.Location = new System.Drawing.Point(148, 88);
             this.txtbxFApl.Name = "txtbxFApl";
             this.txtbxFApl.Size = new System.Drawing.Size(126, 20);
-            this.txtbxFApl.TabIndex = 11;
+            this.txtbxFApl.TabIndex = 1;
             // 
             // txtbxName
             // 
             this.txtbxName.Location = new System.Drawing.Point(149, 56);
             this.txtbxName.Name = "txtbxName";
             this.txtbxName.Size = new System.Drawing.Size(125, 20);
-            this.txtbxName.TabIndex = 10;
+            this.txtbxName.TabIndex = 0;
             // 
             // btnModPData
             // 
             this.btnModPData.Location = new System.Drawing.Point(126, 196);
             this.btnModPData.Name = "btnModPData";
             this.btnModPData.Size = new System.Drawing.Size(114, 23);
-            this.btnModPData.TabIndex = 9;
+            this.btnModPData.TabIndex = 4;
             this.btnModPData.Text = "Modificar datos";
             this.btnModPData.UseVisualStyleBackColor = true;
             this.btnModPData.Click += new System.EventHandler(this.btnModPData_Click);
@@ -422,6 +409,5 @@
         private System.Windows.Forms.TextBox txtbxSApl;
         private System.Windows.Forms.TextBox txtbxFApl;
         private System.Windows.Forms.TextBox txtbxName;
-        private System.Windows.Forms.Button btnCalendar;
     }
 }

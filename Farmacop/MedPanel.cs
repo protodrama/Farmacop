@@ -32,7 +32,7 @@ namespace Farmacop
 
         private void InicializeTable()
         {
-            if(Sesion.UserType == UserType.Administrador)
+            if(Sesion.UserType == UserType.Admin)
             {
                 BtnDeleteColumn = new DataGridViewButtonColumn()
                 {
@@ -126,15 +126,15 @@ namespace Farmacop
             {
                 Medicament MedToDel = Sesion.MedList[e.RowIndex];
 
-                if (DialogResult.Yes == MessageBox.Show("¿Seguro que quiere eliminar el medicamento?\nSe eliminará de forma permamente...", "Eliminar medicamento", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation))
+                if (DialogResult.Yes == MessageBox.Show("¿Seguro que quiere eliminar el medicamento con nombre " + MedToDel.Nombre + "?\nSe eliminará de forma permamente...", "Eliminar medicamento", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation))
                 {
                     if (Sesion.DBConnection.DeleteMedicament(MedToDel.Nombre))
                     {
                         GetData();
-                        MessageBox.Show("Medicamento eliminado correctamente");
+                        MessageBox.Show("Medicamento eliminado correctamente", "Eliminado");
                     }
                     else
-                        MessageBox.Show("Error al eliminar el medicamento.");
+                        MessageBox.Show("Error al eliminar el medicamento. Puede que algunos pacientes tengan alergias asignadas.", "Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 }
             }
         }
@@ -171,7 +171,7 @@ namespace Farmacop
 
             }
             else
-                MessageBox.Show("Debes introducir todos los datos del medicamento que quiere modificar correctamente");
+                MessageBox.Show("Debes introducir todos los datos del medicamento que se quiere modificar correctamente");
         }
 
         private void txtbxMedAMod_TextChanged(object sender, EventArgs e)

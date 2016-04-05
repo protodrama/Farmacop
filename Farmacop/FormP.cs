@@ -11,13 +11,13 @@ using System.Media;
 
 namespace Farmacop
 {
-    
     public partial class FormP : Form
     {
         #region fields
         PrincipalPage PPage = null;
         FormReg FReg = null;
         bool logged = false;
+        public event MyDelegate ExitPressed;
         #endregion
 
         #region Initialize
@@ -66,6 +66,11 @@ namespace Farmacop
             FReg = new FormReg();
             FReg.ShowDialog();
         }
+
+        private void PPage_ExitPressed()
+        {
+            ExitPressed();
+        }
         #endregion
 
         #region Methods
@@ -92,7 +97,7 @@ namespace Farmacop
                                         this.Controls.Clear();
                                         PPage = new PrincipalPage();
                                         this.Controls.Add(PPage);
-                                        
+                                        PPage.ExitPressed += PPage_ExitPressed;
                                     }
                                     catch(Exception e)
                                     {
@@ -144,6 +149,8 @@ namespace Farmacop
             }
         }
 
+        
+
         private bool CheckPassword(string pass, string original)
         {
             string Cripto = Sesion.StringToMD5(pass);
@@ -163,7 +170,7 @@ namespace Farmacop
                 Sesion.PassWord = dataValues[4];
                 Sesion.FNac = dataValues[5].Split(' ')[0].ToString();
                 if (dataValues[6].Equals("Admin"))
-                    Sesion.UserType = UserType.Administrador;
+                    Sesion.UserType = UserType.Admin;
                 else
                     Sesion.UserType = UserType.Medico;
             }

@@ -14,6 +14,7 @@ namespace Farmacop
         ProfilePanel Profilepanel;
         MedPanel Medpanel;
         UsersPanel UserPanel;
+        public event MyDelegate ExitPressed;
 
         public PrincipalPage()
         {
@@ -67,7 +68,9 @@ namespace Farmacop
                 case "Logout":
                     //Mostrar mensaje y cerrar app si acepta
                     if(DialogResult.Yes == MessageBox.Show("¿Seguro que desea salir de la aplicación?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
-                        this.ParentForm.Close();
+                    {
+                        ExitPressed();
+                    }
                     break;
             }
         }
@@ -157,5 +160,7 @@ namespace Farmacop
             }
         }
         #endregion
+
+        
     }
 }
