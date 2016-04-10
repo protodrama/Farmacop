@@ -290,6 +290,7 @@
             this.txtbxFNac.Size = new System.Drawing.Size(126, 20);
             this.txtbxFNac.TabIndex = 3;
             this.txtbxFNac.Click += new System.EventHandler(this.txtbxFNac_Click);
+            this.txtbxFNac.Enter += new System.EventHandler(this.txtbxFNac_Enter);
             // 
             // txtbxSApl
             // 

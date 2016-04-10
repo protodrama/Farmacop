@@ -8,11 +8,12 @@ namespace Farmacop
     public class User
     {
         private string _nombre;
-        private string _apellidos;
+        private string _fapellido;
+        private string _sapellido;
         private string _email;
         private string _fechaN;
         private string _tipo;
-        private bool _deshabilitada;
+        private bool _habilitado;
 
         public string Nombre
         {
@@ -31,12 +32,7 @@ namespace Farmacop
         {
             get
             {
-                return _apellidos;
-            }
-
-            set
-            {
-                _apellidos = value;
+                return _fapellido + " " + _sapellido;
             }
         }
 
@@ -79,34 +75,45 @@ namespace Farmacop
             }
         }
 
-        private bool Deshabilitado
+        private bool Habilitado
         {
             get
             {
-                return _deshabilitada;
+                return _habilitado;
             }
 
             set
             {
-                _deshabilitada = value;
+                _habilitado = value;
             }
         }
 
         public User() { }
 
-        public User(string name, string surname, string email, string birthDate, string type, bool enabled)
+        public User(string name, string surname,string ssurname, string email, string birthDate, string type, bool enabled)
         {
             this.Nombre = name;
-            this.Apellidos = surname;
+            this._fapellido = surname;
+            this._sapellido = ssurname;
             this.Email = email;
             this.Nacimiento = birthDate;
             this.Tipo = type;
-            this.Deshabilitado = enabled;
+            this.Habilitado = enabled;
         }
 
         public bool IsEnabled()
         {
-            return Deshabilitado;
+            return Habilitado;
+        }
+
+        public string GetFApl()
+        {
+            return _fapellido;
+        }
+
+        public string GetSApl()
+        {
+            return _sapellido;
         }
     }
 }

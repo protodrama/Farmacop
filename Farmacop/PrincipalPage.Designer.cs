@@ -39,7 +39,7 @@
             this.Menu4 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblRecepies = new System.Windows.Forms.Label();
             this.Menu5 = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblControl = new System.Windows.Forms.Label();
+            this.lblMessage = new System.Windows.Forms.Label();
             this.Menu6 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblLogout = new System.Windows.Forms.Label();
             this.SplitContaint = new System.Windows.Forms.SplitContainer();
@@ -220,31 +220,31 @@
             // 
             // Menu5
             // 
-            this.Menu5.Controls.Add(this.lblControl);
+            this.Menu5.Controls.Add(this.lblMessage);
             this.Menu5.Location = new System.Drawing.Point(0, 400);
             this.Menu5.Margin = new System.Windows.Forms.Padding(0);
             this.Menu5.Name = "Menu5";
             this.Menu5.Size = new System.Drawing.Size(468, 100);
             this.Menu5.TabIndex = 6;
-            this.Menu5.Tag = "Control";
+            this.Menu5.Tag = "Messages";
             this.Menu5.Click += new System.EventHandler(this.Menu_Click);
             this.Menu5.MouseEnter += new System.EventHandler(this.Menu_MouseEnter);
             this.Menu5.MouseLeave += new System.EventHandler(this.Menu_MouseLeave);
             // 
             // lblControl
             // 
-            this.lblControl.AutoSize = true;
-            this.lblControl.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblControl.ForeColor = System.Drawing.Color.White;
-            this.lblControl.Location = new System.Drawing.Point(75, 34);
-            this.lblControl.Margin = new System.Windows.Forms.Padding(75, 34, 3, 0);
-            this.lblControl.Name = "lblControl";
-            this.lblControl.Size = new System.Drawing.Size(239, 32);
-            this.lblControl.TabIndex = 1;
-            this.lblControl.Tag = "Control";
-            this.lblControl.Text = "Control de recetas";
-            this.lblControl.Click += new System.EventHandler(this.Menu_Click);
-            this.lblControl.MouseEnter += new System.EventHandler(this.lblMenu_MouseEnter);
+            this.lblMessage.AutoSize = true;
+            this.lblMessage.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMessage.ForeColor = System.Drawing.Color.White;
+            this.lblMessage.Location = new System.Drawing.Point(75, 34);
+            this.lblMessage.Margin = new System.Windows.Forms.Padding(75, 34, 3, 0);
+            this.lblMessage.Name = "lblControl";
+            this.lblMessage.Size = new System.Drawing.Size(132, 32);
+            this.lblMessage.TabIndex = 1;
+            this.lblMessage.Tag = "Messages";
+            this.lblMessage.Text = "Mensajes";
+            this.lblMessage.Click += new System.EventHandler(this.Menu_Click);
+            this.lblMessage.MouseEnter += new System.EventHandler(this.lblMenu_MouseEnter);
             // 
             // Menu6
             // 
@@ -388,7 +388,7 @@
         private System.Windows.Forms.FlowLayoutPanel Menu5;
         private System.Windows.Forms.FlowLayoutPanel Menu6;
         public System.Windows.Forms.Label lblLogout;
-        public System.Windows.Forms.Label lblControl;
+        public System.Windows.Forms.Label lblMessage;
         public System.Windows.Forms.Label lblRecepies;
         public System.Windows.Forms.Label lblMedic;
         public System.Windows.Forms.Label lblUsers;

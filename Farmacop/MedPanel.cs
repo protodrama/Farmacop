@@ -52,27 +52,34 @@ namespace Farmacop
 
         private void GetData()
         {
-            Sesion.MedList = Sesion.DBConnection.GetAllMedicaments();
-            if (Sesion.MedList != null)
+            try
             {
-                MedTable.DataSource = Sesion.MedList;
-                List<string> names = new List<string>();
-                foreach (Medicament tmp in Sesion.MedList)
-                    names.Add(tmp.Nombre);
-                var source = new AutoCompleteStringCollection();
-                source.AddRange(names.ToArray());
-                txtbxMedAMod.AutoCompleteCustomSource = source;
-                txtbxMedAMod.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-                if (firstCharge)
+                Sesion.MedList = Sesion.DBConnection.GetAllMedicaments();
+                if (Sesion.MedList != null)
                 {
-                    MedTable.Columns[0].Width = 200;
-                    MedTable.Columns[1].Width = 200;
-                    MedTable.Width = MedTable.Columns[0].Width + MedTable.Columns[1].Width;
-                    MedTable.Left = (this.Width / 2) - (MedTable.Width / 2);
-                    InicializeTable();
-                    firstCharge = false;
+                    MedTable.DataSource = Sesion.MedList;
+                    List<string> names = new List<string>();
+                    foreach (Medicament tmp in Sesion.MedList)
+                        names.Add(tmp.Nombre);
+                    var source = new AutoCompleteStringCollection();
+                    source.AddRange(names.ToArray());
+                    txtbxMedAMod.AutoCompleteCustomSource = source;
+                    txtbxMedAMod.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+                    if (firstCharge)
+                    {
+                        MedTable.Columns[0].Width = 200;
+                        MedTable.Columns[1].Width = 200;
+                        MedTable.Width = MedTable.Columns[0].Width + MedTable.Columns[1].Width;
+                        MedTable.Left = (this.Width / 2) - (MedTable.Width / 2);
+                        InicializeTable();
+                        firstCharge = false;
+                    }
                 }
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("Error al obtener los medicamentos. Consulte al administrador.\n" + e.Message);
             }
 
         }

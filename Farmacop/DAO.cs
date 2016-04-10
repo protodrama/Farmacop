@@ -141,6 +141,48 @@ namespace Farmacop
             return qr > 0;
         }
 
+        //Actualiza los datos de un usuario
+        public bool UpdateModUserData(string Name, string FApl, string SApl, string FNac,string Type, string email)
+        {
+            string sql = "update Usuarios set Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', Tipo = \'" + Type + "\' where Correo like \"" + email + "\"";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
+        }
+
+        //Agregar un usuario
+        public bool InsertUserData(string Name, string FApl, string SApl, string FNac, string Type, string email)
+        {
+            string sql = "Insert into Usuarios set Correo = \"" + email + "\", Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', Tipo = \'" + Type + "\', Contrasena = \"" + Sesion.StringToMD5(email+Name+"NewUser") + "\"";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
+        }
+
+        //Obtiene todos los correos de los usuarios menos el de la sesion
+        public List<string> GetAllUsersEmail()
+        {
+            List<string> emails = new List<string>();
+            string sql = "select Correo from Usuarios where Validada = 1 and Correo not like \"" + Sesion.Email + "\"";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            MySqlDataReader DataReader = cmd.ExecuteReader();
+
+            if (DataReader.HasRows)
+                while (DataReader.Read())
+                {
+                    try
+                    {
+                        emails.Add(DataReader["Correo"].ToString());
+                    }
+                    catch (Exception e) { throw; }
+                }
+
+            DataReader.Close();
+
+            return emails;
+        }
+
         //Obtiene todos los usuarios para la tabla de Usuarios
         public List<User> GetAllUsersData()
         {
@@ -159,8 +201,8 @@ namespace Farmacop
                 {
                     try
                     {
-                        Users.Add(new User(DataReader["Nombre"].ToString(), DataReader["Apellido1"].ToString() + " " + DataReader["Apellido2"].ToString(), DataReader["Correo"].ToString(),
-                            DateTime.Parse(DataReader["FechaNac"].ToString()).ToString("dd/MM/yyyy"), DataReader["Tipo"].ToString(), DataReader["FechaNac"].ToString().Equals("1")));
+                        Users.Add(new User(DataReader["Nombre"].ToString(), DataReader["Apellido1"].ToString(), DataReader["Apellido2"].ToString(), DataReader["Correo"].ToString(),
+                            DateTime.Parse(DataReader["FechaNac"].ToString()).ToString("dd/MM/yyyy"), DataReader["Tipo"].ToString(), DataReader["Deshabilitada"].ToString().Equals("False")));
                     }
                     catch (Exception e) { throw; }
                 }
@@ -168,6 +210,24 @@ namespace Farmacop
             DataReader.Close();
 
             return Users;
+        }
+
+        //Disables User
+        public bool DisableUser(string email)
+        {
+            string sql = "update Usuarios set Deshabilitada = 1 where Correo like \"" + email + "\"";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
+        }
+
+        //Enables User
+        public bool EnableUser(string email)
+        {
+            string sql = "update Usuarios set Deshabilitada = 0 where Correo like \"" + email + "\"";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
         }
         #endregion
 
@@ -225,6 +285,72 @@ namespace Farmacop
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;
         }
+        #endregion
+
+        #region Mensajes
+        //Obtiene los mensajes enviados
+        public List<Message> GetAllSendedMessages(string email)
+        {
+            List<Message> LMessages = new List<Message>();
+            string sql = "select ID, Correo_Envia, Correo_Recibe, Asunto, Mensaje, Leido from Mensajes where Correo_Envia like \'" + email + "\' order by ID DESC";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            MySqlDataReader DataReader = cmd.ExecuteReader();
+
+            if (DataReader.HasRows)
+                while (DataReader.Read())
+                {
+                    try
+                    {
+                        LMessages.Add(new Message(int.Parse(DataReader["ID"].ToString()), DataReader["Correo_Envia"].ToString(), DataReader["Correo_Recibe"].ToString(),
+                        DataReader["Asunto"].ToString(), DataReader["Mensaje"].ToString(), DataReader["Leido"].ToString().Equals("True")));
+                    }
+                    catch (Exception e) { throw; }
+                }
+
+            DataReader.Close();
+            return LMessages;
+        }
+        //Obtiene los mensajes recibidos
+        public List<Message> GetAllReceivedMessages(string email)
+        {
+            List<Message> LMessages = new List<Message>();
+            string sql = "select ID, Correo_Envia, Correo_Recibe, Asunto, Mensaje, Leido from Mensajes where Correo_Recibe like \'" + email + "\' order by ID DESC";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            MySqlDataReader DataReader = cmd.ExecuteReader();
+
+            if (DataReader.HasRows)
+                while (DataReader.Read())
+                {
+                    try
+                    {
+                        LMessages.Add(new Message(int.Parse(DataReader["ID"].ToString()), DataReader["Correo_Envia"].ToString(), DataReader["Correo_Recibe"].ToString(),
+                            DataReader["Asunto"].ToString(), DataReader["Mensaje"].ToString(), DataReader["Leido"].ToString().Equals("True")));
+                    }
+                    catch(Exception e) { throw; }
+                }
+
+            DataReader.Close();
+            return LMessages;
+        }
+        //Actualiza a leido el mensaje
+        public bool SetReaded(int msgId)
+        {
+            string sql = "update Mensajes set Leido = 1 where ID = " + msgId + "";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
+        }
+        //Insertar mensaje
+        public bool InsertMsg(string Sender, string Receiver, string Matter, string Message)
+        {
+            string sql = "insert into Mensajes (Correo_Envia, Correo_Recibe, Asunto, Mensaje) values (\"" + Sender + "\",\"" + Receiver + "\",\"" + Matter + "\",\"" + Message + "\")";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
+        }
+
         #endregion
     }
 }

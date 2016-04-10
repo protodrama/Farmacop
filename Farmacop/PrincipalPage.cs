@@ -14,6 +14,7 @@ namespace Farmacop
         ProfilePanel Profilepanel;
         MedPanel Medpanel;
         UsersPanel UserPanel;
+        MessPanel MessagePanel;
         public event MyDelegate ExitPressed;
 
         public PrincipalPage()
@@ -40,8 +41,7 @@ namespace Farmacop
             {
                 case "Profile":
                     lblTitle.Text = "Perfil";
-                    if(Profilepanel == null)
-                        Profilepanel = new ProfilePanel();
+                    Profilepanel = new ProfilePanel();
                     Panel2Containt.Controls.Clear();
                     Panel2Containt.Controls.Add(Profilepanel);
                     break;
@@ -61,13 +61,15 @@ namespace Farmacop
                     lblTitle.Text = "Recetas";
                     Panel2Containt.Controls.Clear();
                     break;
-                case "Control":
-                    lblTitle.Text = "Control de tomas";
+                case "Messages":
+                    lblTitle.Text = "Mensajes";
+                    MessagePanel = new MessPanel();
                     Panel2Containt.Controls.Clear();
+                    Panel2Containt.Controls.Add(MessagePanel);
                     break;
                 case "Logout":
                     //Mostrar mensaje y cerrar app si acepta
-                    if(DialogResult.Yes == MessageBox.Show("¿Seguro que desea salir de la aplicación?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+                    if(DialogResult.Yes == MessageBox.Show("¿Seguro que desea desconectar?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                     {
                         ExitPressed();
                     }
@@ -93,8 +95,8 @@ namespace Farmacop
                 case "Recepies":
                     lblRecepies.ForeColor = Color.MediumBlue;
                     break;
-                case "Control":
-                    lblControl.ForeColor = Color.MediumBlue;
+                case "Messages":
+                    lblMessage.ForeColor = Color.MediumBlue;
                     break;
                 case "Logout":
                     lblLogout.ForeColor = Color.MediumBlue;
@@ -120,8 +122,8 @@ namespace Farmacop
                     case "Recepies":
                         lblRecepies.ForeColor = Color.White;
                         break;
-                    case "Control":
-                        lblControl.ForeColor = Color.White;
+                    case "Messages":
+                        lblMessage.ForeColor = Color.White;
                         break;
                     case "Logout":
                         lblLogout.ForeColor = Color.White;
@@ -149,9 +151,9 @@ namespace Farmacop
                     Menu4.BackColor = Color.White;
                     lblRecepies.ForeColor = Color.MediumBlue;
                     break;
-                case "Control":
+                case "Messages":
                     Menu5.BackColor = Color.White;
-                    lblControl.ForeColor = Color.MediumBlue;
+                    lblMessage.ForeColor = Color.MediumBlue;
                     break;
                 case "Logout":
                     Menu6.BackColor = Color.White;

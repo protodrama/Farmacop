@@ -118,13 +118,13 @@ namespace Farmacop
         private void MCalendar_MouseLeave(object sender, EventArgs e)
         {
             this.Controls.Remove(mCalendar);
+            txtbxFNac.Enabled = true;
         }
 
         private void MCalendar_DateSelected(object sender, DateRangeEventArgs e)
         {
             txtbxFNac.Enabled = true;
             txtbxFNac.Text = mCalendar.SelectionRange.Start.ToString("dd/MM/yyyy");
-            this.Controls.Remove(mCalendar);
             try
             {
                 DateTime Date = DateTime.Parse(txtbxFNac.Text);
@@ -140,6 +140,7 @@ namespace Farmacop
                 MessageBox.Show("Fecha fuera de rango (Fecha actual como máximo).", "Error");
                 txtbxFNac.Text = "";
             }
+            this.Controls.Remove(mCalendar);
         }
 
         private void txtbxFNac_Click(object sender, EventArgs e)
@@ -151,8 +152,32 @@ namespace Farmacop
             };
             mCalendar.MouseLeave += MCalendar_MouseLeave;
             mCalendar.DateSelected += MCalendar_DateSelected;
+            mCalendar.Leave += MCalendar_Leave;
             this.Controls.Add(mCalendar);
             mCalendar.BringToFront();
+            mCalendar.Focus();
+            txtbxFNac.Enabled = false;
+        }
+
+        private void MCalendar_Leave(object sender, EventArgs e)
+        {
+            this.Controls.Remove(mCalendar);
+            txtbxFNac.Enabled = true;
+        }
+
+        private void txtbxFNac_Enter(object sender, EventArgs e)
+        {
+            mCalendar = new MonthCalendar()
+            {
+                Left = 660,
+                Top = 160
+            };
+            mCalendar.MouseLeave += MCalendar_MouseLeave;
+            mCalendar.DateSelected += MCalendar_DateSelected;
+            mCalendar.Leave += MCalendar_Leave;
+            this.Controls.Add(mCalendar);
+            mCalendar.BringToFront();
+            mCalendar.Focus();
             txtbxFNac.Enabled = false;
         }
     }

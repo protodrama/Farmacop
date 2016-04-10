@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Farmacop.exe" size="276992">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Farmacop.exe" size="600064">
       <assemblyIdentity name="Farmacop" version="1.0.0.0" publicKeyToken="FEC53EB71171C619" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>fMHc4FigByyP7n82EDwoouLcCn8=</dsig:DigestValue>
+        <dsig:DigestValue>i7fFMGRCM4T2L1Ju22MnC/uluwQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
