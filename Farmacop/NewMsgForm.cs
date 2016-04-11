@@ -17,7 +17,7 @@ namespace Farmacop
             InitializeComponent();
             try
             {
-                Emails = Sesion.DBConnection.GetAllUsersEmail();
+                Emails = Sesion.DBConnection.GetAllUsersNameAccount();
                 var source = new AutoCompleteStringCollection();
                 source.AddRange(Emails.ToArray());
                 txtReceiver.AutoCompleteMode = AutoCompleteMode.Suggest;
@@ -45,7 +45,7 @@ namespace Farmacop
             {
                 if (!txtMatter.Text.Equals("") && !txtMsg.Text.Equals("") && !txtReceiver.Text.Equals(""))
                 {
-                    if (Sesion.DBConnection.InsertMsg(Sesion.Email, txtReceiver.Text, txtMatter.Text, txtMsg.Text))
+                    if (Sesion.DBConnection.InsertMsg(Sesion.Account, txtReceiver.Text, txtMatter.Text, txtMsg.Text))
                     {
                         MessageBox.Show("Mensaje enviado con éxito.");
                         this.Close();
@@ -57,7 +57,7 @@ namespace Farmacop
                     MessageBox.Show("Se deben rellenar todos los campos para enviar el mensaje");
             }
             else
-                MessageBox.Show("El correo indicado no es correcto.");
+                MessageBox.Show("El nombre de cuenta indicado no es correcto.");
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -69,7 +69,7 @@ namespace Farmacop
         {
             if (!CheckEmail())
             {
-                MessageBox.Show("El correo indicado no es correcto.");
+                MessageBox.Show("El nombre de cuenta indicado no es correcto.");
             }
         }
 

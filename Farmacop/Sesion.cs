@@ -12,7 +12,7 @@ namespace Farmacop
     {
         #region Fields
         public static string HOST = "jfrodriguez.pw";
-        public static string DB = "FarmacopDB";
+        public static string DB = "Farmacop_DB";
         public static string USER = "clientuser";
         public static string PASS = "hx3CfFQFdrRJVRsd";
         public static List<Medicament> MedList;
@@ -22,8 +22,8 @@ namespace Farmacop
 
         public static DAO DBConnection;
 
-        static string email;
-        public static string Email { get { return email; } set { email = value; } }
+        static string account;
+        public static string Account { get { return account; } set { account = value; } }
 
         static string name;
         public static string Name { get { return name; } set { name = value; } }

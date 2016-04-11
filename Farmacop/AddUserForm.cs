@@ -11,7 +11,7 @@ namespace Farmacop
 {
     public partial class AddUserForm : Form
     {
-        List<string> Emails;
+        List<string> Accounts;
         MonthCalendar mCalendar;
 
         public AddUserForm()
@@ -29,11 +29,11 @@ namespace Farmacop
         {
             try
             {
-                Emails = Sesion.DBConnection.GetAllUsersEmail();
+                Accounts = Sesion.DBConnection.GetAllUsersNameAccount();
             }
             catch(Exception e)
             {
-                MessageBox.Show("Error al obtener los correos existentes. Consulte al administrador." + e.Message);
+                MessageBox.Show("Error al obtener los nombres de cuenta existentes. Consulte al administrador." + e.Message);
                 this.Close();
             }
         }
@@ -42,11 +42,11 @@ namespace Farmacop
         {
             try
             {
-                if (!txtEmail.Text.Equals("") && !txtName.Text.Equals("") && !txtFApl.Text.Equals("") && !txtSApl.Text.Equals("") && !txtFNac.Text.Equals("") && !ComboboxType.Text.Equals(""))
+                if (!txtAccount.Text.Equals("") && !txtName.Text.Equals("") && !txtFApl.Text.Equals("") && !txtSApl.Text.Equals("") && !txtFNac.Text.Equals("") && !ComboboxType.Text.Equals(""))
                 {
-                    if (CheckEmail(txtEmail.Text))
+                    if (CheckAccountName(txtAccount.Text))
                     {
-                        if (Sesion.DBConnection.InsertUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.Text, txtEmail.Text))
+                        if (Sesion.DBConnection.InsertUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.Text, txtAccount.Text))
                         {
                             MessageBox.Show("Usuario insertado correctamente.");
                             this.Close();
@@ -74,11 +74,11 @@ namespace Farmacop
             this.Close();
         }
 
-        private bool CheckEmail(string email)
+        private bool CheckAccountName(string account)
         {
-            if (Emails.Contains(email))
+            if (Accounts.Contains(account))
                 return false;
-            else if (email.Equals(Sesion.Email))
+            else if (account.Equals(Sesion.Account))
                 return false;
             else
                 return true;

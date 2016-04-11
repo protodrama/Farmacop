@@ -42,7 +42,7 @@
             this.txtFApl = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtEmail = new System.Windows.Forms.TextBox();
+            this.txtAccount = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // ComboboxType
@@ -158,16 +158,16 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(103, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.Size = new System.Drawing.Size(44, 13);
             this.label1.TabIndex = 45;
-            this.label1.Text = "Correo:";
+            this.label1.Text = "Cuenta:";
             // 
-            // txtEmail
+            // txtAccount
             // 
-            this.txtEmail.Location = new System.Drawing.Point(150, 13);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(287, 20);
-            this.txtEmail.TabIndex = 0;
+            this.txtAccount.Location = new System.Drawing.Point(150, 13);
+            this.txtAccount.Name = "txtAccount";
+            this.txtAccount.Size = new System.Drawing.Size(287, 20);
+            this.txtAccount.TabIndex = 0;
             // 
             // AddUserForm
             // 
@@ -176,7 +176,7 @@
             this.ClientSize = new System.Drawing.Size(475, 338);
             this.ControlBox = false;
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtEmail);
+            this.Controls.Add(this.txtAccount);
             this.Controls.Add(this.ComboboxType);
             this.Controls.Add(this.lblType);
             this.Controls.Add(this.lblBDate);
@@ -214,6 +214,6 @@
         private System.Windows.Forms.TextBox txtFApl;
         public System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label1;
-        public System.Windows.Forms.TextBox txtEmail;
+        public System.Windows.Forms.TextBox txtAccount;
     }
 }

@@ -10,7 +10,7 @@ namespace Farmacop
         private string _nombre;
         private string _fapellido;
         private string _sapellido;
-        private string _email;
+        private string _account;
         private string _fechaN;
         private string _tipo;
         private bool _habilitado;
@@ -36,16 +36,16 @@ namespace Farmacop
             }
         }
 
-        public string Email
+        public string Cuenta
         {
             get
             {
-                return _email;
+                return _account;
             }
 
             set
             {
-                _email = value;
+                _account = value;
             }
         }
 
@@ -95,7 +95,7 @@ namespace Farmacop
             this.Nombre = name;
             this._fapellido = surname;
             this._sapellido = ssurname;
-            this.Email = email;
+            this.Cuenta = email;
             this.Nacimiento = birthDate;
             this.Tipo = type;
             this.Habilitado = enabled;

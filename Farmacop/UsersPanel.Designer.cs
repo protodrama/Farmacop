@@ -31,7 +31,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtbxApl = new System.Windows.Forms.TextBox();
             this.txtbxName = new System.Windows.Forms.TextBox();
-            this.txtbxEmail = new System.Windows.Forms.TextBox();
+            this.txtbxAccount = new System.Windows.Forms.TextBox();
             this.lblApl = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -47,12 +47,12 @@
             // 
             this.groupBox1.Controls.Add(this.txtbxApl);
             this.groupBox1.Controls.Add(this.txtbxName);
-            this.groupBox1.Controls.Add(this.txtbxEmail);
+            this.groupBox1.Controls.Add(this.txtbxAccount);
             this.groupBox1.Controls.Add(this.lblApl);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.btnFilter);
-            this.groupBox1.Location = new System.Drawing.Point(35, 32);
+            this.groupBox1.Location = new System.Drawing.Point(36, 16);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(507, 132);
             this.groupBox1.TabIndex = 0;
@@ -73,17 +73,17 @@
             this.txtbxName.Size = new System.Drawing.Size(232, 20);
             this.txtbxName.TabIndex = 9;
             // 
-            // txtbxEmail
+            // txtbxAccount
             // 
-            this.txtbxEmail.Location = new System.Drawing.Point(106, 26);
-            this.txtbxEmail.Name = "txtbxEmail";
-            this.txtbxEmail.Size = new System.Drawing.Size(232, 20);
-            this.txtbxEmail.TabIndex = 8;
+            this.txtbxAccount.Location = new System.Drawing.Point(106, 26);
+            this.txtbxAccount.Name = "txtbxAccount";
+            this.txtbxAccount.Size = new System.Drawing.Size(232, 20);
+            this.txtbxAccount.TabIndex = 8;
             // 
             // lblApl
             // 
             this.lblApl.AutoSize = true;
-            this.lblApl.Location = new System.Drawing.Point(41, 89);
+            this.lblApl.Location = new System.Drawing.Point(48, 89);
             this.lblApl.Name = "lblApl";
             this.lblApl.Size = new System.Drawing.Size(52, 13);
             this.lblApl.TabIndex = 7;
@@ -92,7 +92,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(41, 59);
+            this.label2.Location = new System.Drawing.Point(53, 59);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(47, 13);
             this.label2.TabIndex = 6;
@@ -101,11 +101,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(41, 29);
+            this.label1.Location = new System.Drawing.Point(6, 29);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.Size = new System.Drawing.Size(98, 13);
             this.label1.TabIndex = 5;
-            this.label1.Text = "Correo:";
+            this.label1.Text = "Nombre de cuenta:";
             // 
             // btnFilter
             // 
@@ -129,7 +129,7 @@
             this.UsersGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.UsersGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.UsersGridView.GridColor = System.Drawing.SystemColors.AppWorkspace;
-            this.UsersGridView.Location = new System.Drawing.Point(79, 203);
+            this.UsersGridView.Location = new System.Drawing.Point(79, 218);
             this.UsersGridView.MultiSelect = false;
             this.UsersGridView.Name = "UsersGridView";
             this.UsersGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -143,17 +143,17 @@
             // chbxDisUsers
             // 
             this.chbxDisUsers.AutoSize = true;
-            this.chbxDisUsers.Location = new System.Drawing.Point(64, 170);
+            this.chbxDisUsers.Location = new System.Drawing.Point(90, 195);
             this.chbxDisUsers.Name = "chbxDisUsers";
-            this.chbxDisUsers.Size = new System.Drawing.Size(137, 17);
+            this.chbxDisUsers.Size = new System.Drawing.Size(173, 17);
             this.chbxDisUsers.TabIndex = 4;
-            this.chbxDisUsers.Text = "Usuarios deshabilitados";
+            this.chbxDisUsers.Text = "Mostrar usuarios deshabilitados";
             this.chbxDisUsers.UseVisualStyleBackColor = true;
             this.chbxDisUsers.CheckedChanged += new System.EventHandler(this.chbxDisUsers_CheckedChanged);
             // 
             // btnAddUser
             // 
-            this.btnAddUser.Location = new System.Drawing.Point(298, 582);
+            this.btnAddUser.Location = new System.Drawing.Point(193, 154);
             this.btnAddUser.Name = "btnAddUser";
             this.btnAddUser.Size = new System.Drawing.Size(113, 23);
             this.btnAddUser.TabIndex = 11;
@@ -190,7 +190,7 @@
         private System.Windows.Forms.Label lblApl;
         private System.Windows.Forms.TextBox txtbxApl;
         private System.Windows.Forms.TextBox txtbxName;
-        private System.Windows.Forms.TextBox txtbxEmail;
+        private System.Windows.Forms.TextBox txtbxAccount;
         private System.Windows.Forms.Button btnAddUser;
     }
 }

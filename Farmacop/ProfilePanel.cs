@@ -24,7 +24,7 @@ namespace Farmacop
             lblName.Text = Sesion.Name;
             lblApl1.Text = Sesion.FirstSurname;
             lblApl2.Text = Sesion.SecondSurname;
-            lblEmail.Text = Sesion.Email;
+            lblAccount.Text = Sesion.Account;
             lblFNac.Text = Sesion.FNac;
             if (Sesion.UserType == UserType.Admin)
                 lblTUser.Text = "Admin";
@@ -42,7 +42,7 @@ namespace Farmacop
                     {
                         if (txtNewPass.Text.Equals(txtNewPass2.Text))
                         {
-                            if (Sesion.DBConnection.UpdateUserPassWord(Sesion.Email, Sesion.StringToMD5(txtNewPass.Text)))
+                            if (Sesion.DBConnection.UpdateUserPassWord(Sesion.Account, Sesion.StringToMD5(txtNewPass.Text)))
                                 MessageBox.Show("Contraseña modificada con éxito");
                             else
                                 throw new Exception("Error al modificar la contraseña");
@@ -98,7 +98,7 @@ namespace Farmacop
             else
                 FNac = DateTime.Parse(txtbxFNac.Text).ToString("yyyy-MM-dd");
 
-            if (Sesion.DBConnection.UpdateUserData(Name, FApl, SApl, FNac, Sesion.Email))
+            if (Sesion.DBConnection.UpdateUserData(Name, FApl, SApl, FNac, Sesion.Account))
             {
                 MessageBox.Show("Datos actualizados con éxito");
                 Sesion.Name = Name;

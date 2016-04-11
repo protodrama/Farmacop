@@ -32,6 +32,7 @@
             this.chbxSended = new System.Windows.Forms.CheckBox();
             this.chbxReaded = new System.Windows.Forms.CheckBox();
             this.btnNewMsg = new System.Windows.Forms.Button();
+            this.lblInfo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.MessGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,7 +49,7 @@
             this.MessGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.MessGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.MessGridView.GridColor = System.Drawing.SystemColors.AppWorkspace;
-            this.MessGridView.Location = new System.Drawing.Point(244, 97);
+            this.MessGridView.Location = new System.Drawing.Point(239, 117);
             this.MessGridView.MultiSelect = false;
             this.MessGridView.Name = "MessGridView";
             this.MessGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -91,10 +92,20 @@
             this.btnNewMsg.UseVisualStyleBackColor = true;
             this.btnNewMsg.Click += new System.EventHandler(this.btnNewMsg_Click);
             // 
+            // lblInfo
+            // 
+            this.lblInfo.AutoSize = true;
+            this.lblInfo.Location = new System.Drawing.Point(117, 89);
+            this.lblInfo.Name = "lblInfo";
+            this.lblInfo.Size = new System.Drawing.Size(149, 13);
+            this.lblInfo.TabIndex = 7;
+            this.lblInfo.Text = "Mostrando mensajes recibidos";
+            // 
             // MessPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblInfo);
             this.Controls.Add(this.btnNewMsg);
             this.Controls.Add(this.chbxReaded);
             this.Controls.Add(this.chbxSended);
@@ -113,5 +124,6 @@
         private System.Windows.Forms.CheckBox chbxSended;
         private System.Windows.Forms.CheckBox chbxReaded;
         private System.Windows.Forms.Button btnNewMsg;
+        private System.Windows.Forms.Label lblInfo;
     }
 }

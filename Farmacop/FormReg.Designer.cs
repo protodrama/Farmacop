@@ -32,10 +32,10 @@
             this.btnAccept = new System.Windows.Forms.Button();
             this.lblNewPass2 = new System.Windows.Forms.Label();
             this.lblNewPass = new System.Windows.Forms.Label();
-            this.lblEmail = new System.Windows.Forms.Label();
+            this.lblAccount = new System.Windows.Forms.Label();
             this.txtNewPass2 = new System.Windows.Forms.TextBox();
             this.txtNewPass = new System.Windows.Forms.TextBox();
-            this.txtEmail = new System.Windows.Forms.TextBox();
+            this.txtAccount = new System.Windows.Forms.TextBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.lblEmailMsg = new System.Windows.Forms.Label();
             this.ImgTick = new System.Windows.Forms.PictureBox();
@@ -70,14 +70,14 @@
             this.lblNewPass.TabIndex = 11;
             this.lblNewPass.Text = "Contraseña:";
             // 
-            // lblEmail
+            // lblAccount
             // 
-            this.lblEmail.AutoSize = true;
-            this.lblEmail.Location = new System.Drawing.Point(83, 15);
-            this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(41, 13);
-            this.lblEmail.TabIndex = 10;
-            this.lblEmail.Text = "Correo:";
+            this.lblAccount.AutoSize = true;
+            this.lblAccount.Location = new System.Drawing.Point(83, 15);
+            this.lblAccount.Name = "lblAccount";
+            this.lblAccount.Size = new System.Drawing.Size(44, 13);
+            this.lblAccount.TabIndex = 10;
+            this.lblAccount.Text = "Cuenta:";
             // 
             // txtNewPass2
             // 
@@ -95,13 +95,13 @@
             this.txtNewPass.TabIndex = 1;
             this.txtNewPass.UseSystemPasswordChar = true;
             // 
-            // txtEmail
+            // txtAccount
             // 
-            this.txtEmail.Location = new System.Drawing.Point(130, 12);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(287, 20);
-            this.txtEmail.TabIndex = 0;
-            this.txtEmail.Leave += new System.EventHandler(this.txtEmail_Leave);
+            this.txtAccount.Location = new System.Drawing.Point(130, 12);
+            this.txtAccount.Name = "txtAccount";
+            this.txtAccount.Size = new System.Drawing.Size(287, 20);
+            this.txtAccount.TabIndex = 0;
+            this.txtAccount.Leave += new System.EventHandler(this.txtAccount_Leave);
             // 
             // btnCancel
             // 
@@ -143,10 +143,10 @@
             this.Controls.Add(this.btnAccept);
             this.Controls.Add(this.lblNewPass2);
             this.Controls.Add(this.lblNewPass);
-            this.Controls.Add(this.lblEmail);
+            this.Controls.Add(this.lblAccount);
             this.Controls.Add(this.txtNewPass2);
             this.Controls.Add(this.txtNewPass);
-            this.Controls.Add(this.txtEmail);
+            this.Controls.Add(this.txtAccount);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -167,10 +167,10 @@
         private System.Windows.Forms.Button btnAccept;
         private System.Windows.Forms.Label lblNewPass2;
         private System.Windows.Forms.Label lblNewPass;
-        private System.Windows.Forms.Label lblEmail;
+        private System.Windows.Forms.Label lblAccount;
         private System.Windows.Forms.TextBox txtNewPass2;
         public System.Windows.Forms.TextBox txtNewPass;
-        public System.Windows.Forms.TextBox txtEmail;
+        public System.Windows.Forms.TextBox txtAccount;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label lblEmailMsg;
         private System.Windows.Forms.PictureBox ImgTick;

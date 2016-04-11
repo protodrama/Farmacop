@@ -101,6 +101,7 @@
             this.txtFNac.Size = new System.Drawing.Size(287, 20);
             this.txtFNac.TabIndex = 4;
             this.txtFNac.Click += new System.EventHandler(this.txtFNac_Click);
+            this.txtFNac.Enter += new System.EventHandler(this.txtFNac_Enter);
             // 
             // txtSApl
             // 

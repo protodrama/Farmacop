@@ -153,24 +153,47 @@ namespace Farmacop
                 string FChar = txtbxMedNewName.Text.Substring(0, 1);
                 string NameNoFChar = txtbxMedNewName.Text.Substring(1, txtbxMedNewName.Text.Length - 1);
                 string Name = FChar.ToUpper() + NameNoFChar;
+                bool ModifyMedType = false;
 
                 foreach (Medicament MedTmp in Sesion.MedList)
                 {
                     if (MedTmp.Nombre.ToLower().Equals(Name.ToLower()))
-                    {                     
-                        MessageBox.Show("El nuevo nombre coincide con uno de los medicamentos existentes.");
-                        return;
+                    {
+                        if (MedTmp.Nombre.ToLower().Equals(txtbxMedNewName.Text.ToLower()))
+                        {
+                            ModifyMedType = true;
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show("El nuevo nombre coincide con uno de los medicamentos existentes.");
+                            return;
+                        }
                     }
                 }
-
-                if (Sesion.DBConnection.UpdateMedicament(txtbxMedAMod.Text, Name, cbbxTypeMod.Text))
+                if (ModifyMedType)
                 {
-                    GetData();
-                    MessageBox.Show("Medicamento modificado correctamente");
+                    if (Sesion.DBConnection.UpdateTypeMedicament(Name, cbbxTypeMod.Text))
+                    {
+                        GetData();
+                        MessageBox.Show("Medicamento modificado correctamente");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al modificar el medicamento");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Error al modificar el medicamento");
+                    if (Sesion.DBConnection.UpdateMedicament(txtbxMedAMod.Text, Name, cbbxTypeMod.Text))
+                    {
+                        GetData();
+                        MessageBox.Show("Medicamento modificado correctamente");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al modificar el medicamento");
+                    }
                 }
                 txtbxMedAMod.Text = "";
                 txtbxMedNewName.Text = "";
@@ -198,11 +221,6 @@ namespace Farmacop
                     cbbxTypeMod.Text = "";
                 }
             }
-        }
-
-        private void btnReload_Click(object sender, EventArgs e)
-        {
-            GetData();
         }
     }
 }

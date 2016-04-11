@@ -11,7 +11,7 @@ namespace Farmacop
 {
     public partial class FormReg : Form
     {
-        List<string> EmailsToActive;
+        List<string> AccountsToActive;
         bool Correct = false; 
 
         public FormReg()
@@ -28,7 +28,7 @@ namespace Farmacop
         {
             Sesion.DBConnection = new DAO();
             Sesion.Connect();
-            EmailsToActive = Sesion.DBConnection.GetNonActiveUserEMailForRegist();
+            AccountsToActive = Sesion.DBConnection.GetNonActiveUserEMailForRegist();
         }
 
         private void FormReg_FormClosing(object sender, FormClosingEventArgs e)
@@ -36,22 +36,22 @@ namespace Farmacop
             Sesion.Disconnect();
         }
 
-        private void txtEmail_Leave(object sender, EventArgs e)
+        private void txtAccount_Leave(object sender, EventArgs e)
         {
-            if (!txtEmail.Text.Equals(""))
+            if (!txtAccount.Text.Equals(""))
             {
-                CheckEmail(txtEmail.Text);
+                CheckAccount(txtAccount.Text);
             }
             else
                 lblEmailMsg.Text = "";
         }
 
-        public void CheckEmail(string email)
+        public void CheckAccount(string account)
         {
             bool find = false;
-            foreach(string EmtoActive in EmailsToActive)
+            foreach(string EmtoActive in AccountsToActive)
             {
-                if (email.Equals(EmtoActive))
+                if (account.Equals(EmtoActive))
                 {
                     find = true;
                     break;
@@ -61,19 +61,19 @@ namespace Farmacop
             if (find)
             {
                 lblEmailMsg.ForeColor = Color.Green;
-                lblEmailMsg.Text = "Correo correcto";
+                lblEmailMsg.Text = "Nombre de cuenta correcto";
                 ImgTick.Image = Farmacop.Properties.Resources.Tick_verde;
                 Correct = true;
             }
             else
             {
                 lblEmailMsg.ForeColor = Color.Red;
-                lblEmailMsg.Text = "El correo no coincide";
+                lblEmailMsg.Text = "El nombre de cuenta no coincide";
                 ImgTick.Image = Farmacop.Properties.Resources.Cruz;
                 Correct = false;
             }
 
-            EmailsToActive = Sesion.DBConnection.GetNonActiveUserEMailForRegist();
+            AccountsToActive = Sesion.DBConnection.GetNonActiveUserEMailForRegist();
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -84,7 +84,7 @@ namespace Farmacop
                 {
                     if (txtNewPass.Text.Equals(txtNewPass2.Text))
                     {
-                        if (Sesion.DBConnection.ActivateUserWithPass(txtEmail.Text, txtNewPass.Text))
+                        if (Sesion.DBConnection.ActivateUserWithPass(txtAccount.Text, txtNewPass.Text))
                         {
                             MessageBox.Show("Cuenta activada con éxito");
                             this.Close();
@@ -99,7 +99,7 @@ namespace Farmacop
                     MessageBox.Show("Introduzca todos los datos");
             }
             else
-                MessageBox.Show("El correo debe ser correcto");
+                MessageBox.Show("El nombre de cuenta debe ser correcto");
         }
     }
 }

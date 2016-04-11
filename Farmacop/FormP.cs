@@ -76,7 +76,7 @@ namespace Farmacop
         #region Methods
         private void CheckLogin()
         {
-            if (!tbxEmail.Text.Equals("") && !tbxPass.Text.Equals(""))
+            if (!tbxAccount.Text.Equals("") && !tbxPass.Text.Equals(""))
             {
                 try
                 {
@@ -85,15 +85,15 @@ namespace Farmacop
                     {
                         try
                         {
-                            string data = Sesion.DBConnection.GetCredentials(tbxEmail.Text);
+                            string data = Sesion.DBConnection.GetCredentials(tbxAccount.Text);
                             if (data.Split(':')[2].Equals("Paciente"))
                                 throw new Exception();
-                            if (tbxEmail.Text.Equals(data.Split(':')[0])) {
+                            if (tbxAccount.Text.Equals(data.Split(':')[0])) {
                                 if (CheckPassword(tbxPass.Text, data.Split(':')[1]))
                                 {
                                     try {
                                         logged = true;
-                                        GetUserData(tbxEmail.Text);
+                                        GetUserData(tbxAccount.Text);
                                         this.Controls.Clear();
                                         PPage = new PrincipalPage();
                                         this.Controls.Add(PPage);
@@ -116,7 +116,7 @@ namespace Farmacop
                         {
                             SystemSounds.Beep.Play();
                             MessageBox.Show("El usuario o la contraseña no son correctos");
-                            tbxEmail.Focus();
+                            tbxAccount.Focus();
                         }
                     }
 
@@ -130,15 +130,15 @@ namespace Farmacop
             else
             {
                 SystemSounds.Beep.Play();
-                if (tbxEmail.Text.Equals("") && tbxPass.Text.Equals(""))
+                if (tbxAccount.Text.Equals("") && tbxPass.Text.Equals(""))
                 {
                     MessageBox.Show("Introduzca sus credenciales");
-                    tbxEmail.Focus();
+                    tbxAccount.Focus();
                 }
-                else if (tbxEmail.Text.Equals(""))
+                else if (tbxAccount.Text.Equals(""))
                 {
                     MessageBox.Show("Indique su correo electrónico");
-                    tbxEmail.Focus();
+                    tbxAccount.Focus();
                 }
                 else if (tbxPass.Text.Equals(""))
                 {
@@ -148,8 +148,6 @@ namespace Farmacop
 
             }
         }
-
-        
 
         private bool CheckPassword(string pass, string original)
         {
@@ -166,7 +164,7 @@ namespace Farmacop
                 Sesion.Name = dataValues[0];
                 Sesion.FirstSurname = dataValues[1];
                 Sesion.SecondSurname = dataValues[2];
-                Sesion.Email = dataValues[3];
+                Sesion.Account = dataValues[3];
                 Sesion.PassWord = dataValues[4];
                 Sesion.FNac = dataValues[5].Split(' ')[0].ToString();
                 if (dataValues[6].Equals("Admin"))

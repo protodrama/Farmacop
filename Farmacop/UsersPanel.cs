@@ -145,7 +145,7 @@ namespace Farmacop
                         {
                             if (DialogResult.Yes == MessageBox.Show("¿Deseas deshabilitar el usuario " + UserTemp.Nombre + " " + UserTemp.Apellidos + " ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                             {
-                                if (Sesion.DBConnection.DisableUser(UserTemp.Email))
+                                if (Sesion.DBConnection.DisableUser(UserTemp.Cuenta))
                                 {
                                     UsersGridView.Columns.Remove(BtnDisableColumn);
                                     UsersGridView.Columns.Remove(BtnModifyColumn);
@@ -159,7 +159,7 @@ namespace Farmacop
                         {
                             if (DialogResult.Yes == MessageBox.Show("¿Deseas habilitar el usuario " + UserTemp.Nombre + " " + UserTemp.Apellidos + " ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                             {
-                                if (Sesion.DBConnection.EnableUser(UserTemp.Email))
+                                if (Sesion.DBConnection.EnableUser(UserTemp.Cuenta))
                                 {
                                     UsersGridView.Columns.Remove(BtnEnableColumn);
                                     UsersGridView.Columns.Remove(BtnModifyColumn);
@@ -185,7 +185,7 @@ namespace Farmacop
             {
                 foreach(User Temp in ActiveUsers)
                 {
-                    if(Temp.Nombre.ToLower().Contains(txtbxName.Text.ToLower()) && Temp.Email.ToLower().Contains(txtbxEmail.Text.ToLower()) && Temp.Apellidos.ToLower().Contains(txtbxApl.Text.ToLower()))
+                    if(Temp.Nombre.ToLower().Contains(txtbxName.Text.ToLower()) && Temp.Cuenta.ToLower().Contains(txtbxAccount.Text.ToLower()) && Temp.Apellidos.ToLower().Contains(txtbxApl.Text.ToLower()))
                     {
                         FilteredUsers.Add(Temp);
                     }
@@ -195,7 +195,7 @@ namespace Farmacop
             {
                 foreach (User Temp in NonActiveUsers)
                 {
-                    if (Temp.Nombre.ToLower().Contains(txtbxName.Text.ToLower()) && Temp.Email.ToLower().Contains(txtbxEmail.Text.ToLower()) && Temp.Apellidos.ToLower().Contains(txtbxApl.Text.ToLower()))
+                    if (Temp.Nombre.ToLower().Contains(txtbxName.Text.ToLower()) && Temp.Cuenta.ToLower().Contains(txtbxAccount.Text.ToLower()) && Temp.Apellidos.ToLower().Contains(txtbxApl.Text.ToLower()))
                     {
                         FilteredUsers.Add(Temp);
                     }

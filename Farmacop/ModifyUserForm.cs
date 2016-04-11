@@ -52,7 +52,7 @@ namespace Farmacop
         {
             if (!txtName.Text.Equals("") && !txtFNac.Text.Equals("") && !txtFApl.Text.Equals("") && !txtSApl.Text.Equals(""))
             {
-                if (Sesion.DBConnection.UpdateModUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.SelectedItem.ToString(), UserToMod.Email))
+                if (Sesion.DBConnection.UpdateModUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.SelectedItem.ToString(), UserToMod.Cuenta))
                 {
                     MessageBox.Show("Usuario modificado con éxito");
                 }
@@ -112,6 +112,22 @@ namespace Farmacop
         {
             this.Controls.Remove(MyCalendar);
             txtFNac.Enabled = true;
+        }
+
+        private void txtFNac_Enter(object sender, EventArgs e)
+        {
+            MyCalendar = new MonthCalendar()
+            {
+                Left = 330,
+                Top = 110
+            };
+            MyCalendar.MouseLeave += MyCalendar_MouseLeave;
+            MyCalendar.DateSelected += MyCalendar_DateSelected;
+            MyCalendar.Leave += MyCalendar_Leave;
+            this.Controls.Add(MyCalendar);
+            MyCalendar.BringToFront();
+            MyCalendar.Focus();
+            txtFNac.Enabled = false;
         }
     }
 }

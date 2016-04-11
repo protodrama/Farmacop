@@ -44,10 +44,10 @@ namespace Farmacop
         #endregion
 
         //Obtiene las credenciales del usuario indicado
-        public string GetCredentials(string email)
+        public string GetCredentials(string account)
         {
             string data = null;
-            string sql = "select Correo,Contrasena,Tipo from Usuarios where Correo like \"" + email +"\" and Validada = 1";
+            string sql = "select Cuenta,Contrasena,Tipo from Usuarios where Cuenta like \"" + account +"\" and Validada = 1 and Conectada = 0";
 
             MySqlCommand cmd = new MySqlCommand(sql,conexion); //Comando de consulta sql
             MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
@@ -57,7 +57,7 @@ namespace Farmacop
                 {
                     try
                     {
-                        data = DataReader["Correo"].ToString() + ":" + DataReader["Contrasena"].ToString() + ":" + DataReader["Tipo"].ToString();
+                        data = DataReader["Cuenta"].ToString() + ":" + DataReader["Contrasena"].ToString() + ":" + DataReader["Tipo"].ToString();
                     }
                     catch (Exception e) { throw new Exception("Error al conectar al servidor."); }
             }
@@ -68,10 +68,10 @@ namespace Farmacop
 
         #region Usuarios
         //Obtiene los datos del usuario en cuestión
-        public string GetUserData(string email)
+        public string GetUserData(string account)
         {
             string data = null;
-            string sql = "select Correo,Contrasena,Tipo,Nombre,Apellido1,Apellido2,FechaNac from Usuarios where Correo like \"" + email + "\" and Validada = 1";
+            string sql = "select Cuenta,Contrasena,Tipo,Nombre,Apellido1,Apellido2,FechaNac from Usuarios where Cuenta like \"" + account + "\" and Validada = 1";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
             MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
@@ -82,7 +82,7 @@ namespace Farmacop
                     try
                     {
                         data = DataReader["Nombre"].ToString() + ";" + DataReader["Apellido1"].ToString() + ";" + DataReader["Apellido2"].ToString() + ";" +
-                            DataReader["Correo"].ToString() + ";" + DataReader["Contrasena"].ToString() + ";" + DataReader["FechaNac"].ToString() + ";" + DataReader["Tipo"].ToString();
+                            DataReader["Cuenta"].ToString() + ";" + DataReader["Contrasena"].ToString() + ";" + DataReader["FechaNac"].ToString() + ";" + DataReader["Tipo"].ToString();
                     }
                     catch (Exception e) { throw; }
                 }
@@ -92,9 +92,9 @@ namespace Farmacop
         }
 
         //Validada un usuario desde el formulario de activación del login
-        public bool ActivateUserWithPass(string email, string pass)
+        public bool ActivateUserWithPass(string account, string pass)
         {
-            string sql = "update Usuarios set Validada = 1, Contrasena = \"" + Sesion.StringToMD5(pass) + "\" where Correo like \"" + email + "\"";
+            string sql = "update Usuarios set Validada = 1, Contrasena = \"" + Sesion.StringToMD5(pass) + "\" where Cuenta like \"" + account + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;
@@ -104,7 +104,7 @@ namespace Farmacop
         public List<string> GetNonActiveUserEMailForRegist()
         {
             List<string> EmailList = new List<string>();
-            string sql = "select Correo from Usuarios where Validada = 0 and Tipo not like \"Paciente\"";
+            string sql = "select Cuenta from Usuarios where Validada = 0 and Tipo not like \"Paciente\"";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             MySqlDataReader DataReader = cmd.ExecuteReader();     
@@ -114,7 +114,7 @@ namespace Farmacop
                 {
                     try
                     {
-                        EmailList.Add(DataReader["Correo"].ToString());
+                        EmailList.Add(DataReader["Cuenta"].ToString());
                     }
                     catch (Exception e) { throw; }
                 }
@@ -124,46 +124,46 @@ namespace Farmacop
         }
 
         //Actualiza la contraseña de un usuario
-        public bool UpdateUserPassWord(string email, string newPass)
+        public bool UpdateUserPassWord(string account, string newPass)
         {
-            string sql = "update Usuarios set Contrasena = \"" + newPass + "\" where Correo like \""+ email +"\"";
+            string sql = "update Usuarios set Contrasena = \"" + newPass + "\" where Cuenta like \"" + account +"\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;
         }
 
         //Actualiza los datos de un usuario
-        public bool UpdateUserData(string Name, string FApl, string SApl, string FNac, string email)
+        public bool UpdateUserData(string Name, string FApl, string SApl, string FNac, string account)
         {
-            string sql = "update Usuarios set Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\' where Correo like \"" + email + "\"";
+            string sql = "update Usuarios set Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\' where Cuenta like \"" + account + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;
         }
 
         //Actualiza los datos de un usuario
-        public bool UpdateModUserData(string Name, string FApl, string SApl, string FNac,string Type, string email)
+        public bool UpdateModUserData(string Name, string FApl, string SApl, string FNac,string Type, string account)
         {
-            string sql = "update Usuarios set Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', Tipo = \'" + Type + "\' where Correo like \"" + email + "\"";
+            string sql = "update Usuarios set Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', Tipo = \'" + Type + "\' where Cuenta like \"" + account + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;
         }
 
         //Agregar un usuario
-        public bool InsertUserData(string Name, string FApl, string SApl, string FNac, string Type, string email)
+        public bool InsertUserData(string Name, string FApl, string SApl, string FNac, string Type, string account)
         {
-            string sql = "Insert into Usuarios set Correo = \"" + email + "\", Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', Tipo = \'" + Type + "\', Contrasena = \"" + Sesion.StringToMD5(email+Name+"NewUser") + "\"";
+            string sql = "Insert into Usuarios set Cuenta = \"" + account + "\", Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', Tipo = \'" + Type + "\', Contrasena = \"" + Sesion.StringToMD5(account+Name+"NewUser"+new Random().Next(100)) + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;
         }
 
         //Obtiene todos los correos de los usuarios menos el de la sesion
-        public List<string> GetAllUsersEmail()
+        public List<string> GetAllUsersNameAccount()
         {
             List<string> emails = new List<string>();
-            string sql = "select Correo from Usuarios where Validada = 1 and Correo not like \"" + Sesion.Email + "\"";
+            string sql = "select Cuenta from Usuarios where Validada = 1 and Cuenta not like \"" + Sesion.Account + "\"";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             MySqlDataReader DataReader = cmd.ExecuteReader();
@@ -173,7 +173,7 @@ namespace Farmacop
                 {
                     try
                     {
-                        emails.Add(DataReader["Correo"].ToString());
+                        emails.Add(DataReader["Cuenta"].ToString());
                     }
                     catch (Exception e) { throw; }
                 }
@@ -189,9 +189,9 @@ namespace Farmacop
             List<User> Users = new List<User>();
             string sql = "";
             if (Sesion.UserType == UserType.Admin)
-                sql = "select Correo,Nombre,Apellido1,Apellido2,FechaNac,Tipo,Deshabilitada from Usuarios where Validada = 1 and Correo not like \"" + Sesion.Email + "\"";
+                sql = "select Cuenta,Nombre,Apellido1,Apellido2,FechaNac,Tipo,Deshabilitada from Usuarios where Validada = 1 and Cuenta not like \"" + Sesion.Account + "\"";
             else
-                sql = "select Correo,Nombre,Apellido1,Apellido2,FechaNac,Tipo,Deshabilitada from Usuarios where Validada = 1 and Correo not like \"" + Sesion.Email + "\" and Tipo not like \"Admin\" and Tipo not like \"Medico\"";
+                sql = "select Cuenta,Nombre,Apellido1,Apellido2,FechaNac,Tipo,Deshabilitada from Usuarios where Validada = 1 and Cuenta not like \"" + Sesion.Account + "\" and Tipo not like \"Admin\" and Tipo not like \"Medico\"";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             MySqlDataReader DataReader = cmd.ExecuteReader();
@@ -201,7 +201,7 @@ namespace Farmacop
                 {
                     try
                     {
-                        Users.Add(new User(DataReader["Nombre"].ToString(), DataReader["Apellido1"].ToString(), DataReader["Apellido2"].ToString(), DataReader["Correo"].ToString(),
+                        Users.Add(new User(DataReader["Nombre"].ToString(), DataReader["Apellido1"].ToString(), DataReader["Apellido2"].ToString(), DataReader["Cuenta"].ToString(),
                             DateTime.Parse(DataReader["FechaNac"].ToString()).ToString("dd/MM/yyyy"), DataReader["Tipo"].ToString(), DataReader["Deshabilitada"].ToString().Equals("False")));
                     }
                     catch (Exception e) { throw; }
@@ -213,18 +213,18 @@ namespace Farmacop
         }
 
         //Disables User
-        public bool DisableUser(string email)
+        public bool DisableUser(string account)
         {
-            string sql = "update Usuarios set Deshabilitada = 1 where Correo like \"" + email + "\"";
+            string sql = "update Usuarios set Deshabilitada = 1 where Cuenta like \"" + account + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;
         }
 
         //Enables User
-        public bool EnableUser(string email)
+        public bool EnableUser(string account)
         {
-            string sql = "update Usuarios set Deshabilitada = 0 where Correo like \"" + email + "\"";
+            string sql = "update Usuarios set Deshabilitada = 0 where Cuenta like \"" + account + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;
@@ -277,6 +277,16 @@ namespace Farmacop
             return qr > 0;
         }
 
+        //Modifica el tipo de un medicamento
+        public bool UpdateTypeMedicament(string name, string type)
+        {
+            string sql = "update Medicamentos set Tipo = \"" + type + "\" where Nombre like \"" + name + "\"";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
+        }
+
+
         //Modifica un medicamento
         public bool UpdateMedicament(string oldname, string newname, string type)
         {
@@ -289,10 +299,10 @@ namespace Farmacop
 
         #region Mensajes
         //Obtiene los mensajes enviados
-        public List<Message> GetAllSendedMessages(string email)
+        public List<Message> GetAllSendedMessages(string account)
         {
             List<Message> LMessages = new List<Message>();
-            string sql = "select ID, Correo_Envia, Correo_Recibe, Asunto, Mensaje, Leido from Mensajes where Correo_Envia like \'" + email + "\' order by ID DESC";
+            string sql = "select ID, Cuenta_Envia, Cuenta_Recibe, Asunto, Mensaje, Leido from Mensajes where Cuenta_Envia like \'" + account + "\' order by ID DESC";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             MySqlDataReader DataReader = cmd.ExecuteReader();
@@ -302,7 +312,7 @@ namespace Farmacop
                 {
                     try
                     {
-                        LMessages.Add(new Message(int.Parse(DataReader["ID"].ToString()), DataReader["Correo_Envia"].ToString(), DataReader["Correo_Recibe"].ToString(),
+                        LMessages.Add(new Message(int.Parse(DataReader["ID"].ToString()), DataReader["Cuenta_Envia"].ToString(), DataReader["Cuenta_Recibe"].ToString(),
                         DataReader["Asunto"].ToString(), DataReader["Mensaje"].ToString(), DataReader["Leido"].ToString().Equals("True")));
                     }
                     catch (Exception e) { throw; }
@@ -312,10 +322,10 @@ namespace Farmacop
             return LMessages;
         }
         //Obtiene los mensajes recibidos
-        public List<Message> GetAllReceivedMessages(string email)
+        public List<Message> GetAllReceivedMessages(string account)
         {
             List<Message> LMessages = new List<Message>();
-            string sql = "select ID, Correo_Envia, Correo_Recibe, Asunto, Mensaje, Leido from Mensajes where Correo_Recibe like \'" + email + "\' order by ID DESC";
+            string sql = "select ID, Cuenta_Envia, Cuenta_Recibe, Asunto, Mensaje, Leido from Mensajes where Cuenta_Recibe like \'" + account + "\' order by ID DESC";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             MySqlDataReader DataReader = cmd.ExecuteReader();
@@ -325,7 +335,7 @@ namespace Farmacop
                 {
                     try
                     {
-                        LMessages.Add(new Message(int.Parse(DataReader["ID"].ToString()), DataReader["Correo_Envia"].ToString(), DataReader["Correo_Recibe"].ToString(),
+                        LMessages.Add(new Message(int.Parse(DataReader["ID"].ToString()), DataReader["Cuenta_Envia"].ToString(), DataReader["Cuenta_Recibe"].ToString(),
                             DataReader["Asunto"].ToString(), DataReader["Mensaje"].ToString(), DataReader["Leido"].ToString().Equals("True")));
                     }
                     catch(Exception e) { throw; }
@@ -345,7 +355,7 @@ namespace Farmacop
         //Insertar mensaje
         public bool InsertMsg(string Sender, string Receiver, string Matter, string Message)
         {
-            string sql = "insert into Mensajes (Correo_Envia, Correo_Recibe, Asunto, Mensaje) values (\"" + Sender + "\",\"" + Receiver + "\",\"" + Matter + "\",\"" + Message + "\")";
+            string sql = "insert into Mensajes (Cuenta_Envia, Cuenta_Recibe, Asunto, Mensaje) values (\"" + Sender + "\",\"" + Receiver + "\",\"" + Matter + "\",\"" + Message + "\")";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;

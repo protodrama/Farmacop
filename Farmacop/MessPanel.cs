@@ -29,12 +29,13 @@ namespace Farmacop
         {
             try
             {
-                Sesion.ReceivedMessages = Sesion.DBConnection.GetAllReceivedMessages(Sesion.Email);
-                Sesion.SendedMessages = Sesion.DBConnection.GetAllSendedMessages(Sesion.Email);
+                Sesion.ReceivedMessages = Sesion.DBConnection.GetAllReceivedMessages(Sesion.Account);
+                Sesion.SendedMessages = Sesion.DBConnection.GetAllSendedMessages(Sesion.Account);
                 if (ShowingReceibedMessages)
                 {
                     if (ShowingReadedMessages)
                     {
+                        lblInfo.Text = "Mostrando mensajes recibidos y leídos";
                         ReceivedReadedMessages = new List<Message>();
                         foreach (Message tmp in Sesion.ReceivedMessages)
                         {
@@ -45,6 +46,7 @@ namespace Farmacop
                     }
                     else
                     {
+                        lblInfo.Text = "Mostrando mensajes recibidos";
                         ReceivedNonReadedMessages = new List<Message>();
                         foreach (Message tmp in Sesion.ReceivedMessages)
                         {
@@ -56,6 +58,7 @@ namespace Farmacop
                 }
                 else
                 {
+                    lblInfo.Text = "Mostrando mensajes enviados";
                     MessGridView.DataSource = Sesion.SendedMessages;
                 }
             }

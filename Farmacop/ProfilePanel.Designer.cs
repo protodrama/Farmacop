@@ -42,7 +42,7 @@
             this.lblApl2 = new System.Windows.Forms.Label();
             this.lblApl1 = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
-            this.lblEmail = new System.Windows.Forms.Label();
+            this.lblAccount = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -148,7 +148,7 @@
             this.grpUserData.Controls.Add(this.lblApl2);
             this.grpUserData.Controls.Add(this.lblApl1);
             this.grpUserData.Controls.Add(this.lblName);
-            this.grpUserData.Controls.Add(this.lblEmail);
+            this.grpUserData.Controls.Add(this.lblAccount);
             this.grpUserData.Controls.Add(this.label6);
             this.grpUserData.Controls.Add(this.label5);
             this.grpUserData.Controls.Add(this.label4);
@@ -203,13 +203,13 @@
             this.lblName.TabIndex = 7;
             this.lblName.Text = " ";
             // 
-            // lblEmail
+            // lblAccount
             // 
-            this.lblEmail.AutoSize = true;
-            this.lblEmail.Location = new System.Drawing.Point(157, 231);
-            this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(0, 13);
-            this.lblEmail.TabIndex = 6;
+            this.lblAccount.AutoSize = true;
+            this.lblAccount.Location = new System.Drawing.Point(157, 231);
+            this.lblAccount.Name = "lblAccount";
+            this.lblAccount.Size = new System.Drawing.Size(0, 13);
+            this.lblAccount.TabIndex = 6;
             // 
             // label6
             // 
@@ -259,11 +259,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(110, 231);
+            this.label1.Location = new System.Drawing.Point(53, 231);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.Size = new System.Drawing.Size(98, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Correo:";
+            this.label1.Text = "Nombre de cuenta:";
             // 
             // groupBox1
             // 
@@ -400,7 +400,7 @@
         private System.Windows.Forms.Label lblApl2;
         private System.Windows.Forms.Label lblApl1;
         private System.Windows.Forms.Label lblName;
-        private System.Windows.Forms.Label lblEmail;
+        private System.Windows.Forms.Label lblAccount;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;

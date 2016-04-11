@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormP));
             this.pctbxFarmacop = new System.Windows.Forms.PictureBox();
             this.lblIniciarSesion = new System.Windows.Forms.Label();
-            this.tbxEmail = new System.Windows.Forms.TextBox();
+            this.tbxAccount = new System.Windows.Forms.TextBox();
             this.tbxPass = new System.Windows.Forms.TextBox();
             this.btnEntrar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -61,13 +61,13 @@
             this.lblIniciarSesion.TabIndex = 1;
             this.lblIniciarSesion.Text = "Iniciar sesión";
             // 
-            // tbxEmail
+            // tbxAccount
             // 
-            this.tbxEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxEmail.Location = new System.Drawing.Point(619, 242);
-            this.tbxEmail.Name = "tbxEmail";
-            this.tbxEmail.Size = new System.Drawing.Size(220, 26);
-            this.tbxEmail.TabIndex = 1;
+            this.tbxAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbxAccount.Location = new System.Drawing.Point(619, 242);
+            this.tbxAccount.Name = "tbxAccount";
+            this.tbxAccount.Size = new System.Drawing.Size(220, 26);
+            this.tbxAccount.TabIndex = 1;
             // 
             // tbxPass
             // 
@@ -95,9 +95,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(619, 223);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(96, 13);
+            this.label1.Size = new System.Drawing.Size(98, 13);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Correo electrónico:";
+            this.label1.Text = "Nombre de cuenta:";
             // 
             // label2
             // 
@@ -121,7 +121,7 @@
             this.lnkNewUser.UseCompatibleTextRendering = true;
             this.lnkNewUser.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkNewUser_LinkClicked);
             // 
-            // Form
+            // FormP
             // 
             this.AcceptButton = this.btnEntrar;
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
@@ -133,12 +133,12 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnEntrar);
             this.Controls.Add(this.tbxPass);
-            this.Controls.Add(this.tbxEmail);
+            this.Controls.Add(this.tbxAccount);
             this.Controls.Add(this.lblIniciarSesion);
             this.Controls.Add(this.pctbxFarmacop);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form";
+            this.Name = "FormP";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Farmacop";
             this.Resize += new System.EventHandler(this.Formulario_Resize);
@@ -152,7 +152,7 @@
 
         private System.Windows.Forms.PictureBox pctbxFarmacop;
         private System.Windows.Forms.Label lblIniciarSesion;
-        private System.Windows.Forms.TextBox tbxEmail;
+        private System.Windows.Forms.TextBox tbxAccount;
         private System.Windows.Forms.TextBox tbxPass;
         private System.Windows.Forms.Button btnEntrar;
         private System.Windows.Forms.Label label1;
