@@ -14,6 +14,7 @@ namespace Farmacop
         private string _fechaN;
         private string _tipo;
         private bool _habilitado;
+        private List<string> _alergias;
 
         public string Nombre
         {
@@ -88,6 +89,19 @@ namespace Farmacop
             }
         }
 
+        public List<string> Alergias
+        {
+            get
+            {
+                return _alergias;
+            }
+
+            set
+            {
+                _alergias = value;
+            }
+        }
+
         public User() { }
 
         public User(string name, string surname,string ssurname, string email, string birthDate, string type, bool enabled)
@@ -114,6 +128,14 @@ namespace Farmacop
         public string GetSApl()
         {
             return _sapellido;
+        }
+
+        public List<Alergia> GetAlgList()
+        {
+            List<Alergia> AlgList = new List<Alergia>();
+            foreach (string alg in Alergias)
+                AlgList.Add(new Alergia(alg));
+            return AlgList;
         }
     }
 }

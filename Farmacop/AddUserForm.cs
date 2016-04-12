@@ -23,6 +23,7 @@ namespace Farmacop
                 ComboboxType.Items.Clear();
                 ComboboxType.Items.Add("Paciente");
             }
+            AddAlgComboBox();
         }
 
         public void GetData()
@@ -48,6 +49,16 @@ namespace Farmacop
                     {
                         if (Sesion.DBConnection.InsertUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.Text, txtAccount.Text))
                         {
+                            foreach (Control Ctemp in algContainer.Controls)
+                            {
+                                if (Ctemp is AlgControl)
+                                {
+                                    if (((AlgControl)Ctemp).Text.Equals(""))
+                                        continue;
+                                    else
+                                        Sesion.DBConnection.InsertAlg(txtAccount.Text, ((AlgControl)Ctemp).Text);
+                                }
+                            }
                             MessageBox.Show("Usuario insertado correctamente.");
                             this.Close();
                         }
@@ -149,6 +160,33 @@ namespace Farmacop
             mCalendar.BringToFront();
             mCalendar.Focus();
             txtFNac.Enabled = false;
+        }
+
+        private void btnAddAlg_Click(object sender, EventArgs e)
+        {
+            AddAlgComboBox();
+        }
+
+        private void AddAlgComboBox()
+        {
+            Sesion.MedList = Sesion.DBConnection.GetAllMedicaments();
+            List<string> MedNames = new List<string>();
+
+            foreach (Medicament temp in Sesion.MedList)
+                MedNames.Add(temp.Nombre);
+
+            foreach (Control Ctemp in algContainer.Controls)
+            {
+                if (Ctemp is AlgControl){
+                    if (((AlgControl)Ctemp).Text.Equals(""))
+                        return;
+                    if (MedNames.Contains(((AlgControl)Ctemp).Text))
+                        MedNames.Remove(((AlgControl)Ctemp).Text);
+                }
+            }
+
+            algContainer.Controls.Add(new AlgControl(MedNames.ToArray()));
+
         }
     }
 }

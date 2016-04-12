@@ -13,6 +13,7 @@ namespace Farmacop
     {
         User UserToMod;
         MonthCalendar MyCalendar;
+        List<string> algDeleted = new List<string>();
 
         public ModifyUserForm()
         {
@@ -35,12 +36,21 @@ namespace Farmacop
                     ComboboxType.SelectedItem = "Medico";
                 if (UserToMod.Tipo.Equals("Paciente"))
                     ComboboxType.SelectedItem = "Paciente";
-                
+                UserToMod.Alergias = Sesion.DBConnection.GetUserAlg(UserToMod.Cuenta);
+                AlgDataGrid.DataSource = UserToMod.GetAlgList();
+                AlgDataGrid.ColumnHeadersDefaultCellStyle.BackColor = Color.LightBlue;
+                AlgDataGrid.EnableHeadersVisualStyles = false;
+                DataGridViewButtonColumn BtnDeleteColumn = new DataGridViewButtonColumn()
+                {
+                    Name = "Delete",
+                    HeaderText = "Eliminar",
+                    Text = "Eliminar",
+                    UseColumnTextForButtonValue = true
+                };
+                AlgDataGrid.Columns.Add(BtnDeleteColumn);
+                AddAlgComboBox();
             }
-            catch (Exception e)
-            {
-
-            }
+            catch (Exception e) { }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -54,6 +64,21 @@ namespace Farmacop
             {
                 if (Sesion.DBConnection.UpdateModUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.SelectedItem.ToString(), UserToMod.Cuenta))
                 {
+                    if(algDeleted.Count > 0)
+                    {
+                        foreach (string alg in algDeleted)
+                            Sesion.DBConnection.DeleteAlg(UserToMod.Cuenta, alg);
+                    }
+                    foreach (Control Ctemp in algContainer.Controls)
+                    {
+                        if (Ctemp is AlgControl)
+                        {
+                            if (((AlgControl)Ctemp).Text.Equals(""))
+                                continue;
+                            else
+                                Sesion.DBConnection.InsertAlg(UserToMod.Cuenta, ((AlgControl)Ctemp).Text);
+                        }
+                    }
                     MessageBox.Show("Usuario modificado con éxito");
                 }
             }
@@ -128,6 +153,48 @@ namespace Farmacop
             MyCalendar.BringToFront();
             MyCalendar.Focus();
             txtFNac.Enabled = false;
+        }
+
+        private void AddAlgComboBox()
+        {
+            Sesion.MedList = Sesion.DBConnection.GetAllMedicaments();
+            List<string> MedNames = new List<string>();
+
+            foreach (Medicament temp in Sesion.MedList)
+                if(!UserToMod.Alergias.Contains(temp.Nombre))
+                    MedNames.Add(temp.Nombre);
+
+            foreach (Control Ctemp in algContainer.Controls)
+            {
+                if (Ctemp is AlgControl)
+                {
+                    if (((AlgControl)Ctemp).Text.Equals(""))
+                        return;
+                    if (MedNames.Contains(((AlgControl)Ctemp).Text))
+                        MedNames.Remove(((AlgControl)Ctemp).Text);
+                }
+            }
+
+            algContainer.Controls.Add(new AlgControl(MedNames.ToArray()));
+
+        }
+
+        private void btnAddAlg_Click(object sender, EventArgs e)
+        {
+            AddAlgComboBox();
+        }
+
+        private void AlgDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (AlgDataGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
+            {
+                if(DialogResult.Yes == MessageBox.Show("¿Desea eliminar la alergia del usuario?","Eliminando", MessageBoxButtons.YesNo,MessageBoxIcon.Question))
+                {
+                    algDeleted.Add(UserToMod.Alergias[e.RowIndex]);
+                    UserToMod.Alergias.Remove(UserToMod.Alergias[e.RowIndex]);
+                    AlgDataGrid.DataSource = UserToMod.GetAlgList();
+                }
+            }
         }
     }
 }

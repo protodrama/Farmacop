@@ -92,6 +92,13 @@
     <Compile Include="AddUserForm.Designer.cs">
       <DependentUpon>AddUserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Alergia.cs" />
+    <Compile Include="AlgControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AlgControl.Designer.cs">
+      <DependentUpon>AlgControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAO.cs" />
     <Compile Include="FormP.cs">
       <SubType>Form</SubType>
@@ -161,6 +168,9 @@
     </Compile>
     <EmbeddedResource Include="AddUserForm.resx">
       <DependentUpon>AddUserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AlgControl.resx">
+      <DependentUpon>AlgControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormP.resx">
       <DependentUpon>FormP.cs</DependentUpon>

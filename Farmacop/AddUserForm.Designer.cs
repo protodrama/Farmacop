@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.SplitContainer splAlg;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddUserForm));
             this.ComboboxType = new System.Windows.Forms.ComboBox();
             this.lblType = new System.Windows.Forms.Label();
@@ -43,6 +44,17 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtAccount = new System.Windows.Forms.TextBox();
+            this.GpxAlg = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnAddAlg = new System.Windows.Forms.Button();
+            this.algContainer = new System.Windows.Forms.FlowLayoutPanel();
+            splAlg = new System.Windows.Forms.SplitContainer();
+            this.GpxAlg.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(splAlg)).BeginInit();
+            splAlg.Panel1.SuspendLayout();
+            splAlg.Panel2.SuspendLayout();
+            splAlg.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // ComboboxType
@@ -103,7 +115,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(251, 288);
+            this.btnCancel.Location = new System.Drawing.Point(342, 291);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(129, 23);
             this.btnCancel.TabIndex = 7;
@@ -113,7 +125,7 @@
             // 
             // btnAccept
             // 
-            this.btnAccept.Location = new System.Drawing.Point(92, 288);
+            this.btnAccept.Location = new System.Drawing.Point(184, 291);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(129, 23);
             this.btnAccept.TabIndex = 6;
@@ -169,12 +181,72 @@
             this.txtAccount.Size = new System.Drawing.Size(287, 20);
             this.txtAccount.TabIndex = 0;
             // 
+            // GpxAlg
+            // 
+            this.GpxAlg.Controls.Add(splAlg);
+            this.GpxAlg.Location = new System.Drawing.Point(474, 12);
+            this.GpxAlg.Name = "GpxAlg";
+            this.GpxAlg.Size = new System.Drawing.Size(176, 247);
+            this.GpxAlg.TabIndex = 46;
+            this.GpxAlg.TabStop = false;
+            this.GpxAlg.Text = "Alergias";
+            // 
+            // splAlg
+            // 
+            splAlg.Dock = System.Windows.Forms.DockStyle.Fill;
+            splAlg.Location = new System.Drawing.Point(3, 16);
+            splAlg.Margin = new System.Windows.Forms.Padding(0);
+            splAlg.Name = "splAlg";
+            splAlg.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splAlg.Panel1
+            // 
+            splAlg.Panel1.Controls.Add(this.algContainer);
+            // 
+            // splAlg.Panel2
+            // 
+            splAlg.Panel2.Controls.Add(this.panel1);
+            splAlg.Size = new System.Drawing.Size(170, 228);
+            splAlg.SplitterDistance = 200;
+            splAlg.SplitterWidth = 1;
+            splAlg.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnAddAlg);
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(170, 40);
+            this.panel1.TabIndex = 0;
+            // 
+            // btnAddAlg
+            // 
+            this.btnAddAlg.Location = new System.Drawing.Point(42, 3);
+            this.btnAddAlg.Name = "btnAddAlg";
+            this.btnAddAlg.Size = new System.Drawing.Size(99, 23);
+            this.btnAddAlg.TabIndex = 0;
+            this.btnAddAlg.Text = "Agregar";
+            this.btnAddAlg.UseVisualStyleBackColor = true;
+            this.btnAddAlg.Click += new System.EventHandler(this.btnAddAlg_Click);
+            // 
+            // algContainer
+            // 
+            this.algContainer.AutoScroll = true;
+            this.algContainer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.algContainer.Location = new System.Drawing.Point(3, 0);
+            this.algContainer.Name = "algContainer";
+            this.algContainer.Size = new System.Drawing.Size(164, 198);
+            this.algContainer.TabIndex = 0;
+            this.algContainer.WrapContents = false;
+            // 
             // AddUserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(475, 338);
+            this.ClientSize = new System.Drawing.Size(662, 338);
             this.ControlBox = false;
+            this.Controls.Add(this.GpxAlg);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtAccount);
             this.Controls.Add(this.ComboboxType);
@@ -194,6 +266,12 @@
             this.Name = "AddUserForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Agregar usuario";
+            this.GpxAlg.ResumeLayout(false);
+            splAlg.Panel1.ResumeLayout(false);
+            splAlg.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(splAlg)).EndInit();
+            splAlg.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -215,5 +293,9 @@
         public System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.TextBox txtAccount;
+        private System.Windows.Forms.GroupBox GpxAlg;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button btnAddAlg;
+        private System.Windows.Forms.FlowLayoutPanel algContainer;
     }
 }

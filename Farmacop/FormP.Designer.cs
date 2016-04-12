@@ -141,6 +141,7 @@
             this.Name = "FormP";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Farmacop";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormP_FormClosing);
             this.Resize += new System.EventHandler(this.Formulario_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pctbxFarmacop)).EndInit();
             this.ResumeLayout(false);

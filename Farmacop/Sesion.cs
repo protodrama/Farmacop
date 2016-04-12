@@ -47,12 +47,12 @@ namespace Farmacop
         #region Static Methods
         static public bool Connect()
         {
-            return DBConnection.Conectar(HOST, DB, USER, PASS);
+            return DBConnection.Connect(HOST, DB, USER, PASS);
         }
 
         static public void Disconnect()
         {
-            DBConnection.Desconectar();
+            DBConnection.Disconnect();
         }
 
         static public string StringToMD5(string value)

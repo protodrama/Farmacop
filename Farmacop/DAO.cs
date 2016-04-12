@@ -12,9 +12,23 @@ namespace Farmacop
     {
         //Conexión a base de datos MySql
         private MySqlConnection conexion;
+        private bool _connected;
 
         #region Conexion y desconexion
-        public bool Conectar(string srv, string db, string user, string pwd)
+        public bool IsConnected
+        {
+            get
+            {
+                return _connected;
+            }
+
+            set
+            {
+                _connected = value;
+            }
+        }
+
+        public bool Connect(string srv, string db, string user, string pwd)
         {
             string cadenaConexion = "server=" + srv + "; Port=3306; database=" + db + "; "
                 + "userid=" + user + "; " + "pwd=" + pwd + ";";
@@ -22,6 +36,7 @@ namespace Farmacop
             {
                 conexion = new MySqlConnection(cadenaConexion);
                 conexion.Open(); //conexión habilitada
+                IsConnected = true;
                 return true;
             }
             catch (MySqlException ex)
@@ -36,23 +51,25 @@ namespace Farmacop
             }
         } 
 
-        public void Desconectar()
+        public void Disconnect()
         {
             conexion.Close();
+            IsConnected = false;
             conexion = null;
         }
         #endregion
 
+        #region Usuarios
         //Obtiene las credenciales del usuario indicado
         public string GetCredentials(string account)
         {
             string data = null;
-            string sql = "select Cuenta,Contrasena,Tipo from Usuarios where Cuenta like \"" + account +"\" and Validada = 1 and Conectada = 0";
+            string sql = "select Cuenta,Contrasena,Tipo from Usuarios where Cuenta like \"" + account + "\" and Validada = 1 and Conectada = 0";
 
-            MySqlCommand cmd = new MySqlCommand(sql,conexion); //Comando de consulta sql
+            MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
             MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
 
-            if(DataReader.HasRows)  //Si tiene filas lee el contenido y devuelve las credenciales
+            if (DataReader.HasRows)  //Si tiene filas lee el contenido y devuelve las credenciales
                 while (DataReader.Read())
                 {
                     try
@@ -60,13 +77,30 @@ namespace Farmacop
                         data = DataReader["Cuenta"].ToString() + ":" + DataReader["Contrasena"].ToString() + ":" + DataReader["Tipo"].ToString();
                     }
                     catch (Exception e) { throw new Exception("Error al conectar al servidor."); }
-            }
+                }
 
             DataReader.Close();
             return data;
         }
 
-        #region Usuarios
+        //Actualiza la conexion a true
+        public bool UserConnect(string account)
+        {
+            string sql = "update Usuarios set Conectada = 1 where Cuenta like \"" + account + "\"";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
+        }
+
+        //Actualiza la conexion a true
+        public bool UserDisconnect(string account)
+        {
+            string sql = "update Usuarios set Conectada = 0 where Cuenta like \"" + account + "\"";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
+        }
+
         //Obtiene los datos del usuario en cuestión
         public string GetUserData(string account)
         {
@@ -286,7 +320,6 @@ namespace Farmacop
             return qr > 0;
         }
 
-
         //Modifica un medicamento
         public bool UpdateMedicament(string oldname, string newname, string type)
         {
@@ -295,6 +328,48 @@ namespace Farmacop
             int qr = cmd.ExecuteNonQuery();
             return qr > 0;
         }
+        #endregion
+
+        #region Alergias
+
+        //Insertar alergia para un usuario
+        public bool InsertAlg(string account, string medicament)
+        {
+            string sql = "insert into Alergias values (\"" + account + "\", (select ID from Medicamentos where Nombre like \"" + medicament + "\"))";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
+        }
+
+        //Eliminar alergia para un usuario
+        public bool DeleteAlg(string account, string medicament)
+        {
+            string sql = "delete from Alergias where Cuenta like \"" + account + "\" and ID_Medicamento = (select ID from Medicamentos where Nombre like \"" + medicament + "\")";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+            return qr > 0;
+        }
+
+        public List<string> GetUserAlg(string account)
+        {
+            List<string> AlgList = new List<string>();
+            string sql = "select Nombre from Medicamentos where ID in (select ID_Medicamento from Alergias where Cuenta like '" + account + "')";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
+            MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
+
+            if (DataReader.HasRows)
+            {
+                while (DataReader.Read())
+                {
+                    AlgList.Add(DataReader.GetString("Nombre"));
+                }
+            }
+
+            DataReader.Close();
+            return AlgList;
+        }
+
         #endregion
 
         #region Mensajes

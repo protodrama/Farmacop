@@ -97,6 +97,7 @@ namespace Farmacop
                                         this.Controls.Clear();
                                         PPage = new PrincipalPage();
                                         this.Controls.Add(PPage);
+                                        //Sesion.DBConnection.UserConnect(Sesion.Account);
                                         PPage.ExitPressed += PPage_ExitPressed;
                                     }
                                     catch(Exception e)
@@ -155,10 +156,10 @@ namespace Farmacop
             return Cripto.ToString().Equals(original);
         }
 
-        private void GetUserData(string email)
+        private void GetUserData(string account)
         {
             try {
-                string data = Sesion.DBConnection.GetUserData(email);
+                string data = Sesion.DBConnection.GetUserData(account);
                 string[] dataValues = data.Split(';');
 
                 Sesion.Name = dataValues[0];
@@ -177,8 +178,16 @@ namespace Farmacop
                 throw new Exception("Error al obtener los datos del usuario. Consulte con el administrador");
             }
         }
+
         #endregion
 
-
+        private void FormP_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Sesion.DBConnection.IsConnected)
+            {
+                Sesion.DBConnection.UserDisconnect(Sesion.Account);
+                Sesion.DBConnection.Disconnect();
+            }
+        }
     }
 }
