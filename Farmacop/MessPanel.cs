@@ -35,7 +35,7 @@ namespace Farmacop
                 {
                     if (ShowingReadedMessages)
                     {
-                        lblInfo.Text = "Mostrando mensajes recibidos y leídos";
+                        lblInfo.Text = "Mostrando mensajes recibidos leídos";
                         ReceivedReadedMessages = new List<Message>();
                         foreach (Message tmp in Sesion.ReceivedMessages)
                         {
@@ -78,7 +78,7 @@ namespace Farmacop
                 tmp.Width *= 2;
                 size += tmp.Width;
             }
-            MessGridView.Width = size + 3;
+            MessGridView.Width = size + 15;
             MessGridView.Left = this.Width / 2 - MessGridView.Width / 2;
         }
 
@@ -116,6 +116,57 @@ namespace Farmacop
         {
             new NewMsgForm().ShowDialog();
             GetData();
+        }
+
+        private void btnFilter_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Sesion.ReceivedMessages = Sesion.DBConnection.GetAllReceivedMessages(Sesion.Account);
+                Sesion.SendedMessages = Sesion.DBConnection.GetAllSendedMessages(Sesion.Account);
+                if (ShowingReceibedMessages)
+                {
+                    if (ShowingReadedMessages)
+                    {
+                        lblInfo.Text = "Mostrando mensajes recibidos leídos";
+                        ReceivedReadedMessages = new List<Message>();
+                        foreach (Message tmp in Sesion.ReceivedMessages)
+                        {
+                            if (tmp.IsReaded() && tmp.Emisor.ToLower().Contains(txtEnvia.Text.ToLower()) && tmp.Receptor.ToLower().Contains(txtRecibe.Text.ToLower()))
+                                ReceivedReadedMessages.Add(tmp);
+                        }
+                        MessGridView.DataSource = ReceivedReadedMessages;
+                    }
+                    else
+                    {
+                        lblInfo.Text = "Mostrando mensajes recibidos";
+                        ReceivedNonReadedMessages = new List<Message>();
+                        foreach (Message tmp in Sesion.ReceivedMessages)
+                        {
+                            if (!tmp.IsReaded() && tmp.Emisor.ToLower().Contains(txtEnvia.Text.ToLower()) && tmp.Receptor.ToLower().Contains(txtRecibe.Text.ToLower()))
+                                ReceivedNonReadedMessages.Add(tmp);
+                        }
+                        MessGridView.DataSource = ReceivedNonReadedMessages;
+                    }
+                }
+                else
+                {
+                    lblInfo.Text = "Mostrando mensajes enviados";
+                    List<Message> filtered = new List<Message>();
+                    foreach (Message tmp in Sesion.SendedMessages)
+                    {
+                        if (tmp.Emisor.ToLower().Contains(txtEnvia.Text.ToLower()) && tmp.Receptor.ToLower().Contains(txtRecibe.Text.ToLower()))
+                            filtered.Add(tmp);
+                    }
+                    MessGridView.DataSource = filtered;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener los mensajes. Consulte al administrador.\n " + ex.Message);
+            }
+            MessGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.LightBlue;
+            MessGridView.EnableHeadersVisualStyles = false;
         }
     }
 }

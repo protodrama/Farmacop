@@ -43,7 +43,7 @@ namespace Farmacop
         {
             if (CheckEmail())
             {
-                if (!txtMatter.Text.Equals("") && !txtMsg.Text.Equals("") && !txtReceiver.Text.Equals(""))
+                if (!txtMatter.Text.Trim().Equals("") && !txtMsg.Text.Trim().Equals("") && !txtReceiver.Text.Trim().Equals(""))
                 {
                     if (Sesion.DBConnection.InsertMsg(Sesion.Account, txtReceiver.Text, txtMatter.Text, txtMsg.Text))
                     {

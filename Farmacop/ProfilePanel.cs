@@ -78,41 +78,43 @@ namespace Farmacop
         {
             string Name, FApl, SApl, FNac;
 
-            if (txtbxName.Text.Equals(""))
+            if (txtbxName.Text.Trim().Equals(""))
                 Name = Sesion.Name;
             else
                 Name = txtbxName.Text;
 
-            if (txtbxFApl.Text.Equals(""))
+            if (txtbxFApl.Text.Trim().Equals(""))
                 FApl = Sesion.FirstSurname;
             else
                 FApl = txtbxFApl.Text;
 
-            if (txtbxSApl.Text.Equals(""))
+            if (txtbxSApl.Text.Trim().Equals(""))
                 SApl = Sesion.SecondSurname;
             else
                 SApl = txtbxSApl.Text;
 
-            if (txtbxFNac.Text.Equals(""))
+            if (txtbxFNac.Text.Trim().Equals(""))
                 FNac = DateTime.Parse(Sesion.FNac).ToString("yyyy-MM-dd");
             else
                 FNac = DateTime.Parse(txtbxFNac.Text).ToString("yyyy-MM-dd");
-
-            if (Sesion.DBConnection.UpdateUserData(Name, FApl, SApl, FNac, Sesion.Account))
+            if (!Name.Equals(Sesion.Name) || !FApl.Equals(Sesion.FirstSurname) || !SApl.Equals(Sesion.SecondSurname) || !FNac.Equals(DateTime.Parse(Sesion.FNac).ToString("yyyy-MM-dd")))
             {
-                MessageBox.Show("Datos actualizados con éxito");
-                Sesion.Name = Name;
-                Sesion.FirstSurname = FApl;
-                Sesion.SecondSurname = SApl;
-                Sesion.FNac = DateTime.Parse(FNac).ToString("dd/MM/yyyy"); ;
-                Inicialize();
-                txtbxFApl.Text = "";
-                txtbxFNac.Text = "";
-                txtbxName.Text = "";
-                txtbxSApl.Text = "";
+                if (Sesion.DBConnection.UpdateUserData(Name, FApl, SApl, FNac, Sesion.Account))
+                {
+                    MessageBox.Show("Datos actualizados con éxito");
+                    Sesion.Name = Name;
+                    Sesion.FirstSurname = FApl;
+                    Sesion.SecondSurname = SApl;
+                    Sesion.FNac = DateTime.Parse(FNac).ToString("dd/MM/yyyy"); ;
+                    Inicialize();
+                    txtbxFApl.Text = "";
+                    txtbxFNac.Text = "";
+                    txtbxName.Text = "";
+                    txtbxSApl.Text = "";
+                }
+                else
+                    MessageBox.Show("Error al actualizar los datos");
             }
-            else
-                MessageBox.Show("Error al actualizar los datos");
         }
 
         private void MCalendar_MouseLeave(object sender, EventArgs e)

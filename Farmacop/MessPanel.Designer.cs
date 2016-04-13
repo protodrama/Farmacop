@@ -33,7 +33,14 @@
             this.chbxReaded = new System.Windows.Forms.CheckBox();
             this.btnNewMsg = new System.Windows.Forms.Button();
             this.lblInfo = new System.Windows.Forms.Label();
+            this.grpxFiltrar = new System.Windows.Forms.GroupBox();
+            this.btnFilter = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtEnvia = new System.Windows.Forms.TextBox();
+            this.txtRecibe = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.MessGridView)).BeginInit();
+            this.grpxFiltrar.SuspendLayout();
             this.SuspendLayout();
             // 
             // MessGridView
@@ -101,10 +108,67 @@
             this.lblInfo.TabIndex = 7;
             this.lblInfo.Text = "Mostrando mensajes recibidos";
             // 
+            // grpxFiltrar
+            // 
+            this.grpxFiltrar.Controls.Add(this.txtRecibe);
+            this.grpxFiltrar.Controls.Add(this.txtEnvia);
+            this.grpxFiltrar.Controls.Add(this.label2);
+            this.grpxFiltrar.Controls.Add(this.label1);
+            this.grpxFiltrar.Controls.Add(this.btnFilter);
+            this.grpxFiltrar.Location = new System.Drawing.Point(365, 30);
+            this.grpxFiltrar.Name = "grpxFiltrar";
+            this.grpxFiltrar.Size = new System.Drawing.Size(453, 72);
+            this.grpxFiltrar.TabIndex = 8;
+            this.grpxFiltrar.TabStop = false;
+            this.grpxFiltrar.Text = "Filtro";
+            // 
+            // btnFilter
+            // 
+            this.btnFilter.Location = new System.Drawing.Point(358, 31);
+            this.btnFilter.Name = "btnFilter";
+            this.btnFilter.Size = new System.Drawing.Size(75, 23);
+            this.btnFilter.TabIndex = 0;
+            this.btnFilter.Text = "Filtrar";
+            this.btnFilter.UseVisualStyleBackColor = true;
+            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(29, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(37, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Envia:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(187, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(44, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Recibe:";
+            // 
+            // txtEnvia
+            // 
+            this.txtEnvia.Location = new System.Drawing.Point(32, 33);
+            this.txtEnvia.Name = "txtEnvia";
+            this.txtEnvia.Size = new System.Drawing.Size(137, 20);
+            this.txtEnvia.TabIndex = 3;
+            // 
+            // txtRecibe
+            // 
+            this.txtRecibe.Location = new System.Drawing.Point(190, 33);
+            this.txtRecibe.Name = "txtRecibe";
+            this.txtRecibe.Size = new System.Drawing.Size(137, 20);
+            this.txtRecibe.TabIndex = 4;
+            // 
             // MessPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.grpxFiltrar);
             this.Controls.Add(this.lblInfo);
             this.Controls.Add(this.btnNewMsg);
             this.Controls.Add(this.chbxReaded);
@@ -113,6 +177,8 @@
             this.Name = "MessPanel";
             this.Size = new System.Drawing.Size(989, 800);
             ((System.ComponentModel.ISupportInitialize)(this.MessGridView)).EndInit();
+            this.grpxFiltrar.ResumeLayout(false);
+            this.grpxFiltrar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -125,5 +191,11 @@
         private System.Windows.Forms.CheckBox chbxReaded;
         private System.Windows.Forms.Button btnNewMsg;
         private System.Windows.Forms.Label lblInfo;
+        private System.Windows.Forms.GroupBox grpxFiltrar;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnFilter;
+        private System.Windows.Forms.TextBox txtRecibe;
+        private System.Windows.Forms.TextBox txtEnvia;
     }
 }

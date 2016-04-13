@@ -53,7 +53,7 @@ namespace Farmacop
                     UsersGridView.DataSource = NonActiveUsers;
                 UsersGridView.Columns[2].Width = 150;
                 UsersGridView.Columns[1].Width = 150;
-
+                UsersGridView.Width += 15;
                 if (Sesion.UserType == UserType.Admin)
                 {
                     BtnModifyColumn = new DataGridViewButtonColumn()

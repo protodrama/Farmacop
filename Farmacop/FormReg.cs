@@ -80,7 +80,7 @@ namespace Farmacop
         {
             if (Correct)
             {
-                if (!txtNewPass.Text.Equals("") && !txtNewPass2.Equals(""))
+                if (!txtNewPass.Text.Trim().Equals("") && !txtNewPass2.Text.Trim().Equals(""))
                 {
                     if (txtNewPass.Text.Equals(txtNewPass2.Text))
                     {

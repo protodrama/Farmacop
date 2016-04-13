@@ -15,6 +15,7 @@ namespace Farmacop
         MedPanel Medpanel;
         UsersPanel UserPanel;
         MessPanel MessagePanel;
+        RecepiePanel RecPanel;
         public event MyDelegate ExitPressed;
 
         public PrincipalPage()
@@ -37,43 +38,52 @@ namespace Farmacop
 
         private void Menu_Click(object sender, EventArgs e)
         {
-            switch (((Control)sender).Tag.ToString())
+            try
             {
-                case "Profile":
-                    lblTitle.Text = "Perfil";
-                    Profilepanel = new ProfilePanel();
-                    Panel2Containt.Controls.Clear();
-                    Panel2Containt.Controls.Add(Profilepanel);
-                    break;
-                case "Users":
-                    lblTitle.Text = "Usuarios";
-                    UserPanel = new UsersPanel();
-                    Panel2Containt.Controls.Clear();
-                    Panel2Containt.Controls.Add(UserPanel);
-                    break;
-                case "Medic":
-                    lblTitle.Text = "Medicamentos";
-                    Medpanel = new MedPanel();
-                    Panel2Containt.Controls.Clear();
-                    Panel2Containt.Controls.Add(Medpanel);
-                    break;
-                case "Recepies":
-                    lblTitle.Text = "Recetas";
-                    Panel2Containt.Controls.Clear();
-                    break;
-                case "Messages":
-                    lblTitle.Text = "Mensajes";
-                    MessagePanel = new MessPanel();
-                    Panel2Containt.Controls.Clear();
-                    Panel2Containt.Controls.Add(MessagePanel);
-                    break;
-                case "Logout":
-                    //Mostrar mensaje y cerrar app si acepta
-                    if(DialogResult.Yes == MessageBox.Show("¿Seguro que desea desconectar?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
-                    {
-                        ExitPressed();
-                    }
-                    break;
+                switch (((Control)sender).Tag.ToString())
+                {
+                    case "Profile":
+                        lblTitle.Text = "Perfil";
+                        Profilepanel = new ProfilePanel();
+                        Panel2Containt.Controls.Clear();
+                        Panel2Containt.Controls.Add(Profilepanel);
+                        break;
+                    case "Users":
+                        lblTitle.Text = "Usuarios";
+                        UserPanel = new UsersPanel();
+                        Panel2Containt.Controls.Clear();
+                        Panel2Containt.Controls.Add(UserPanel);
+                        break;
+                    case "Medic":
+                        lblTitle.Text = "Medicamentos";
+                        Medpanel = new MedPanel();
+                        Panel2Containt.Controls.Clear();
+                        Panel2Containt.Controls.Add(Medpanel);
+                        break;
+                    case "Recepies":
+                        lblTitle.Text = "Recetas";
+                        RecPanel = new RecepiePanel();
+                        Panel2Containt.Controls.Clear();
+                        Panel2Containt.Controls.Add(RecPanel);
+                        break;
+                    case "Messages":
+                        lblTitle.Text = "Mensajes";
+                        MessagePanel = new MessPanel();
+                        Panel2Containt.Controls.Clear();
+                        Panel2Containt.Controls.Add(MessagePanel);
+                        break;
+                    case "Logout":
+                        //Mostrar mensaje y cerrar app si acepta
+                        if (DialogResult.Yes == MessageBox.Show("¿Seguro que desea desconectar?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+                        {
+                            ExitPressed();
+                        }
+                        break;
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 

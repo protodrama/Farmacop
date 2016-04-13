@@ -19,6 +19,7 @@ namespace Farmacop
         public static List<User> UserList;
         public static List<Message> SendedMessages;
         public static List<Message> ReceivedMessages;
+        public static List<Recepie> Recepies;
 
         public static DAO DBConnection;
 

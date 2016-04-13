@@ -437,5 +437,63 @@ namespace Farmacop
         }
 
         #endregion
+
+        #region Recetas
+        public List<Recepie> GetAllRecepies()
+        {
+            List<Recepie> Recepies = new List<Recepie>();
+            string sql = "select re.ID,re.Paciente,re.Medico,re.FechaInic,re.FechaFin,me.Nombre as Medicamento,re.Dosis from Recetas as re " + 
+                " left join Medicamentos as me on re.ID_Medicamento = me.ID";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
+            MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
+
+            if (DataReader.HasRows)  //Si tiene filas lee el contenido y devuelve las credenciales
+                while (DataReader.Read())
+                {
+                    try
+                    {
+                        Recepies.Add(new Recepie(int.Parse(DataReader["ID"].ToString()), DataReader["Paciente"].ToString(), DataReader["Medico"].ToString(),
+                            DateTime.Parse(DataReader["FechaInic"].ToString()).ToShortDateString(), DateTime.Parse(DataReader["FechaFin"].ToString()).ToShortDateString(),
+                            DataReader["Medicamento"].ToString(), int.Parse(DataReader["Dosis"].ToString())));
+                    }
+                    catch (Exception e) { throw new Exception("Error al obtener las recetas."); }
+                }
+
+            DataReader.Close();
+
+            foreach (Recepie temp in Recepies)
+                temp.SetRControl(GetAllRecControl(temp.getId()));
+
+            return Recepies;
+        }
+
+        public List<Taken> GetAllRecControl(int idRec)
+        {
+            List<Taken> RControl = new List<Taken>();
+            string sql = "select Fecha,Hora,Minuto,Tomada from Rec_Control where ID_Receta = " + idRec;
+
+            MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
+            MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
+
+            if (DataReader.HasRows)  //Si tiene filas lee el contenido y devuelve las credenciales
+                while (DataReader.Read())
+                {
+                    try
+                    {
+                        RControl.Add(new Taken(DateTime.Parse(DataReader["Fecha"].ToString()).ToShortDateString(), DataReader["Hora"].ToString() +":" + DataReader["Minuto"].ToString(), DataReader["Tomada"].ToString().Equals("1")));
+                    }
+                    catch (Exception e) { throw new Exception("Error al conectar al servidor."); }
+                }
+
+            DataReader.Close();
+
+
+            return RControl;
+        }
+
+
+
+        #endregion
     }
 }

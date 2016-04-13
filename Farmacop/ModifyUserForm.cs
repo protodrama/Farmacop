@@ -60,7 +60,7 @@ namespace Farmacop
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            if (!txtName.Text.Equals("") && !txtFNac.Text.Equals("") && !txtFApl.Text.Equals("") && !txtSApl.Text.Equals(""))
+            if (!txtName.Text.Trim().Equals("") && !txtFNac.Text.Trim().Equals("") && !txtFApl.Text.Trim().Equals("") && !txtSApl.Text.Trim().Equals(""))
             {
                 if (Sesion.DBConnection.UpdateModUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.SelectedItem.ToString(), UserToMod.Cuenta))
                 {
@@ -176,7 +176,8 @@ namespace Farmacop
             }
 
             algContainer.Controls.Add(new AlgControl(MedNames.ToArray()));
-
+            if (MedNames.Count == 0)
+                this.Controls.Remove(GpxAlg);
         }
 
         private void btnAddAlg_Click(object sender, EventArgs e)

@@ -43,7 +43,7 @@ namespace Farmacop
         {
             try
             {
-                if (!txtAccount.Text.Equals("") && !txtName.Text.Equals("") && !txtFApl.Text.Equals("") && !txtSApl.Text.Equals("") && !txtFNac.Text.Equals("") && !ComboboxType.Text.Equals(""))
+                if (!txtAccount.Text.Trim().Equals("") && !txtName.Text.Trim().Equals("") && !txtFApl.Text.Trim().Equals("") && !txtSApl.Text.Trim().Equals("") && !txtFNac.Text.Trim().Equals("") && !ComboboxType.Text.Trim().Equals(""))
                 {
                     if (CheckAccountName(txtAccount.Text))
                     {
