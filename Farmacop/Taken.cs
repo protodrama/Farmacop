@@ -9,13 +9,16 @@ namespace Farmacop
     {
         private string _fecha;
         private string _hora;
-        private bool tomada;
+        private string tomada;
 
         public Taken(string fecha, string hora, bool tomada)
         {
             Fecha = fecha;
             Hora = hora;
-            Tomada = tomada;
+            if (tomada)
+                Tomada = "SI";
+            else
+                Tomada = "NO";
         }
 
         public string Fecha
@@ -44,7 +47,7 @@ namespace Farmacop
             }
         }
 
-        public bool Tomada
+        public string Tomada
         {
             get
             {

@@ -36,7 +36,7 @@ namespace Farmacop
             InitializeComponent();
             txtReceiver.Text = Sender;
             txtReceiver.ReadOnly = true;
-            txtMatter.Text = "Rep: " + matter;
+            txtMatter.Text = matter;
         }
 
         private void btnSend_Click(object sender, EventArgs e)

@@ -463,7 +463,10 @@ namespace Farmacop
             DataReader.Close();
 
             foreach (Recepie temp in Recepies)
+            {
                 temp.SetRControl(GetAllRecControl(temp.getId()));
+                temp.SetTimes(GetAllHours(temp.getId()));
+            }
 
             return Recepies;
         }
@@ -492,6 +495,51 @@ namespace Farmacop
             return RControl;
         }
 
+        public List<string> GetAllHours(int idRec)
+        {
+            List<string> Horas = new List<string>();
+            string sql = "select Hora,Minuto from Horas where ID_Receta = " + idRec;
+
+            MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
+            MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
+
+            if (DataReader.HasRows)  //Si tiene filas lee el contenido y devuelve las credenciales
+                while (DataReader.Read())
+                {
+                    try
+                    {
+                        Horas.Add(DataReader["Hora"].ToString() + ":" + DataReader["Minuto"].ToString());
+                    }
+                    catch (Exception e) { throw new Exception("Error al conectar al servidor."); }
+                }
+
+            DataReader.Close();
+
+            return Horas;
+        }
+
+        public bool DeleteRecepie(Recepie recepie)
+        {
+            string sqlc = "delete from Rec_Control where ID_Receta = " + recepie.getId();
+            MySqlCommand cmdc = new MySqlCommand(sqlc, conexion);
+            int qr = cmdc.ExecuteNonQuery();
+
+            string sqlh = "delete from Horas where ID_Receta = " + recepie.getId();
+            MySqlCommand cmdh = new MySqlCommand(sqlh, conexion);
+            int qrh = cmdh.ExecuteNonQuery();
+
+            string sql = "delete from Recetas where ID = " + recepie.getId();
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qrr = cmd.ExecuteNonQuery();
+
+            if (qrr > 0)
+            {
+                InsertMsg(recepie.Medico, recepie.Paciente, "Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + recepie.Medicamento + " que comenzaba el día " + recepie.FechaInicio +
+                    " y terminaba el día " + recepie.FechaFin);
+            }
+
+            return qrr > 0;
+        }
 
 
         #endregion

@@ -120,7 +120,6 @@ namespace Farmacop
                         UserTemp = NonActiveUsers[e.RowIndex];
                     if (UsersGridView.Columns[e.ColumnIndex].Name.Equals("Modify"))
                     {
-                        //Modificar
                         ModifyForm = new ModifyUserForm(UserTemp);
                         ModifyForm.ShowDialog();
                         if (UsingActiveUsers)

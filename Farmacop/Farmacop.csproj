@@ -100,6 +100,12 @@
       <DependentUpon>AlgControl.cs</DependentUpon>
     </Compile>
     <Compile Include="DAO.cs" />
+    <Compile Include="FormControls.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormControls.Designer.cs">
+      <DependentUpon>FormControls.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormP.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,6 +185,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AlgControl.resx">
       <DependentUpon>AlgControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormControls.resx">
+      <DependentUpon>FormControls.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormP.resx">
       <DependentUpon>FormP.cs</DependentUpon>

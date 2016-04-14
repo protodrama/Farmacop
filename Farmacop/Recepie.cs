@@ -15,6 +15,7 @@ namespace Farmacop
         private string _medicamento;
         private int _dosis;
         private List<Taken> _tomas;
+        private List<string> _horas;
 
         public Recepie(int id, string paciente, string medico, string fechaInicio, string fechaFin, string medicamento, int dosis)
         {
@@ -131,6 +132,19 @@ namespace Farmacop
             }
         }
 
+        private List<string> Horas
+        {
+            get
+            {
+                return _horas;
+            }
+
+            set
+            {
+                _horas = value;
+            }
+        }
+
         public void SetRControl(List<Taken> taken)
         {
             this.Tomas = taken;
@@ -144,6 +158,11 @@ namespace Farmacop
         public int getId()
         {
             return Id;
+        }
+
+        public void SetTimes(List<string> horas)
+        {
+            this.Horas = horas;
         }
     }
 }
