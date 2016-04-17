@@ -164,5 +164,10 @@ namespace Farmacop
         {
             this.Horas = horas;
         }
+
+        public List<string> GetTimes()
+        {
+            return Horas;
+        }
     }
 }

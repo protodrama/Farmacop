@@ -37,6 +37,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnFilter = new System.Windows.Forms.Button();
+            this.AddRecep = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.RecGridView)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -73,7 +74,7 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.btnFilter);
-            this.groupBox1.Location = new System.Drawing.Point(209, 18);
+            this.groupBox1.Location = new System.Drawing.Point(219, 21);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(507, 132);
             this.groupBox1.TabIndex = 4;
@@ -138,10 +139,21 @@
             this.btnFilter.UseVisualStyleBackColor = true;
             this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
             // 
+            // AddRecep
+            // 
+            this.AddRecep.Location = new System.Drawing.Point(97, 59);
+            this.AddRecep.Name = "AddRecep";
+            this.AddRecep.Size = new System.Drawing.Size(75, 54);
+            this.AddRecep.TabIndex = 5;
+            this.AddRecep.Text = "Nueva receta";
+            this.AddRecep.UseVisualStyleBackColor = true;
+            this.AddRecep.Click += new System.EventHandler(this.AddRecep_Click);
+            // 
             // RecepiePanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.AddRecep);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.RecGridView);
             this.Name = "RecepiePanel";
@@ -164,5 +176,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnFilter;
+        private System.Windows.Forms.Button AddRecep;
     }
 }

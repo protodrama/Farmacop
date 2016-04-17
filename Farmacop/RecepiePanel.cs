@@ -105,6 +105,7 @@ namespace Farmacop
                     {
                         //Control
                         new FormControls(recTemp).ShowDialog();
+                        GetData();
                     }
                     else
                     {
@@ -138,6 +139,12 @@ namespace Farmacop
 
             RecGridView.DataSource = filtered;
             RecepiesShowing = filtered;
+        }
+
+        private void AddRecep_Click(object sender, EventArgs e)
+        {
+            new AddRecepie().ShowDialog();
+            GetData();
         }
     }
 }

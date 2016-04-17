@@ -20,6 +20,7 @@ namespace Farmacop
         public static List<Message> SendedMessages;
         public static List<Message> ReceivedMessages;
         public static List<Recepie> Recepies;
+        public static bool GettingData = false;
 
         public static DAO DBConnection;
 

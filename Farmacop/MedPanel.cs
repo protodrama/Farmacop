@@ -90,7 +90,7 @@ namespace Farmacop
             string Type = cbbxType.Text;
             string NoCapName = txtNewMedNm.Text;
 
-            if (!Type.Equals("") && !txtNewMedNm.Text.Equals(""))
+            if (!Type.Equals("") && !txtNewMedNm.Text.Trim().Equals(""))
             {
                 bool find = false;
                 foreach (Medicament MedTmp in Sesion.MedList)
