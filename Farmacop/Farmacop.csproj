@@ -156,6 +156,12 @@
     <Compile Include="ModifyUserForm.Designer.cs">
       <DependentUpon>ModifyUserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModRecepieForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ModRecepieForm.Designer.cs">
+      <DependentUpon>ModRecepieForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MsgObserver.cs" />
     <Compile Include="NewMsgForm.cs">
       <SubType>Form</SubType>
@@ -231,6 +237,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ModifyUserForm.resx">
       <DependentUpon>ModifyUserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ModRecepieForm.resx">
+      <DependentUpon>ModRecepieForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewMsgForm.resx">
       <DependentUpon>NewMsgForm.cs</DependentUpon>

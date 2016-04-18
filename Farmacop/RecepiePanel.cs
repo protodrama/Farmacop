@@ -94,9 +94,8 @@ namespace Farmacop
                 Recepie recTemp = RecepiesShowing[e.RowIndex];
                 if (RecGridView.Columns[e.ColumnIndex].Name.Equals("Modify"))
                 {
-                    //ModifyForm = new ModifyUserForm(RecTemp);
-                    //ModifyForm.ShowDialog();
-                    
+                    //Modify
+                    new ModRecepieForm(recTemp).ShowDialog();
                     GetData();
                 }
                 else

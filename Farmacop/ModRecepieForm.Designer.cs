@@ -1,6 +1,6 @@
 ﻿namespace Farmacop
 {
-    partial class AddRecepie
+    partial class ModRecepieForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,16 +29,14 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.SplitContainer splAlg;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddRecepie));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModRecepieForm));
+            this.lblUserName = new System.Windows.Forms.Label();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.GpxTime = new System.Windows.Forms.GroupBox();
             this.TimeContainer = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnAddAlg = new System.Windows.Forms.Button();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.lblUserName = new System.Windows.Forms.Label();
-            this.txtTargetUser = new System.Windows.Forms.TextBox();
-            this.grpRecData = new System.Windows.Forms.GroupBox();
-            this.GpxTime = new System.Windows.Forms.GroupBox();
             this.txtFEnd = new System.Windows.Forms.TextBox();
             this.txtFInic = new System.Windows.Forms.TextBox();
             this.txtDs = new System.Windows.Forms.TextBox();
@@ -48,15 +46,57 @@
             this.btnAddMed = new System.Windows.Forms.Button();
             this.cbbxMed = new System.Windows.Forms.ComboBox();
             this.lblMed = new System.Windows.Forms.Label();
+            this.TimeDataGrid = new System.Windows.Forms.DataGridView();
+            this.txtPatName = new System.Windows.Forms.Label();
+            this.lblTableTittle = new System.Windows.Forms.Label();
             splAlg = new System.Windows.Forms.SplitContainer();
+            this.GpxTime.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(splAlg)).BeginInit();
             splAlg.Panel1.SuspendLayout();
             splAlg.Panel2.SuspendLayout();
             splAlg.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.grpRecData.SuspendLayout();
-            this.GpxTime.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TimeDataGrid)).BeginInit();
             this.SuspendLayout();
+            // 
+            // lblUserName
+            // 
+            this.lblUserName.AutoSize = true;
+            this.lblUserName.Location = new System.Drawing.Point(47, 33);
+            this.lblUserName.Name = "lblUserName";
+            this.lblUserName.Size = new System.Drawing.Size(95, 13);
+            this.lblUserName.TabIndex = 7;
+            this.lblUserName.Text = "Usuario destinado:";
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(354, 341);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 7;
+            this.btnCancel.Text = "Cancelar";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(200, 341);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.TabIndex = 6;
+            this.btnAdd.Text = "Modificar";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // GpxTime
+            // 
+            this.GpxTime.Controls.Add(splAlg);
+            this.GpxTime.Location = new System.Drawing.Point(443, 141);
+            this.GpxTime.Name = "GpxTime";
+            this.GpxTime.Size = new System.Drawing.Size(176, 195);
+            this.GpxTime.TabIndex = 58;
+            this.GpxTime.TabStop = false;
+            this.GpxTime.Text = "Nuevas horas";
             // 
             // splAlg
             // 
@@ -102,90 +142,22 @@
             this.btnAddAlg.Location = new System.Drawing.Point(42, 3);
             this.btnAddAlg.Name = "btnAddAlg";
             this.btnAddAlg.Size = new System.Drawing.Size(99, 23);
-            this.btnAddAlg.TabIndex = 4;
+            this.btnAddAlg.TabIndex = 5;
             this.btnAddAlg.Text = "Agregar";
             this.btnAddAlg.UseVisualStyleBackColor = true;
             this.btnAddAlg.Click += new System.EventHandler(this.btnAddAlg_Click);
             // 
-            // btnAdd
-            // 
-            this.btnAdd.Enabled = false;
-            this.btnAdd.Location = new System.Drawing.Point(210, 330);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
-            this.btnAdd.TabIndex = 4;
-            this.btnAdd.Text = "Añadir";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.Location = new System.Drawing.Point(364, 330);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 5;
-            this.btnCancel.Text = "Cancelar";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // lblUserName
-            // 
-            this.lblUserName.AutoSize = true;
-            this.lblUserName.Location = new System.Drawing.Point(73, 22);
-            this.lblUserName.Name = "lblUserName";
-            this.lblUserName.Size = new System.Drawing.Size(95, 13);
-            this.lblUserName.TabIndex = 2;
-            this.lblUserName.Text = "Usuario destinado:";
-            // 
-            // txtTargetUser
-            // 
-            this.txtTargetUser.Location = new System.Drawing.Point(174, 19);
-            this.txtTargetUser.Name = "txtTargetUser";
-            this.txtTargetUser.Size = new System.Drawing.Size(160, 20);
-            this.txtTargetUser.TabIndex = 0;
-            this.txtTargetUser.TextChanged += new System.EventHandler(this.txtTargetUser_TextChanged);
-            // 
-            // grpRecData
-            // 
-            this.grpRecData.Controls.Add(this.GpxTime);
-            this.grpRecData.Controls.Add(this.txtFEnd);
-            this.grpRecData.Controls.Add(this.txtFInic);
-            this.grpRecData.Controls.Add(this.txtDs);
-            this.grpRecData.Controls.Add(this.label2);
-            this.grpRecData.Controls.Add(this.label1);
-            this.grpRecData.Controls.Add(this.lblFInic);
-            this.grpRecData.Controls.Add(this.btnAddMed);
-            this.grpRecData.Controls.Add(this.cbbxMed);
-            this.grpRecData.Controls.Add(this.lblMed);
-            this.grpRecData.Location = new System.Drawing.Point(46, 45);
-            this.grpRecData.Name = "grpRecData";
-            this.grpRecData.Size = new System.Drawing.Size(567, 263);
-            this.grpRecData.TabIndex = 4;
-            this.grpRecData.TabStop = false;
-            this.grpRecData.Text = "Datos de receta";
-            this.grpRecData.Visible = false;
-            // 
-            // GpxTime
-            // 
-            this.GpxTime.Controls.Add(splAlg);
-            this.GpxTime.Location = new System.Drawing.Point(391, 22);
-            this.GpxTime.Name = "GpxTime";
-            this.GpxTime.Size = new System.Drawing.Size(176, 195);
-            this.GpxTime.TabIndex = 48;
-            this.GpxTime.TabStop = false;
-            this.GpxTime.Text = "Hora de tomas";
-            // 
             // txtFEnd
             // 
-            this.txtFEnd.Location = new System.Drawing.Point(128, 152);
+            this.txtFEnd.Location = new System.Drawing.Point(148, 206);
             this.txtFEnd.Name = "txtFEnd";
             this.txtFEnd.Size = new System.Drawing.Size(100, 20);
-            this.txtFEnd.TabIndex = 3;
+            this.txtFEnd.TabIndex = 4;
             this.txtFEnd.Enter += new System.EventHandler(this.txtFEnd_Enter);
             // 
             // txtFInic
             // 
-            this.txtFInic.Location = new System.Drawing.Point(128, 109);
+            this.txtFInic.Location = new System.Drawing.Point(148, 163);
             this.txtFInic.Name = "txtFInic";
             this.txtFInic.Size = new System.Drawing.Size(100, 20);
             this.txtFInic.TabIndex = 2;
@@ -193,46 +165,46 @@
             // 
             // txtDs
             // 
-            this.txtDs.Location = new System.Drawing.Point(128, 67);
+            this.txtDs.Location = new System.Drawing.Point(148, 121);
             this.txtDs.MaxLength = 1;
             this.txtDs.Name = "txtDs";
             this.txtDs.Size = new System.Drawing.Size(100, 20);
-            this.txtDs.TabIndex = 6;
+            this.txtDs.TabIndex = 55;
             this.txtDs.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDs_KeyPress);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(63, 70);
+            this.label2.Location = new System.Drawing.Point(83, 124);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 13);
-            this.label2.TabIndex = 5;
+            this.label2.TabIndex = 54;
             this.label2.Text = "Dosis (mg):";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(53, 155);
+            this.label1.Location = new System.Drawing.Point(73, 209);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(69, 13);
-            this.label1.TabIndex = 4;
+            this.label1.TabIndex = 53;
             this.label1.Text = "Fecha de fin:";
             // 
             // lblFInic
             // 
             this.lblFInic.AutoSize = true;
-            this.lblFInic.Location = new System.Drawing.Point(40, 112);
+            this.lblFInic.Location = new System.Drawing.Point(60, 166);
             this.lblFInic.Name = "lblFInic";
             this.lblFInic.Size = new System.Drawing.Size(82, 13);
-            this.lblFInic.TabIndex = 3;
+            this.lblFInic.TabIndex = 52;
             this.lblFInic.Text = "Fecha de inicio:";
             // 
             // btnAddMed
             // 
-            this.btnAddMed.Location = new System.Drawing.Point(255, 22);
+            this.btnAddMed.Location = new System.Drawing.Point(275, 76);
             this.btnAddMed.Name = "btnAddMed";
             this.btnAddMed.Size = new System.Drawing.Size(124, 23);
-            this.btnAddMed.TabIndex = 1;
+            this.btnAddMed.TabIndex = 0;
             this.btnAddMed.Text = "Nuevo medicamento";
             this.btnAddMed.UseVisualStyleBackColor = true;
             this.btnAddMed.Click += new System.EventHandler(this.btnAddMed_Click);
@@ -241,67 +213,119 @@
             // 
             this.cbbxMed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbbxMed.FormattingEnabled = true;
-            this.cbbxMed.Location = new System.Drawing.Point(128, 22);
+            this.cbbxMed.Location = new System.Drawing.Point(148, 76);
             this.cbbxMed.Name = "cbbxMed";
             this.cbbxMed.Size = new System.Drawing.Size(121, 21);
-            this.cbbxMed.TabIndex = 1;
+            this.cbbxMed.TabIndex = 50;
             // 
             // lblMed
             // 
             this.lblMed.AutoSize = true;
-            this.lblMed.Location = new System.Drawing.Point(48, 25);
+            this.lblMed.Location = new System.Drawing.Point(68, 79);
             this.lblMed.Name = "lblMed";
             this.lblMed.Size = new System.Drawing.Size(74, 13);
-            this.lblMed.TabIndex = 0;
+            this.lblMed.TabIndex = 49;
             this.lblMed.Text = "Medicamento:";
             // 
-            // AddRecepie
+            // TimeDataGrid
+            // 
+            this.TimeDataGrid.AllowUserToAddRows = false;
+            this.TimeDataGrid.AllowUserToDeleteRows = false;
+            this.TimeDataGrid.AllowUserToResizeRows = false;
+            this.TimeDataGrid.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.TimeDataGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TimeDataGrid.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
+            this.TimeDataGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.TimeDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.TimeDataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.TimeDataGrid.GridColor = System.Drawing.SystemColors.AppWorkspace;
+            this.TimeDataGrid.Location = new System.Drawing.Point(428, 26);
+            this.TimeDataGrid.MultiSelect = false;
+            this.TimeDataGrid.Name = "TimeDataGrid";
+            this.TimeDataGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.TimeDataGrid.RowHeadersVisible = false;
+            this.TimeDataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.TimeDataGrid.ShowEditingIcon = false;
+            this.TimeDataGrid.Size = new System.Drawing.Size(201, 111);
+            this.TimeDataGrid.TabIndex = 59;
+            this.TimeDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.TimeDataGrid_CellContentClick);
+            // 
+            // txtPatName
+            // 
+            this.txtPatName.AutoSize = true;
+            this.txtPatName.Location = new System.Drawing.Point(148, 33);
+            this.txtPatName.Name = "txtPatName";
+            this.txtPatName.Size = new System.Drawing.Size(16, 13);
+            this.txtPatName.TabIndex = 60;
+            this.txtPatName.Text = "...";
+            // 
+            // lblTableTittle
+            // 
+            this.lblTableTittle.AutoSize = true;
+            this.lblTableTittle.Location = new System.Drawing.Point(446, 8);
+            this.lblTableTittle.Name = "lblTableTittle";
+            this.lblTableTittle.Size = new System.Drawing.Size(122, 13);
+            this.lblTableTittle.TabIndex = 61;
+            this.lblTableTittle.Text = "Horario de tomas actual:";
+            // 
+            // ModRecepieForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(649, 375);
+            this.ClientSize = new System.Drawing.Size(670, 378);
             this.ControlBox = false;
-            this.Controls.Add(this.grpRecData);
-            this.Controls.Add(this.txtTargetUser);
+            this.Controls.Add(this.lblTableTittle);
+            this.Controls.Add(this.txtPatName);
+            this.Controls.Add(this.TimeDataGrid);
+            this.Controls.Add(this.GpxTime);
+            this.Controls.Add(this.txtFEnd);
+            this.Controls.Add(this.txtFInic);
+            this.Controls.Add(this.txtDs);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblFInic);
+            this.Controls.Add(this.btnAddMed);
+            this.Controls.Add(this.cbbxMed);
+            this.Controls.Add(this.lblMed);
             this.Controls.Add(this.lblUserName);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAdd);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "AddRecepie";
+            this.Name = "ModRecepieForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Añadir receta";
+            this.Text = "ModRecepieForm";
+            this.GpxTime.ResumeLayout(false);
             splAlg.Panel1.ResumeLayout(false);
             splAlg.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(splAlg)).EndInit();
             splAlg.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
-            this.grpRecData.ResumeLayout(false);
-            this.grpRecData.PerformLayout();
-            this.GpxTime.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.TimeDataGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label lblUserName;
-        private System.Windows.Forms.TextBox txtTargetUser;
-        private System.Windows.Forms.GroupBox grpRecData;
-        private System.Windows.Forms.Label lblMed;
-        private System.Windows.Forms.ComboBox cbbxMed;
-        private System.Windows.Forms.Button btnAddMed;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblFInic;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtFEnd;
-        private System.Windows.Forms.TextBox txtFInic;
-        private System.Windows.Forms.TextBox txtDs;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.GroupBox GpxTime;
         private System.Windows.Forms.FlowLayoutPanel TimeContainer;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnAddAlg;
+        private System.Windows.Forms.TextBox txtFEnd;
+        private System.Windows.Forms.TextBox txtFInic;
+        private System.Windows.Forms.TextBox txtDs;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblFInic;
+        private System.Windows.Forms.Button btnAddMed;
+        private System.Windows.Forms.ComboBox cbbxMed;
+        private System.Windows.Forms.Label lblMed;
+        private System.Windows.Forms.DataGridView TimeDataGrid;
+        private System.Windows.Forms.Label txtPatName;
+        private System.Windows.Forms.Label lblTableTittle;
     }
 }

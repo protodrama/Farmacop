@@ -30,6 +30,9 @@
         {
             System.Windows.Forms.SplitContainer splAlg;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddUserForm));
+            this.algContainer = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnAddAlg = new System.Windows.Forms.Button();
             this.ComboboxType = new System.Windows.Forms.ComboBox();
             this.lblType = new System.Windows.Forms.Label();
             this.lblBDate = new System.Windows.Forms.Label();
@@ -45,17 +48,63 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtAccount = new System.Windows.Forms.TextBox();
             this.GpxAlg = new System.Windows.Forms.GroupBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btnAddAlg = new System.Windows.Forms.Button();
-            this.algContainer = new System.Windows.Forms.FlowLayoutPanel();
             splAlg = new System.Windows.Forms.SplitContainer();
-            this.GpxAlg.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(splAlg)).BeginInit();
             splAlg.Panel1.SuspendLayout();
             splAlg.Panel2.SuspendLayout();
             splAlg.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.GpxAlg.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // splAlg
+            // 
+            splAlg.Dock = System.Windows.Forms.DockStyle.Fill;
+            splAlg.Location = new System.Drawing.Point(3, 16);
+            splAlg.Margin = new System.Windows.Forms.Padding(0);
+            splAlg.Name = "splAlg";
+            splAlg.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splAlg.Panel1
+            // 
+            splAlg.Panel1.Controls.Add(this.algContainer);
+            // 
+            // splAlg.Panel2
+            // 
+            splAlg.Panel2.Controls.Add(this.panel1);
+            splAlg.Size = new System.Drawing.Size(170, 228);
+            splAlg.SplitterDistance = 199;
+            splAlg.SplitterWidth = 1;
+            splAlg.TabIndex = 0;
+            // 
+            // algContainer
+            // 
+            this.algContainer.AutoScroll = true;
+            this.algContainer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.algContainer.Location = new System.Drawing.Point(3, 0);
+            this.algContainer.Name = "algContainer";
+            this.algContainer.Size = new System.Drawing.Size(164, 198);
+            this.algContainer.TabIndex = 0;
+            this.algContainer.WrapContents = false;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnAddAlg);
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(170, 40);
+            this.panel1.TabIndex = 0;
+            // 
+            // btnAddAlg
+            // 
+            this.btnAddAlg.Location = new System.Drawing.Point(42, 3);
+            this.btnAddAlg.Name = "btnAddAlg";
+            this.btnAddAlg.Size = new System.Drawing.Size(99, 23);
+            this.btnAddAlg.TabIndex = 0;
+            this.btnAddAlg.Text = "Agregar";
+            this.btnAddAlg.UseVisualStyleBackColor = true;
+            this.btnAddAlg.Click += new System.EventHandler(this.btnAddAlg_Click);
             // 
             // ComboboxType
             // 
@@ -191,55 +240,6 @@
             this.GpxAlg.TabStop = false;
             this.GpxAlg.Text = "Alergias";
             // 
-            // splAlg
-            // 
-            splAlg.Dock = System.Windows.Forms.DockStyle.Fill;
-            splAlg.Location = new System.Drawing.Point(3, 16);
-            splAlg.Margin = new System.Windows.Forms.Padding(0);
-            splAlg.Name = "splAlg";
-            splAlg.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splAlg.Panel1
-            // 
-            splAlg.Panel1.Controls.Add(this.algContainer);
-            // 
-            // splAlg.Panel2
-            // 
-            splAlg.Panel2.Controls.Add(this.panel1);
-            splAlg.Size = new System.Drawing.Size(170, 228);
-            splAlg.SplitterDistance = 200;
-            splAlg.SplitterWidth = 1;
-            splAlg.TabIndex = 0;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.btnAddAlg);
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(170, 40);
-            this.panel1.TabIndex = 0;
-            // 
-            // btnAddAlg
-            // 
-            this.btnAddAlg.Location = new System.Drawing.Point(42, 3);
-            this.btnAddAlg.Name = "btnAddAlg";
-            this.btnAddAlg.Size = new System.Drawing.Size(99, 23);
-            this.btnAddAlg.TabIndex = 0;
-            this.btnAddAlg.Text = "Agregar";
-            this.btnAddAlg.UseVisualStyleBackColor = true;
-            this.btnAddAlg.Click += new System.EventHandler(this.btnAddAlg_Click);
-            // 
-            // algContainer
-            // 
-            this.algContainer.AutoScroll = true;
-            this.algContainer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.algContainer.Location = new System.Drawing.Point(3, 0);
-            this.algContainer.Name = "algContainer";
-            this.algContainer.Size = new System.Drawing.Size(164, 198);
-            this.algContainer.TabIndex = 0;
-            this.algContainer.WrapContents = false;
-            // 
             // AddUserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -266,12 +266,12 @@
             this.Name = "AddUserForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Agregar usuario";
-            this.GpxAlg.ResumeLayout(false);
             splAlg.Panel1.ResumeLayout(false);
             splAlg.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(splAlg)).EndInit();
             splAlg.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.GpxAlg.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

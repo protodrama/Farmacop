@@ -48,7 +48,6 @@ namespace Farmacop
                     UseColumnTextForButtonValue = true
                 };
                 AlgDataGrid.Columns.Add(BtnDeleteColumn);
-                AddAlgComboBox();
             }
             catch (Exception e) { }
         }
