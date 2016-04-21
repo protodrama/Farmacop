@@ -53,51 +53,7 @@ namespace Farmacop
                     UsersGridView.DataSource = NonActiveUsers;
                 UsersGridView.Columns[2].Width = 150;
                 UsersGridView.Columns[1].Width = 150;
-                UsersGridView.Width += 15;
-                if (Sesion.UserType == UserType.Admin)
-                {
-                    BtnModifyColumn = new DataGridViewButtonColumn()
-                    {
-                        Name = "Modify",
-                        Width = 80,
-                        HeaderText = "Modificar",
-                        Text = "Modificar",
-                        UseColumnTextForButtonValue = true
-                    };
-                    UsersGridView.Columns.Add(BtnModifyColumn);
-                    UsersGridView.Width += BtnModifyColumn.Width;
-
-                    if (UsingActiveUsers)
-                    {
-                        BtnDisableColumn = new DataGridViewButtonColumn()
-                        {
-                            Name = "Disable",
-                            Width = 80,
-                            HeaderText = "Deshabilitar",
-                            Text = "Deshabilitar",
-                            UseColumnTextForButtonValue = true
-                        };
-                        UsersGridView.Columns.Add(BtnDisableColumn);
-                        UsersGridView.Width += BtnDisableColumn.Width;
-
-                        UsersGridView.Left = (this.Width / 2) - (UsersGridView.Width / 2);
-                    }
-                    else
-                    {
-                        BtnEnableColumn = new DataGridViewButtonColumn()
-                        {
-                            Name = "Enable",
-                            Width = 80,
-                            HeaderText = "Habilitar",
-                            Text = "Habilitar",
-                            UseColumnTextForButtonValue = true
-                        };
-                        UsersGridView.Columns.Add(BtnEnableColumn);
-                        UsersGridView.Width += BtnDisableColumn.Width;
-
-                        UsersGridView.Left = (this.Width / 2) - (UsersGridView.Width / 2);
-                    }
-                }
+                PutColumns();
             }
             catch(Exception e)
             {
@@ -107,10 +63,66 @@ namespace Farmacop
             UsersGridView.EnableHeadersVisualStyles = false;
         }
 
+        public void PutColumns()
+        {
+
+            try
+            {
+                UsersGridView.Columns.Remove(BtnModifyColumn);
+            }
+            catch { }
+            try
+            {
+                UsersGridView.Columns.Remove(BtnDisableColumn);
+            }
+            catch { }
+            try
+            {
+                UsersGridView.Columns.Remove(BtnEnableColumn);
+            }
+            catch { }
+
+
+            BtnModifyColumn = new DataGridViewButtonColumn()
+            {
+                Name = "Modify",
+                Width = 80,
+                HeaderText = "Modificar",
+                Text = "Modificar",
+                UseColumnTextForButtonValue = true
+            };
+            UsersGridView.Columns.Add(BtnModifyColumn);
+
+            if (UsingActiveUsers)
+            {
+                BtnDisableColumn = new DataGridViewButtonColumn()
+                {
+                    Name = "Disable",
+                    Width = 80,
+                    HeaderText = "Deshabilitar",
+                    Text = "Deshabilitar",
+                    UseColumnTextForButtonValue = true
+                };
+                UsersGridView.Columns.Add(BtnDisableColumn);
+            }
+            else
+            {
+                BtnEnableColumn = new DataGridViewButtonColumn()
+                {
+                    Name = "Enable",
+                    Width = 80,
+                    HeaderText = "Habilitar",
+                    Text = "Habilitar",
+                    UseColumnTextForButtonValue = true
+                };
+                UsersGridView.Columns.Add(BtnEnableColumn);
+            }
+            UsersGridView.Left = (this.Width / 2) - (UsersGridView.Width / 2);
+        }
+
         private void UsersGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (Sesion.UserType == UserType.Admin)
-            {
+            
                 if (UsersGridView.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
                 {
                     User UserTemp;
@@ -118,62 +130,40 @@ namespace Farmacop
                         UserTemp = ActiveUsers[e.RowIndex];
                     else
                         UserTemp = NonActiveUsers[e.RowIndex];
-                    if (UsersGridView.Columns[e.ColumnIndex].Name.Equals("Modify"))
+                if (UsersGridView.Columns[e.ColumnIndex].Name.Equals("Modify"))
+                {
+                    ModifyForm = new ModifyUserForm(UserTemp);
+                    ModifyForm.ShowDialog();
+                    GetData();
+                }
+                else
+                {
+                    if (UsersGridView.Columns[e.ColumnIndex].Name.Equals("Disable"))
                     {
-                        ModifyForm = new ModifyUserForm(UserTemp);
-                        ModifyForm.ShowDialog();
-                        if (UsingActiveUsers)
+                        if (DialogResult.Yes == MessageBox.Show("¿Deseas deshabilitar el usuario " + UserTemp.Nombre + " " + UserTemp.Apellidos + " ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                         {
-                            UsersGridView.Columns.Remove(BtnDisableColumn);
-                            UsersGridView.Columns.Remove(BtnModifyColumn);
-                            UsersGridView.Width -= BtnDisableColumn.Width;
-                            UsersGridView.Width -= BtnModifyColumn.Width;
+                            if (Sesion.DBConnection.DisableUser(UserTemp.Cuenta))
+                            {
+                                GetData();
+                            }
                         }
-                        else
-                        {
-                            UsersGridView.Columns.Remove(BtnEnableColumn);
-                            UsersGridView.Columns.Remove(BtnModifyColumn);
-                            UsersGridView.Width -= BtnEnableColumn.Width;
-                            UsersGridView.Width -= BtnModifyColumn.Width;
-                        }
-                        GetData();
                     }
                     else
                     {
-                        if (UsersGridView.Columns[e.ColumnIndex].Name.Equals("Disable"))
+                        if (DialogResult.Yes == MessageBox.Show("¿Deseas habilitar el usuario " + UserTemp.Nombre + " " + UserTemp.Apellidos + " ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                         {
-                            if (DialogResult.Yes == MessageBox.Show("¿Deseas deshabilitar el usuario " + UserTemp.Nombre + " " + UserTemp.Apellidos + " ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+                            if (Sesion.DBConnection.EnableUser(UserTemp.Cuenta))
                             {
-                                if (Sesion.DBConnection.DisableUser(UserTemp.Cuenta))
-                                {
-                                    UsersGridView.Columns.Remove(BtnDisableColumn);
-                                    UsersGridView.Columns.Remove(BtnModifyColumn);
-                                    UsersGridView.Width -= BtnDisableColumn.Width;
-                                    UsersGridView.Width -= BtnModifyColumn.Width;
-                                    GetData();
-                                }
+                                GetData();
                             }
                         }
-                        else
-                        {
-                            if (DialogResult.Yes == MessageBox.Show("¿Deseas habilitar el usuario " + UserTemp.Nombre + " " + UserTemp.Apellidos + " ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
-                            {
-                                if (Sesion.DBConnection.EnableUser(UserTemp.Cuenta))
-                                {
-                                    UsersGridView.Columns.Remove(BtnEnableColumn);
-                                    UsersGridView.Columns.Remove(BtnModifyColumn);
-                                    UsersGridView.Width -= BtnEnableColumn.Width;
-                                    UsersGridView.Width -= BtnModifyColumn.Width;
-                                    GetData();
-                                }
-                            }
-                        }
-                        
                     }
 
-
-
                 }
+
+
+
+                
             }
         }
 
@@ -208,19 +198,10 @@ namespace Farmacop
             if (chbxDisUsers.Checked)
             {
                 UsingActiveUsers = false;
-                UsersGridView.Columns.Remove(BtnDisableColumn);
-                UsersGridView.Columns.Remove(BtnModifyColumn);
-                UsersGridView.Width -= BtnDisableColumn.Width;
-                UsersGridView.Width -= BtnModifyColumn.Width;
             }
             else
             {
                 UsingActiveUsers = true;
-                UsersGridView.Columns.Remove(BtnEnableColumn);
-                UsersGridView.Columns.Remove(BtnModifyColumn);
-                UsersGridView.Width -= BtnEnableColumn.Width;
-                UsersGridView.Width -= BtnModifyColumn.Width;
-
             }
             GetData();
         }
@@ -228,20 +209,6 @@ namespace Farmacop
         private void btnAddUser_Click(object sender, EventArgs e)
         {
             new AddUserForm().ShowDialog();
-            if (UsingActiveUsers)
-            {
-                UsersGridView.Columns.Remove(BtnDisableColumn);
-                UsersGridView.Columns.Remove(BtnModifyColumn);
-                UsersGridView.Width -= BtnDisableColumn.Width;
-                UsersGridView.Width -= BtnModifyColumn.Width;
-            }
-            else
-            {
-                UsersGridView.Columns.Remove(BtnEnableColumn);
-                UsersGridView.Columns.Remove(BtnModifyColumn);
-                UsersGridView.Width -= BtnEnableColumn.Width;
-                UsersGridView.Width -= BtnModifyColumn.Width;
-            }
             GetData();
         }
     }

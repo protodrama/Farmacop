@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
+using System.Net.Mail;
+using System.Net;
 
 namespace Farmacop
 {
@@ -23,6 +25,9 @@ namespace Farmacop
         public static bool GettingData = false;
 
         public static DAO DBConnection;
+
+        static string email;
+        public static string Email { get { return email; } set { email = value; } }
 
         static string account;
         public static string Account { get { return account; } set { account = value; } }
@@ -71,6 +76,27 @@ namespace Farmacop
             }
 
             return Cripto.ToString();
+        }
+
+        static public void SendEmail(string subject, string body, string mailto)
+        {
+
+            MailMessage email = new MailMessage();
+            email.To.Add(new MailAddress(mailto));
+            email.From = new MailAddress("farmacop_norep@hotmail.com");
+            email.Subject = subject;
+            email.Body = body;
+            email.IsBodyHtml = false;
+            email.Priority = MailPriority.Normal;
+
+            SmtpClient smtp = new SmtpClient("smtp.live.com");
+            smtp.Port = 25;
+            smtp.EnableSsl = true;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new NetworkCredential("farmacop_norep@hotmail.com", "juanfran15");
+
+            smtp.Send(email);
+            email.Dispose();
         }
         #endregion
 

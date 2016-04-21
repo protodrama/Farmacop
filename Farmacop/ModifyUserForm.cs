@@ -30,6 +30,7 @@ namespace Farmacop
                 txtFApl.Text = UserToMod.GetFApl();
                 txtSApl.Text = UserToMod.GetSApl();
                 txtFNac.Text = UserToMod.Nacimiento;
+                txtemail.Text = UserToMod.GetEmail();
                 if (UserToMod.Tipo.Equals("Admin"))
                     ComboboxType.SelectedItem = "Admin";
                 if(UserToMod.Tipo.Equals("Medico"))
@@ -59,33 +60,40 @@ namespace Farmacop
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            if (!txtName.Text.Trim().Equals("") && !txtFNac.Text.Trim().Equals("") && !txtFApl.Text.Trim().Equals("") && !txtSApl.Text.Trim().Equals(""))
+            try
             {
-                if (Sesion.DBConnection.UpdateModUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.SelectedItem.ToString(), UserToMod.Cuenta))
+                if (!txtName.Text.Trim().Equals("") && !txtFNac.Text.Trim().Equals("") && !txtFApl.Text.Trim().Equals("") && !txtSApl.Text.Trim().Equals("") && !txtemail.Text.Trim().Equals(""))
                 {
-                    if(algDeleted.Count > 0)
+                    if (Sesion.DBConnection.UpdateModUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.SelectedItem.ToString(), UserToMod.Cuenta, txtemail.Text))
                     {
-                        foreach (string alg in algDeleted)
-                            Sesion.DBConnection.DeleteAlg(UserToMod.Cuenta, alg);
-                    }
-                    foreach (Control Ctemp in algContainer.Controls)
-                    {
-                        if (Ctemp is AlgControl)
+                        if (algDeleted.Count > 0)
                         {
-                            if (((AlgControl)Ctemp).Text.Equals(""))
-                                continue;
-                            else
-                                Sesion.DBConnection.InsertAlg(UserToMod.Cuenta, ((AlgControl)Ctemp).Text);
+                            foreach (string alg in algDeleted)
+                                Sesion.DBConnection.DeleteAlg(UserToMod.Cuenta, alg);
                         }
+                        foreach (Control Ctemp in algContainer.Controls)
+                        {
+                            if (Ctemp is AlgControl)
+                            {
+                                if (((AlgControl)Ctemp).GetText.Equals(""))
+                                    continue;
+                                else
+                                    Sesion.DBConnection.InsertAlg(UserToMod.Cuenta, ((AlgControl)Ctemp).GetText);
+                            }
+                        }
+                        MessageBox.Show("Usuario modificado con éxito");
+                        this.Close();
                     }
-                    MessageBox.Show("Usuario modificado con éxito");
+                }
+                else
+                {
+                    MessageBox.Show("Todos los campos deben tener un valor");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Todos los campos deben tener un valor");
+                MessageBox.Show("Error al modificar el usuario");
             }
-            this.Close();
         }
 
         private void txtFNac_Click(object sender, EventArgs e)
@@ -167,10 +175,10 @@ namespace Farmacop
             {
                 if (Ctemp is AlgControl)
                 {
-                    if (((AlgControl)Ctemp).Text.Equals(""))
+                    if (((AlgControl)Ctemp).GetText.Equals(""))
                         return;
-                    if (MedNames.Contains(((AlgControl)Ctemp).Text))
-                        MedNames.Remove(((AlgControl)Ctemp).Text);
+                    if (MedNames.Contains(((AlgControl)Ctemp).GetText))
+                        MedNames.Remove(((AlgControl)Ctemp).GetText);
                 }
             }
 

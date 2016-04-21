@@ -85,6 +85,31 @@ namespace Farmacop
             return data;
         }
 
+        //Obtiene las credenciales del usuario indicado
+        public string GetUserEmail(string account)
+        {
+            Sesion.GettingData = true;
+            string data = "";
+            string sql = "select correo from Usuarios where Cuenta like \"" + account + "\" and Validada = 1";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
+            MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
+
+            if (DataReader.HasRows)  //Si tiene filas lee el contenido y devuelve las credenciales
+                while (DataReader.Read())
+                {
+                    try
+                    {
+                        data = DataReader["correo"].ToString();
+                    }
+                    catch (Exception e) { throw new Exception("Error al conectar al servidor."); }
+                }
+
+            DataReader.Close();
+            Sesion.GettingData = false;
+            return data;
+        }
+
         //Actualiza la conexion a true
         public bool UserConnect(string account)
         {
@@ -112,7 +137,7 @@ namespace Farmacop
         {
             Sesion.GettingData = true;
             string data = null;
-            string sql = "select Cuenta,Contrasena,Tipo,Nombre,Apellido1,Apellido2,FechaNac from Usuarios where Cuenta like \"" + account + "\" and Validada = 1";
+            string sql = "select Cuenta,Contrasena,Tipo,Nombre,Apellido1,Apellido2,FechaNac,correo from Usuarios where Cuenta like \"" + account + "\" and Validada = 1";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
             MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
@@ -123,7 +148,8 @@ namespace Farmacop
                     try
                     {
                         data = DataReader["Nombre"].ToString() + ";" + DataReader["Apellido1"].ToString() + ";" + DataReader["Apellido2"].ToString() + ";" +
-                            DataReader["Cuenta"].ToString() + ";" + DataReader["Contrasena"].ToString() + ";" + DataReader["FechaNac"].ToString() + ";" + DataReader["Tipo"].ToString();
+                            DataReader["Cuenta"].ToString() + ";" + DataReader["Contrasena"].ToString() + ";" + DataReader["FechaNac"].ToString() + ";" + DataReader["Tipo"].ToString() 
+                            + ";" + DataReader["correo"].ToString();
                     }
                     catch (Exception e) { throw; }
                 }
@@ -140,6 +166,7 @@ namespace Farmacop
             string sql = "update Usuarios set Validada = 1, Contrasena = \"" + Sesion.StringToMD5(pass) + "\" where Cuenta like \"" + account + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
+            Sesion.SendEmail("Validada", "Su cuenta ha sido validada", GetUserEmail(account));
             Sesion.GettingData = false;
             return qr > 0;
         }
@@ -169,6 +196,30 @@ namespace Farmacop
             return EmailList;
         }
 
+        public List<string> GetUserAccountAndEmailToRecPass()
+        {
+            Sesion.GettingData = true;
+            List<string> EmailList = new List<string>();
+            string sql = "select Cuenta,correo from Usuarios where Validada = 1 and Tipo not like \"Paciente\"";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            MySqlDataReader DataReader = cmd.ExecuteReader();
+
+            if (DataReader.HasRows)
+                while (DataReader.Read())
+                {
+                    try
+                    {
+                        EmailList.Add(DataReader["Cuenta"].ToString() + ":" + DataReader["correo"].ToString());
+                    }
+                    catch (Exception e) { throw; }
+                }
+
+            DataReader.Close();
+            Sesion.GettingData = false;
+            return EmailList;
+        }
+
         //Actualiza la contraseña de un usuario
         public bool UpdateUserPassWord(string account, string newPass)
         {
@@ -181,21 +232,32 @@ namespace Farmacop
         }
 
         //Actualiza los datos de un usuario
-        public bool UpdateUserData(string Name, string FApl, string SApl, string FNac, string account)
+        public bool UpdateUserData(string Name, string FApl, string SApl, string FNac,string Email, string account)
         {
             Sesion.GettingData = true;
-            string sql = "update Usuarios set Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\' where Cuenta like \"" + account + "\"";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Sesion.GettingData = false;
+            int qr = 0;
+            if (Email != null)
+            {
+                string sql = "update Usuarios set Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', correo = \'" + Email + "\' where Cuenta like \"" + account + "\"";
+                MySqlCommand cmd = new MySqlCommand(sql, conexion);
+                qr = cmd.ExecuteNonQuery();
+                Sesion.GettingData = false;
+            }
+            else
+            {
+                string sql = "update Usuarios set Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\' where Cuenta like \"" + account + "\"";
+                MySqlCommand cmd = new MySqlCommand(sql, conexion);
+                qr = cmd.ExecuteNonQuery();
+                Sesion.GettingData = false;
+            }
             return qr > 0;
         }
 
         //Actualiza los datos de un usuario
-        public bool UpdateModUserData(string Name, string FApl, string SApl, string FNac,string Type, string account)
+        public bool UpdateModUserData(string Name, string FApl, string SApl, string FNac,string Type, string account,string email)
         {
             Sesion.GettingData = true;
-            string sql = "update Usuarios set Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', Tipo = \'" + Type + "\' where Cuenta like \"" + account + "\"";
+            string sql = "update Usuarios set Nombre = \"" + Name + "\", correo = \"" + email + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', Tipo = \'" + Type + "\' where Cuenta like \"" + account + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
             Sesion.GettingData = false;
@@ -203,10 +265,10 @@ namespace Farmacop
         }
 
         //Agregar un usuario
-        public bool InsertUserData(string Name, string FApl, string SApl, string FNac, string Type, string account)
+        public bool InsertUserData(string Name, string FApl, string SApl, string FNac, string Type, string account,string email)
         {
             Sesion.GettingData = true;
-            string sql = "Insert into Usuarios set Cuenta = \"" + account + "\", Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', Tipo = \'" + Type + "\', Contrasena = \"" + Sesion.StringToMD5(account+Name+"NewUser"+new Random().Next(100)) + "\"";
+            string sql = "Insert into Usuarios set Cuenta = \"" + account + "\", Nombre = \"" + Name + "\", correo = \"" + email + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', Tipo = \'" + Type + "\', Contrasena = \"" + Sesion.StringToMD5(account+Name+"NewUser"+new Random().Next(100)) + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
             Sesion.GettingData = false;
@@ -245,9 +307,9 @@ namespace Farmacop
             List<User> Users = new List<User>();
             string sql = "";
             if (Sesion.UserType == UserType.Admin)
-                sql = "select Cuenta,Nombre,Apellido1,Apellido2,FechaNac,Tipo,Deshabilitada from Usuarios where Validada = 1 and Cuenta not like \"" + Sesion.Account + "\"";
+                sql = "select Cuenta,Nombre,Apellido1,Apellido2,FechaNac,correo,Tipo,Deshabilitada from Usuarios where Validada = 1 and Cuenta not like \"" + Sesion.Account + "\"";
             else
-                sql = "select Cuenta,Nombre,Apellido1,Apellido2,FechaNac,Tipo,Deshabilitada from Usuarios where Validada = 1 and Cuenta not like \"" + Sesion.Account + "\" and Tipo not like \"Admin\" and Tipo not like \"Medico\"";
+                sql = "select Cuenta,Nombre,Apellido1,Apellido2,FechaNac,correo,Tipo,Deshabilitada from Usuarios where Validada = 1 and Cuenta not like \"" + Sesion.Account + "\" and Tipo not like \"Admin\" and Tipo not like \"Medico\"";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             MySqlDataReader DataReader = cmd.ExecuteReader();
@@ -258,7 +320,7 @@ namespace Farmacop
                     try
                     {
                         Users.Add(new User(DataReader["Nombre"].ToString(), DataReader["Apellido1"].ToString(), DataReader["Apellido2"].ToString(), DataReader["Cuenta"].ToString(),
-                            DateTime.Parse(DataReader["FechaNac"].ToString()).ToString("dd/MM/yyyy"), DataReader["Tipo"].ToString(), DataReader["Deshabilitada"].ToString().Equals("False")));
+                            DateTime.Parse(DataReader["FechaNac"].ToString()).ToString("dd/MM/yyyy"), DataReader["Tipo"].ToString(), DataReader["Deshabilitada"].ToString().Equals("False"), DataReader["correo"].ToString()));
                     }
                     catch (Exception e) { throw; }
                 }
@@ -589,13 +651,15 @@ namespace Farmacop
             {
                 InsertMsg(recepie.Medico, recepie.Paciente, "Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + recepie.Medicamento + " que comenzaba el día " + recepie.FechaInicio +
                     " y terminaba el día " + recepie.FechaFin);
+                Sesion.SendEmail("Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + recepie.Medicamento + " que comenzaba el día " + recepie.FechaInicio +
+                    " y terminaba el día " + recepie.FechaFin, GetUserEmail(recepie.Paciente));
             }
 
             Sesion.GettingData = false;
             return qrr > 0;
         }
 
-        public bool AddRecepie(string patient, string medic, string medicament, string FIni, string FEnd,string Amm,List<string> Time)
+        public bool AddRecepie(string patient, string medic, string medicament, string FIni, string FEnd, string Amm,List<string> Time)
         {
             Sesion.GettingData = true;
             string fInicFormat = DateTime.Parse(FIni).ToString("yyyy-MM-dd");
@@ -612,8 +676,8 @@ namespace Farmacop
                     "','" + fEndFormat + "', (select ID from Medicamentos where Nombre like '" + medicament + "')," + Amm + ")";
                 MySqlCommand com = new MySqlCommand(sql, conexion);
                 int qr = com.ExecuteNonQuery();
-                Sesion.GettingData = false;
-                if(qr > 0)
+
+                if (qr > 0)
                 {
                     int ID = getRecepieID(patient, Sesion.Account, medicament, fInicFormat, fEndFormat);
                     string hours = string.Empty;
@@ -623,11 +687,19 @@ namespace Farmacop
                         InsertHour(ID, tmp.Split(':')[0], tmp.Split(':')[1]);
                     }
                     string msg = "Se ha añadido una nueva receta para usted.[**]-Medicamento: " + medicament +
-                        "[**]-Dosis: " + Amm + "[**]-Fecha de inicio: " + FIni+ "[**]-Fecha fin: " + FEnd + "[**]-Horario de tomas diarias:" + hours;
+                        "[**]-Dosis: " + Amm + "[**]-Fecha de inicio: " + FIni + "[**]-Fecha fin: " + FEnd + "[**]-Horario de tomas diarias:" + hours;
 
                     InsertMsg(Sesion.Account, patient, "Nueva receta", msg);
+                    Sesion.SendEmail("Receta", msg.Replace("[**]", "\r\n"), GetUserEmail(patient));
+                    Sesion.GettingData = false;
+                    return true;
                 }
-                return true;
+                else
+                {
+                    Sesion.GettingData = false;
+                    return false;
+                }
+            
             }
             else
             {
@@ -661,6 +733,147 @@ namespace Farmacop
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
         }
+
+        public void DeletetHour(int ID, string hour, string min)
+        {
+            string sql = "delete from Horas where ID_Receta = " + ID + " and Hora = " + hour + " and Minuto = " + min;
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            int qr = cmd.ExecuteNonQuery();
+        }
+
+        public void DeleteOldControl(int ID, string hour, string min)
+        {
+            string sql = "delete from Rec_Control where ID_Receta = " + ID + " and Fecha > '" + DateTime.Now.ToString("yyyy-MM-dd")+ "' and Hora = " + hour;
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            cmd.ExecuteNonQuery();
+
+            string sql2 = "delete from Rec_Control where ID_Receta = " + ID + " and Fecha = '" + DateTime.Now.ToString("yyyy-MM-dd") +
+                "' and Hora = " + hour + " and Hora > " + DateTime.Now.TimeOfDay.Hours;// + " and Minuto > " + DateTime.Now.TimeOfDay.Minutes;
+            MySqlCommand cmd2 = new MySqlCommand(sql2, conexion);
+            cmd2.ExecuteNonQuery();
+
+            string sql3 = "delete from Rec_Control where ID_Receta = " + ID + " and Fecha = '" + DateTime.Now.ToString("yyyy-MM-dd") +
+                "' and Hora = " + hour + " and Hora = " + DateTime.Now.TimeOfDay.Hours + " and Minuto > " + DateTime.Now.TimeOfDay.Minutes;
+            MySqlCommand cmd3 = new MySqlCommand(sql3, conexion);
+            cmd3.ExecuteNonQuery();
+
+        }
+
+        public void DeleteNewControl(int ID, string hour, string min)
+        {
+            string sql = "delete from Rec_Control where ID_Receta = " + ID + " and Fecha < '" + DateTime.Now.ToString("yyyy-MM-dd") + "'";
+            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+            cmd.ExecuteNonQuery();
+
+            string sql2 = "delete from Rec_Control where ID_Receta = " + ID + " and Fecha = '" + DateTime.Now.ToString("yyyy-MM-dd") +
+                "' and Hora < " + DateTime.Now.TimeOfDay.Hours;
+            MySqlCommand cmd2 = new MySqlCommand(sql2, conexion);
+            cmd2.ExecuteNonQuery();
+
+            string sql3 = "delete from Rec_Control where ID_Receta = " + ID + " and Fecha = '" + DateTime.Now.ToString("yyyy-MM-dd") +
+                "' and Hora = " + DateTime.Now.TimeOfDay.Hours + " and Minuto < " + DateTime.Now.TimeOfDay.Minutes;
+            MySqlCommand cmd3 = new MySqlCommand(sql3, conexion);
+            cmd2.ExecuteNonQuery();
+        }
+
+        public void ControlTableSincronization(int ID, string EndDate, bool isBigger, List<string> hours)
+        {
+            if (isBigger)
+            {
+                DateTime endDateTime = DateTime.Parse(EndDate);
+                DateTime DateData;
+                foreach (string time in hours)
+                {
+                    DateData = DateTime.Now;
+                    while (DateData <= endDateTime)
+                    {
+                        try
+                        {
+                            string sql = "insert into Rec_Control where values (" + ID + ", '" + DateData.ToString("yyyy-MM-dd") + "'," + time.Split(':')[0] + ", " + time.Split(':')[1] + ", 0)";
+                            MySqlCommand cmd = new MySqlCommand(sql, conexion);
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch(Exception e) { }
+                        DateData = DateData.AddDays(1);
+                    }
+                }
+            }
+            else
+            {
+                string sql = "delete from Rec_Control where ID_Receta = " + ID + " and Fecha > '" + DateTime.Parse(EndDate).ToString("yyyy-MM-dd") + "'";
+                MySqlCommand cmd = new MySqlCommand(sql, conexion);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public bool ModRecepie(int RecId,string patient, string medicament, string FIni, string FEnd, string oldEndDate, string Amm, List<string> newTime, List<string> delTime, List<string> totalTime, List<string> stayTime)
+        {
+            Sesion.GettingData = true;
+            string fInicFormat = DateTime.Parse(FIni).ToString("yyyy-MM-dd");
+            string fEndFormat = DateTime.Parse(FEnd).ToString("yyyy-MM-dd");
+            string sqlCheck = "select * from Recetas where ID <> " + RecId  + " and Paciente like '" + patient +
+                "' and ID_Medicamento = (select ID from Medicamentos where Nombre like '" + medicament + "') and FechaInic <= '" + fEndFormat + "'";
+            MySqlCommand comCheck = new MySqlCommand(sqlCheck, conexion);
+            MySqlDataReader rows = comCheck.ExecuteReader();
+            if (!rows.HasRows)
+            {
+                rows.Close();
+                string sql = "update Recetas set FechaInic = '" + fInicFormat + "' , FechaFin = '" + fEndFormat + "' , ID_Medicamento = (select ID from Medicamentos where Nombre like '"
+                + medicament + "'), Dosis = " + Amm + " where ID = " + RecId;
+                MySqlCommand com = new MySqlCommand(sql, conexion);
+                int qr = com.ExecuteNonQuery();
+
+                if (qr > 0)
+                {
+                    foreach (string tmp in delTime)
+                    {
+                        DeletetHour(RecId, tmp.Split(':')[0], tmp.Split(':')[1]);
+                        DeleteOldControl(RecId, tmp.Split(':')[0], tmp.Split(':')[1]);
+                    }
+
+                    foreach (string tmp in newTime)
+                    {
+                        InsertHour(RecId, tmp.Split(':')[0], tmp.Split(':')[1]);
+                        DeleteNewControl(RecId, tmp.Split(':')[0], tmp.Split(':')[1]);
+                    }
+
+                    if(DateTime.Parse(FEnd) > DateTime.Parse(oldEndDate))
+                    {
+                        ControlTableSincronization(RecId,FEnd,true,stayTime);
+                    }
+                    else if (DateTime.Parse(FEnd) < DateTime.Parse(oldEndDate))
+                    {
+                        ControlTableSincronization(RecId, FEnd, false, null);
+                    }
+
+
+                    string hours = string.Empty;
+                    foreach (string tmp in totalTime)
+                    {
+                        hours += "[**]" + tmp;
+                    }
+                    string msg = "Se ha modificado una receta suya. [**]Datos nuevos:[**]-Medicamento: " + medicament +
+                        "[**]-Dosis: " + Amm + "[**]-Fecha de inicio: " + FIni + "[**]-Fecha fin: " + FEnd + "[**]-Horario de tomas diarias:" + hours;
+
+                    InsertMsg(Sesion.Account, patient, "Modificación de receta", msg);
+                    Sesion.GettingData = false;
+                    Sesion.SendEmail("Modificación de receta", msg.Replace("[**]", "\r\n"), GetUserEmail(patient));
+                    return true;
+                }
+                else
+                {
+                    Sesion.GettingData = false;
+                    return false;
+                }
+            }
+            else
+            {
+                rows.Close();
+                Sesion.GettingData = false;
+                throw new Exception("Ya existe una receta activa para ese usuario con el medicamento indicado en la fecha de inicio asignada");
+            }
+        }
+
         #endregion
     }
 }

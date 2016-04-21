@@ -48,6 +48,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtAccount = new System.Windows.Forms.TextBox();
             this.GpxAlg = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtEmail = new System.Windows.Forms.TextBox();
             splAlg = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(splAlg)).BeginInit();
             splAlg.Panel1.SuspendLayout();
@@ -114,7 +116,7 @@
             "Admin",
             "Medico",
             "Paciente"});
-            this.ComboboxType.Location = new System.Drawing.Point(150, 238);
+            this.ComboboxType.Location = new System.Drawing.Point(150, 286);
             this.ComboboxType.Name = "ComboboxType";
             this.ComboboxType.Size = new System.Drawing.Size(121, 21);
             this.ComboboxType.TabIndex = 5;
@@ -122,7 +124,7 @@
             // lblType
             // 
             this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(62, 241);
+            this.lblType.Location = new System.Drawing.Point(62, 289);
             this.lblType.Name = "lblType";
             this.lblType.Size = new System.Drawing.Size(82, 13);
             this.lblType.TabIndex = 42;
@@ -164,7 +166,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(342, 291);
+            this.btnCancel.Location = new System.Drawing.Point(342, 330);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(129, 23);
             this.btnCancel.TabIndex = 7;
@@ -174,7 +176,7 @@
             // 
             // btnAccept
             // 
-            this.btnAccept.Location = new System.Drawing.Point(184, 291);
+            this.btnAccept.Location = new System.Drawing.Point(184, 330);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(129, 23);
             this.btnAccept.TabIndex = 6;
@@ -240,12 +242,30 @@
             this.GpxAlg.TabStop = false;
             this.GpxAlg.Text = "Alergias";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(103, 241);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 13);
+            this.label2.TabIndex = 48;
+            this.label2.Text = "Correo:";
+            // 
+            // txtEmail
+            // 
+            this.txtEmail.Location = new System.Drawing.Point(150, 239);
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.Size = new System.Drawing.Size(287, 20);
+            this.txtEmail.TabIndex = 47;
+            // 
             // AddUserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(662, 338);
+            this.ClientSize = new System.Drawing.Size(662, 393);
             this.ControlBox = false;
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.GpxAlg);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtAccount);
@@ -261,7 +281,6 @@
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.txtFApl);
             this.Controls.Add(this.txtName);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddUserForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -297,5 +316,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnAddAlg;
         private System.Windows.Forms.FlowLayoutPanel algContainer;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtEmail;
     }
 }

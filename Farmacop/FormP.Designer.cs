@@ -37,6 +37,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lnkNewUser = new System.Windows.Forms.LinkLabel();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pctbxFarmacop)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,7 +83,7 @@
             // btnEntrar
             // 
             this.btnEntrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEntrar.Location = new System.Drawing.Point(680, 349);
+            this.btnEntrar.Location = new System.Drawing.Point(679, 335);
             this.btnEntrar.Name = "btnEntrar";
             this.btnEntrar.Size = new System.Drawing.Size(94, 32);
             this.btnEntrar.TabIndex = 3;
@@ -111,15 +112,29 @@
             // lnkNewUser
             // 
             this.lnkNewUser.AutoSize = true;
-            this.lnkNewUser.LinkArea = new System.Windows.Forms.LinkArea(68, 70);
-            this.lnkNewUser.Location = new System.Drawing.Point(636, 398);
+            this.lnkNewUser.LinkArea = new System.Windows.Forms.LinkArea(67, 4);
+            this.lnkNewUser.Location = new System.Drawing.Point(622, 433);
             this.lnkNewUser.Name = "lnkNewUser";
-            this.lnkNewUser.Size = new System.Drawing.Size(203, 30);
+            this.lnkNewUser.Size = new System.Drawing.Size(193, 30);
             this.lnkNewUser.TabIndex = 6;
             this.lnkNewUser.TabStop = true;
-            this.lnkNewUser.Text = "Si es la primera vez que entras añade \r\nuna contraseña a tu usuario aquí";
+            this.lnkNewUser.Text = "Si es la primera vez que entras \r\nañade la contraseña a tu usuario aquí";
+            this.lnkNewUser.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lnkNewUser.UseCompatibleTextRendering = true;
             this.lnkNewUser.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkNewUser_LinkClicked);
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(0, 20);
+            this.linkLabel1.Location = new System.Drawing.Point(640, 393);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(113, 13);
+            this.linkLabel1.TabIndex = 7;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Recuperar contraseña";
+            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // FormP
             // 
@@ -128,6 +143,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1419, 821);
+            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.lnkNewUser);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -159,6 +175,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.LinkLabel lnkNewUser;
+        private System.Windows.Forms.LinkLabel linkLabel1;
     }
 }
 

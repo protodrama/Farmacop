@@ -48,6 +48,7 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.titleline = new System.Windows.Forms.Panel();
             this.Panel2Containt = new System.Windows.Forms.FlowLayoutPanel();
+            this.txtNumMsgs = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.SplitPrincipal)).BeginInit();
             this.SplitPrincipal.Panel1.SuspendLayout();
             this.SplitPrincipal.Panel2.SuspendLayout();
@@ -221,6 +222,7 @@
             // Menu5
             // 
             this.Menu5.Controls.Add(this.lblMessage);
+            this.Menu5.Controls.Add(this.txtNumMsgs);
             this.Menu5.Location = new System.Drawing.Point(0, 400);
             this.Menu5.Margin = new System.Windows.Forms.Padding(0);
             this.Menu5.Name = "Menu5";
@@ -231,14 +233,14 @@
             this.Menu5.MouseEnter += new System.EventHandler(this.Menu_MouseEnter);
             this.Menu5.MouseLeave += new System.EventHandler(this.Menu_MouseLeave);
             // 
-            // lblControl
+            // lblMessage
             // 
             this.lblMessage.AutoSize = true;
             this.lblMessage.Font = new System.Drawing.Font("Arial", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMessage.ForeColor = System.Drawing.Color.White;
             this.lblMessage.Location = new System.Drawing.Point(75, 34);
             this.lblMessage.Margin = new System.Windows.Forms.Padding(75, 34, 3, 0);
-            this.lblMessage.Name = "lblControl";
+            this.lblMessage.Name = "lblMessage";
             this.lblMessage.Size = new System.Drawing.Size(132, 32);
             this.lblMessage.TabIndex = 1;
             this.lblMessage.Tag = "Messages";
@@ -341,6 +343,19 @@
             this.Panel2Containt.Size = new System.Drawing.Size(989, 781);
             this.Panel2Containt.TabIndex = 0;
             // 
+            // txtNumMsgs
+            // 
+            this.txtNumMsgs.AutoSize = true;
+            this.txtNumMsgs.BackColor = System.Drawing.Color.Yellow;
+            this.txtNumMsgs.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNumMsgs.Location = new System.Drawing.Point(213, 30);
+            this.txtNumMsgs.Margin = new System.Windows.Forms.Padding(3, 30, 3, 0);
+            this.txtNumMsgs.Name = "txtNumMsgs";
+            this.txtNumMsgs.Size = new System.Drawing.Size(19, 20);
+            this.txtNumMsgs.TabIndex = 2;
+            this.txtNumMsgs.Text = "..";
+            this.txtNumMsgs.Visible = false;
+            // 
             // PrincipalPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -399,5 +414,6 @@
         public System.Windows.Forms.Label lblTitle;
         public System.Windows.Forms.Panel titleline;
         private System.Windows.Forms.FlowLayoutPanel Panel2Containt;
+        private System.Windows.Forms.Label txtNumMsgs;
     }
 }

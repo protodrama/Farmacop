@@ -172,6 +172,7 @@ namespace Farmacop
                     Sesion.UserType = UserType.Admin;
                 else
                     Sesion.UserType = UserType.Medico;
+                Sesion.Email = dataValues[7];
             }
             catch(Exception e)
             {
@@ -188,6 +189,11 @@ namespace Farmacop
                 Sesion.DBConnection.UserDisconnect(Sesion.Account);
                 Sesion.DBConnection.Disconnect();
             }
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            new RecPassForm().Show();
         }
     }
 }

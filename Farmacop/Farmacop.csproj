@@ -196,6 +196,12 @@
     <Compile Include="RecepieTimeSelect.Designer.cs">
       <DependentUpon>RecepieTimeSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="RecPassForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RecPassForm.Designer.cs">
+      <DependentUpon>RecPassForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sesion.cs" />
     <Compile Include="Taken.cs" />
     <Compile Include="User.cs" />
@@ -265,6 +271,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RecepieTimeSelect.resx">
       <DependentUpon>RecepieTimeSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RecPassForm.resx">
+      <DependentUpon>RecPassForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UsersPanel.resx">
       <DependentUpon>UsersPanel.cs</DependentUpon>

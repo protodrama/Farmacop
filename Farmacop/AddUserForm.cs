@@ -43,20 +43,20 @@ namespace Farmacop
         {
             try
             {
-                if (!txtAccount.Text.Trim().Equals("") && !txtName.Text.Trim().Equals("") && !txtFApl.Text.Trim().Equals("") && !txtSApl.Text.Trim().Equals("") && !txtFNac.Text.Trim().Equals("") && !ComboboxType.Text.Trim().Equals(""))
+                if (!txtAccount.Text.Trim().Equals("") && !txtEmail.Text.Trim().Equals("") && !txtName.Text.Trim().Equals("") && !txtFApl.Text.Trim().Equals("") && !txtSApl.Text.Trim().Equals("") && !txtFNac.Text.Trim().Equals("") && !ComboboxType.Text.Trim().Equals(""))
                 {
                     if (CheckAccountName(txtAccount.Text))
                     {
-                        if (Sesion.DBConnection.InsertUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.Text, txtAccount.Text))
+                        if (Sesion.DBConnection.InsertUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.Text, txtAccount.Text, txtEmail.Text))
                         {
                             foreach (Control Ctemp in algContainer.Controls)
                             {
                                 if (Ctemp is AlgControl)
                                 {
-                                    if (((AlgControl)Ctemp).Text.Equals(""))
+                                    if (((AlgControl)Ctemp).GetText.Equals(""))
                                         continue;
                                     else
-                                        Sesion.DBConnection.InsertAlg(txtAccount.Text, ((AlgControl)Ctemp).Text);
+                                        Sesion.DBConnection.InsertAlg(txtAccount.Text, ((AlgControl)Ctemp).GetText);
                                 }
                             }
                             MessageBox.Show("Usuario insertado correctamente.");
@@ -178,10 +178,10 @@ namespace Farmacop
             foreach (Control Ctemp in algContainer.Controls)
             {
                 if (Ctemp is AlgControl){
-                    if (((AlgControl)Ctemp).Text.Equals(""))
+                    if (((AlgControl)Ctemp).GetText.Equals(""))
                         return;
-                    if (MedNames.Contains(((AlgControl)Ctemp).Text))
-                        MedNames.Remove(((AlgControl)Ctemp).Text);
+                    if (MedNames.Contains(((AlgControl)Ctemp).GetText))
+                        MedNames.Remove(((AlgControl)Ctemp).GetText);
                 }
             }
 

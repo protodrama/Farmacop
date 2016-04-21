@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.SplitContainer splAlg;
+            this.algContainer = new System.Windows.Forms.FlowLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnAddAlg = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnAccept = new System.Windows.Forms.Button();
             this.lblFSurname = new System.Windows.Forms.Label();
@@ -42,23 +45,71 @@
             this.lblType = new System.Windows.Forms.Label();
             this.ComboboxType = new System.Windows.Forms.ComboBox();
             this.GpxAlg = new System.Windows.Forms.GroupBox();
-            this.algContainer = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btnAddAlg = new System.Windows.Forms.Button();
             this.AlgDataGrid = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtemail = new System.Windows.Forms.TextBox();
             splAlg = new System.Windows.Forms.SplitContainer();
-            this.GpxAlg.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(splAlg)).BeginInit();
             splAlg.Panel1.SuspendLayout();
             splAlg.Panel2.SuspendLayout();
             splAlg.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.GpxAlg.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.AlgDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
+            // splAlg
+            // 
+            splAlg.Dock = System.Windows.Forms.DockStyle.Fill;
+            splAlg.Location = new System.Drawing.Point(3, 16);
+            splAlg.Margin = new System.Windows.Forms.Padding(0);
+            splAlg.Name = "splAlg";
+            splAlg.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splAlg.Panel1
+            // 
+            splAlg.Panel1.Controls.Add(this.algContainer);
+            // 
+            // splAlg.Panel2
+            // 
+            splAlg.Panel2.Controls.Add(this.panel1);
+            splAlg.Size = new System.Drawing.Size(170, 228);
+            splAlg.SplitterDistance = 199;
+            splAlg.SplitterWidth = 1;
+            splAlg.TabIndex = 0;
+            // 
+            // algContainer
+            // 
+            this.algContainer.AutoScroll = true;
+            this.algContainer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.algContainer.Location = new System.Drawing.Point(3, 0);
+            this.algContainer.Name = "algContainer";
+            this.algContainer.Size = new System.Drawing.Size(164, 198);
+            this.algContainer.TabIndex = 0;
+            this.algContainer.WrapContents = false;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.btnAddAlg);
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(170, 40);
+            this.panel1.TabIndex = 0;
+            // 
+            // btnAddAlg
+            // 
+            this.btnAddAlg.Location = new System.Drawing.Point(42, 3);
+            this.btnAddAlg.Name = "btnAddAlg";
+            this.btnAddAlg.Size = new System.Drawing.Size(99, 23);
+            this.btnAddAlg.TabIndex = 0;
+            this.btnAddAlg.Text = "Agregar";
+            this.btnAddAlg.UseVisualStyleBackColor = true;
+            this.btnAddAlg.Click += new System.EventHandler(this.btnAddAlg_Click);
+            // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(287, 287);
+            this.btnCancel.Location = new System.Drawing.Point(287, 321);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(129, 23);
             this.btnCancel.TabIndex = 6;
@@ -68,7 +119,7 @@
             // 
             // btnAccept
             // 
-            this.btnAccept.Location = new System.Drawing.Point(128, 287);
+            this.btnAccept.Location = new System.Drawing.Point(128, 321);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(129, 23);
             this.btnAccept.TabIndex = 5;
@@ -145,7 +196,7 @@
             // lblType
             // 
             this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(41, 207);
+            this.lblType.Location = new System.Drawing.Point(40, 263);
             this.lblType.Name = "lblType";
             this.lblType.Size = new System.Drawing.Size(82, 13);
             this.lblType.TabIndex = 30;
@@ -159,7 +210,7 @@
             "Admin",
             "Medico",
             "Paciente"});
-            this.ComboboxType.Location = new System.Drawing.Point(129, 204);
+            this.ComboboxType.Location = new System.Drawing.Point(128, 260);
             this.ComboboxType.Name = "ComboboxType";
             this.ComboboxType.Size = new System.Drawing.Size(121, 21);
             this.ComboboxType.TabIndex = 31;
@@ -173,55 +224,6 @@
             this.GpxAlg.TabIndex = 47;
             this.GpxAlg.TabStop = false;
             this.GpxAlg.Text = "Añadir alergias";
-            // 
-            // splAlg
-            // 
-            splAlg.Dock = System.Windows.Forms.DockStyle.Fill;
-            splAlg.Location = new System.Drawing.Point(3, 16);
-            splAlg.Margin = new System.Windows.Forms.Padding(0);
-            splAlg.Name = "splAlg";
-            splAlg.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splAlg.Panel1
-            // 
-            splAlg.Panel1.Controls.Add(this.algContainer);
-            // 
-            // splAlg.Panel2
-            // 
-            splAlg.Panel2.Controls.Add(this.panel1);
-            splAlg.Size = new System.Drawing.Size(170, 228);
-            splAlg.SplitterDistance = 199;
-            splAlg.SplitterWidth = 1;
-            splAlg.TabIndex = 0;
-            // 
-            // algContainer
-            // 
-            this.algContainer.AutoScroll = true;
-            this.algContainer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.algContainer.Location = new System.Drawing.Point(3, 0);
-            this.algContainer.Name = "algContainer";
-            this.algContainer.Size = new System.Drawing.Size(164, 198);
-            this.algContainer.TabIndex = 0;
-            this.algContainer.WrapContents = false;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.btnAddAlg);
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(170, 40);
-            this.panel1.TabIndex = 0;
-            // 
-            // btnAddAlg
-            // 
-            this.btnAddAlg.Location = new System.Drawing.Point(42, 3);
-            this.btnAddAlg.Name = "btnAddAlg";
-            this.btnAddAlg.Size = new System.Drawing.Size(99, 23);
-            this.btnAddAlg.TabIndex = 0;
-            this.btnAddAlg.Text = "Agregar";
-            this.btnAddAlg.UseVisualStyleBackColor = true;
-            this.btnAddAlg.Click += new System.EventHandler(this.btnAddAlg_Click);
             // 
             // AlgDataGrid
             // 
@@ -246,12 +248,30 @@
             this.AlgDataGrid.TabIndex = 48;
             this.AlgDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.AlgDataGrid_CellContentClick);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(76, 211);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.TabIndex = 50;
+            this.label1.Text = "Correo:";
+            // 
+            // txtemail
+            // 
+            this.txtemail.Location = new System.Drawing.Point(128, 208);
+            this.txtemail.Name = "txtemail";
+            this.txtemail.Size = new System.Drawing.Size(287, 20);
+            this.txtemail.TabIndex = 49;
+            // 
             // ModifyUserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(696, 405);
             this.ControlBox = false;
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtemail);
             this.Controls.Add(this.AlgDataGrid);
             this.Controls.Add(this.GpxAlg);
             this.Controls.Add(this.ComboboxType);
@@ -269,12 +289,12 @@
             this.Name = "ModifyUserForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Modificar usuario";
-            this.GpxAlg.ResumeLayout(false);
             splAlg.Panel1.ResumeLayout(false);
             splAlg.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(splAlg)).EndInit();
             splAlg.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.GpxAlg.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.AlgDataGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -299,5 +319,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnAddAlg;
         private System.Windows.Forms.DataGridView AlgDataGrid;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtemail;
     }
 }

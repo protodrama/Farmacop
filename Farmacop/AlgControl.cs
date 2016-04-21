@@ -17,6 +17,6 @@ namespace Farmacop
             this.AlgComboBox.Items.AddRange(data);
         }
 
-        public string Text { get { return AlgComboBox.Text; } }
+        public string GetText { get { return AlgComboBox.Text; } }
     }
 }

@@ -30,6 +30,7 @@ namespace Farmacop
                 lblTUser.Text = "Admin";
             else
                 lblTUser.Text = "Médico";
+            txtEmail.Text = Sesion.Email;
         }
 
         private void btnModifyPass_Click(object sender, EventArgs e)
@@ -76,7 +77,7 @@ namespace Farmacop
 
         private void btnModPData_Click(object sender, EventArgs e)
         {
-            string Name, FApl, SApl, FNac;
+            string Name, FApl, SApl, FNac, Email;
 
             if (txtbxName.Text.Trim().Equals(""))
                 Name = Sesion.Name;
@@ -97,20 +98,28 @@ namespace Farmacop
                 FNac = DateTime.Parse(Sesion.FNac).ToString("yyyy-MM-dd");
             else
                 FNac = DateTime.Parse(txtbxFNac.Text).ToString("yyyy-MM-dd");
-            if (!Name.Equals(Sesion.Name) || !FApl.Equals(Sesion.FirstSurname) || !SApl.Equals(Sesion.SecondSurname) || !FNac.Equals(DateTime.Parse(Sesion.FNac).ToString("yyyy-MM-dd")))
+
+            if (txtbxEmail.Text.Trim().Equals(""))
+                Email = Sesion.Email;
+            else
+                Email = txtbxEmail.Text;
+
+            if (!Name.Equals(Sesion.Name) || !FApl.Equals(Sesion.FirstSurname) || !SApl.Equals(Sesion.SecondSurname) || !FNac.Equals(DateTime.Parse(Sesion.FNac).ToString("yyyy-MM-dd")) || !Email.Equals(Sesion.Email))
             {
-                if (Sesion.DBConnection.UpdateUserData(Name, FApl, SApl, FNac, Sesion.Account))
+                if (Sesion.DBConnection.UpdateUserData(Name, FApl, SApl, FNac,Email, Sesion.Account))
                 {
                     MessageBox.Show("Datos actualizados con éxito");
                     Sesion.Name = Name;
                     Sesion.FirstSurname = FApl;
                     Sesion.SecondSurname = SApl;
-                    Sesion.FNac = DateTime.Parse(FNac).ToString("dd/MM/yyyy"); ;
+                    Sesion.FNac = DateTime.Parse(FNac).ToString("dd/MM/yyyy");
+                    Sesion.Email = Email;
                     Inicialize();
                     txtbxFApl.Text = "";
                     txtbxFNac.Text = "";
                     txtbxName.Text = "";
                     txtbxSApl.Text = "";
+                    txtbxEmail.Text = "";
                 }
                 else
                     MessageBox.Show("Error al actualizar los datos");

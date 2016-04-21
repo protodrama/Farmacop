@@ -76,38 +76,55 @@ namespace Farmacop
             this.Close();
         }
 
-        private void btnAdd_Click(object sender, EventArgs e)
+        private void btnMod_Click(object sender, EventArgs e)
         {
-            
+            if (CheckData())
+            {
+                foreach (RecepieTimeSelect tmp in SelecTimeControl)
+                {
+                    if (!newTime.Contains(tmp.Time))
+                        newTime.Add(tmp.Time);
+                }
+                List<string> allRecepieTime = new List<string>();
+                allRecepieTime.AddRange(newTime.ToArray());
+                allRecepieTime.AddRange(timeShowing.ToArray());
+
+                if (allRecepieTime.Count > 0)
+                {
+                    try
+                    {
+                        if (Sesion.DBConnection.ModRecepie(RecToMod.getId(), RecToMod.Paciente, RecToMod.Medicamento, txtFInic.Text, txtFEnd.Text, RecToMod.FechaFin, txtDs.Text, newTime, deletedTime, allRecepieTime, timeShowing))
+                        {
+                            MessageBox.Show("Receta modificada correctamente");
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error al modificar la receta");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Una receta debe tener al menos una hora de toma");
+                    this.Close();
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Debes introducir datos para todos los campos");
+            }
         }
 
         private void btnAddMed_Click(object sender, EventArgs e)
         {
             new AddNewMed().ShowDialog();
             GetMedNames();
-        }
-
-        public class Hour
-        {
-            private string _hora;
-
-            public string Hora
-            {
-                get
-                {
-                    return _hora;
-                }
-
-                set
-                {
-                    _hora = value;
-                }
-            }
-
-            public Hour(string time)
-            {
-                this.Hora = time;
-            }
         }
 
         public void AddTimeSelect()
@@ -229,6 +246,37 @@ namespace Farmacop
             this.Controls.Remove(mCalendar);
             txtFInic.Enabled = true;
             txtFEnd.Enabled = true;
+        }
+
+        public bool CheckData()
+        {
+            if (!txtDs.Text.Trim().Equals("") && !txtFInic.Text.Trim().Equals("") && !txtFEnd.Text.Trim().Equals(""))
+                return true;
+            else
+                return false;
+        }
+
+        public class Hour
+        {
+            private string _hora;
+
+            public string Hora
+            {
+                get
+                {
+                    return _hora;
+                }
+
+                set
+                {
+                    _hora = value;
+                }
+            }
+
+            public Hour(string time)
+            {
+                this.Hora = time;
+            }
         }
     }
 }

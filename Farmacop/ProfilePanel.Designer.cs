@@ -59,6 +59,10 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.txtEmail = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtbxEmail = new System.Windows.Forms.TextBox();
+            this.lblEmail = new System.Windows.Forms.Label();
             this.PassBox.SuspendLayout();
             this.grpUserData.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -143,6 +147,8 @@
             // 
             // grpUserData
             // 
+            this.grpUserData.Controls.Add(this.txtEmail);
+            this.grpUserData.Controls.Add(this.label12);
             this.grpUserData.Controls.Add(this.lblTUser);
             this.grpUserData.Controls.Add(this.lblFNac);
             this.grpUserData.Controls.Add(this.lblApl2);
@@ -206,7 +212,7 @@
             // lblAccount
             // 
             this.lblAccount.AutoSize = true;
-            this.lblAccount.Location = new System.Drawing.Point(157, 231);
+            this.lblAccount.Location = new System.Drawing.Point(157, 261);
             this.lblAccount.Name = "lblAccount";
             this.lblAccount.Size = new System.Drawing.Size(0, 13);
             this.lblAccount.TabIndex = 6;
@@ -259,7 +265,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(53, 231);
+            this.label1.Location = new System.Drawing.Point(53, 261);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(98, 13);
             this.label1.TabIndex = 0;
@@ -267,6 +273,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtbxEmail);
+            this.groupBox1.Controls.Add(this.lblEmail);
             this.groupBox1.Controls.Add(this.txtbxFNac);
             this.groupBox1.Controls.Add(this.txtbxSApl);
             this.groupBox1.Controls.Add(this.txtbxFApl);
@@ -315,7 +323,7 @@
             // 
             // btnModPData
             // 
-            this.btnModPData.Location = new System.Drawing.Point(126, 196);
+            this.btnModPData.Location = new System.Drawing.Point(124, 225);
             this.btnModPData.Name = "btnModPData";
             this.btnModPData.Size = new System.Drawing.Size(114, 23);
             this.btnModPData.TabIndex = 4;
@@ -358,6 +366,39 @@
             this.label10.Size = new System.Drawing.Size(47, 13);
             this.label10.TabIndex = 5;
             this.label10.Text = "Nombre:";
+            // 
+            // txtEmail
+            // 
+            this.txtEmail.AutoSize = true;
+            this.txtEmail.Location = new System.Drawing.Point(157, 230);
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.Size = new System.Drawing.Size(0, 13);
+            this.txtEmail.TabIndex = 13;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(116, 230);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(35, 13);
+            this.label12.TabIndex = 12;
+            this.label12.Text = "Email:";
+            // 
+            // txtbxEmail
+            // 
+            this.txtbxEmail.Location = new System.Drawing.Point(148, 193);
+            this.txtbxEmail.Name = "txtbxEmail";
+            this.txtbxEmail.Size = new System.Drawing.Size(126, 20);
+            this.txtbxEmail.TabIndex = 9;
+            // 
+            // lblEmail
+            // 
+            this.lblEmail.AutoSize = true;
+            this.lblEmail.Location = new System.Drawing.Point(107, 196);
+            this.lblEmail.Name = "lblEmail";
+            this.lblEmail.Size = new System.Drawing.Size(35, 13);
+            this.lblEmail.TabIndex = 10;
+            this.lblEmail.Text = "Email:";
             // 
             // ProfilePanel
             // 
@@ -410,5 +451,9 @@
         private System.Windows.Forms.TextBox txtbxSApl;
         private System.Windows.Forms.TextBox txtbxFApl;
         private System.Windows.Forms.TextBox txtbxName;
+        private System.Windows.Forms.Label txtEmail;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox txtbxEmail;
+        private System.Windows.Forms.Label lblEmail;
     }
 }

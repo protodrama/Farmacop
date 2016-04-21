@@ -30,13 +30,13 @@
         {
             System.Windows.Forms.SplitContainer splAlg;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModRecepieForm));
-            this.lblUserName = new System.Windows.Forms.Label();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.GpxTime = new System.Windows.Forms.GroupBox();
             this.TimeContainer = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnAddAlg = new System.Windows.Forms.Button();
+            this.lblUserName = new System.Windows.Forms.Label();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnMod = new System.Windows.Forms.Button();
+            this.GpxTime = new System.Windows.Forms.GroupBox();
             this.txtFEnd = new System.Windows.Forms.TextBox();
             this.txtFInic = new System.Windows.Forms.TextBox();
             this.txtDs = new System.Windows.Forms.TextBox();
@@ -50,53 +50,14 @@
             this.txtPatName = new System.Windows.Forms.Label();
             this.lblTableTittle = new System.Windows.Forms.Label();
             splAlg = new System.Windows.Forms.SplitContainer();
-            this.GpxTime.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(splAlg)).BeginInit();
             splAlg.Panel1.SuspendLayout();
             splAlg.Panel2.SuspendLayout();
             splAlg.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.GpxTime.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TimeDataGrid)).BeginInit();
             this.SuspendLayout();
-            // 
-            // lblUserName
-            // 
-            this.lblUserName.AutoSize = true;
-            this.lblUserName.Location = new System.Drawing.Point(47, 33);
-            this.lblUserName.Name = "lblUserName";
-            this.lblUserName.Size = new System.Drawing.Size(95, 13);
-            this.lblUserName.TabIndex = 7;
-            this.lblUserName.Text = "Usuario destinado:";
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.Location = new System.Drawing.Point(354, 341);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 7;
-            this.btnCancel.Text = "Cancelar";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.Location = new System.Drawing.Point(200, 341);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
-            this.btnAdd.TabIndex = 6;
-            this.btnAdd.Text = "Modificar";
-            this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // GpxTime
-            // 
-            this.GpxTime.Controls.Add(splAlg);
-            this.GpxTime.Location = new System.Drawing.Point(443, 141);
-            this.GpxTime.Name = "GpxTime";
-            this.GpxTime.Size = new System.Drawing.Size(176, 195);
-            this.GpxTime.TabIndex = 58;
-            this.GpxTime.TabStop = false;
-            this.GpxTime.Text = "Nuevas horas";
             // 
             // splAlg
             // 
@@ -147,6 +108,45 @@
             this.btnAddAlg.UseVisualStyleBackColor = true;
             this.btnAddAlg.Click += new System.EventHandler(this.btnAddAlg_Click);
             // 
+            // lblUserName
+            // 
+            this.lblUserName.AutoSize = true;
+            this.lblUserName.Location = new System.Drawing.Point(47, 33);
+            this.lblUserName.Name = "lblUserName";
+            this.lblUserName.Size = new System.Drawing.Size(95, 13);
+            this.lblUserName.TabIndex = 7;
+            this.lblUserName.Text = "Usuario destinado:";
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(354, 341);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 7;
+            this.btnCancel.Text = "Cancelar";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnMod
+            // 
+            this.btnMod.Location = new System.Drawing.Point(200, 341);
+            this.btnMod.Name = "btnMod";
+            this.btnMod.Size = new System.Drawing.Size(75, 23);
+            this.btnMod.TabIndex = 6;
+            this.btnMod.Text = "Modificar";
+            this.btnMod.UseVisualStyleBackColor = true;
+            this.btnMod.Click += new System.EventHandler(this.btnMod_Click);
+            // 
+            // GpxTime
+            // 
+            this.GpxTime.Controls.Add(splAlg);
+            this.GpxTime.Location = new System.Drawing.Point(443, 141);
+            this.GpxTime.Name = "GpxTime";
+            this.GpxTime.Size = new System.Drawing.Size(176, 195);
+            this.GpxTime.TabIndex = 58;
+            this.GpxTime.TabStop = false;
+            this.GpxTime.Text = "Nuevas horas";
+            // 
             // txtFEnd
             // 
             this.txtFEnd.Location = new System.Drawing.Point(148, 206);
@@ -157,11 +157,11 @@
             // 
             // txtFInic
             // 
+            this.txtFInic.Enabled = false;
             this.txtFInic.Location = new System.Drawing.Point(148, 163);
             this.txtFInic.Name = "txtFInic";
             this.txtFInic.Size = new System.Drawing.Size(100, 20);
             this.txtFInic.TabIndex = 2;
-            this.txtFInic.Enter += new System.EventHandler(this.txtFInic_Enter);
             // 
             // txtDs
             // 
@@ -289,18 +289,18 @@
             this.Controls.Add(this.lblMed);
             this.Controls.Add(this.lblUserName);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.btnMod);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ModRecepieForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ModRecepieForm";
-            this.GpxTime.ResumeLayout(false);
             splAlg.Panel1.ResumeLayout(false);
             splAlg.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(splAlg)).EndInit();
             splAlg.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.GpxTime.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TimeDataGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -310,7 +310,7 @@
         #endregion
         private System.Windows.Forms.Label lblUserName;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnMod;
         private System.Windows.Forms.GroupBox GpxTime;
         private System.Windows.Forms.FlowLayoutPanel TimeContainer;
         private System.Windows.Forms.Panel panel1;

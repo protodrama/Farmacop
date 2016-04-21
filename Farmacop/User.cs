@@ -15,6 +15,7 @@ namespace Farmacop
         private string _tipo;
         private bool _habilitado;
         private List<string> _alergias;
+        private string _email;
 
         public string Nombre
         {
@@ -104,15 +105,16 @@ namespace Farmacop
 
         public User() { }
 
-        public User(string name, string surname,string ssurname, string email, string birthDate, string type, bool enabled)
+        public User(string name, string surname,string ssurname, string account, string birthDate, string type, bool enabled,string email)
         {
             this.Nombre = name;
             this._fapellido = surname;
             this._sapellido = ssurname;
-            this.Cuenta = email;
+            this.Cuenta = account;
             this.Nacimiento = birthDate;
             this.Tipo = type;
             this.Habilitado = enabled;
+            this._email = email;
         }
 
         public bool IsEnabled()
@@ -136,6 +138,11 @@ namespace Farmacop
             foreach (string alg in Alergias)
                 AlgList.Add(new Alergia(alg));
             return AlgList;
+        }
+
+        public string GetEmail()
+        {
+            return _email;
         }
     }
 }

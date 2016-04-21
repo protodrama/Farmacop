@@ -6,11 +6,14 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Farmacop
 {
     public partial class PrincipalPage : UserControl
     {
+        MsgObserver msgobserver;
+        Thread listenerThread;
         ProfilePanel Profilepanel;
         MedPanel Medpanel;
         UsersPanel UserPanel;
@@ -23,6 +26,9 @@ namespace Farmacop
             InitializeComponent();
             Profilepanel = new ProfilePanel();
             Panel2Containt.Controls.Add(Profilepanel);
+            msgobserver = new MsgObserver(txtNumMsgs);
+            listenerThread = new Thread(msgobserver.LookMsgs);
+            listenerThread.Start();
         }
 
         #region Events
@@ -42,6 +48,7 @@ namespace Farmacop
             {
                 if (!Sesion.GettingData)
                 {
+                    Cursor.Current = Cursors.WaitCursor;
                     switch (((Control)sender).Tag.ToString())
                     {
                         case "Profile":
@@ -73,6 +80,7 @@ namespace Farmacop
                             MessagePanel = new MessPanel();
                             Panel2Containt.Controls.Clear();
                             Panel2Containt.Controls.Add(MessagePanel);
+                            txtNumMsgs.Visible = false;
                             break;
                         case "Logout":
                             //Mostrar mensaje y cerrar app si acepta
@@ -82,6 +90,7 @@ namespace Farmacop
                             }
                             break;
                     }
+                    Cursor.Current = Cursors.Default;
                 }
             }
             catch(Exception ex)
