@@ -80,23 +80,26 @@ namespace Farmacop
 
         static public void SendEmail(string subject, string body, string mailto)
         {
+            try
+            {
+                MailMessage email = new MailMessage();
+                email.To.Add(new MailAddress(mailto));
+                email.From = new MailAddress("farmacop_norep@hotmail.com");
+                email.Subject = subject;
+                email.Body = body;
+                email.IsBodyHtml = false;
+                email.Priority = MailPriority.Normal;
 
-            MailMessage email = new MailMessage();
-            email.To.Add(new MailAddress(mailto));
-            email.From = new MailAddress("farmacop_norep@hotmail.com");
-            email.Subject = subject;
-            email.Body = body;
-            email.IsBodyHtml = false;
-            email.Priority = MailPriority.Normal;
+                SmtpClient smtp = new SmtpClient("smtp.live.com");
+                smtp.Port = 25;
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential("farmacop_norep@hotmail.com", "juanfran15");
 
-            SmtpClient smtp = new SmtpClient("smtp.live.com");
-            smtp.Port = 25;
-            smtp.EnableSsl = true;
-            smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new NetworkCredential("farmacop_norep@hotmail.com", "juanfran15");
-
-            smtp.Send(email);
-            email.Dispose();
+                smtp.Send(email);
+                email.Dispose();
+            }
+            catch(Exception e) { }
         }
         #endregion
 

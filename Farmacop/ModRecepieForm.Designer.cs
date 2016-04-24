@@ -294,7 +294,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ModRecepieForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "ModRecepieForm";
+            this.Text = "Modidicar receta";
             splAlg.Panel1.ResumeLayout(false);
             splAlg.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(splAlg)).EndInit();

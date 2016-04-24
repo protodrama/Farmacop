@@ -192,7 +192,8 @@ namespace Farmacop
                 }
             }
 
-            algContainer.Controls.Add(new AlgControl(MedNames.ToArray()));
+            if(MedNames.Count > 0)
+                algContainer.Controls.Add(new AlgControl(MedNames.ToArray()));
 
         }
 

@@ -54,36 +54,42 @@ namespace Farmacop
         private void btnAdd_Click(object sender, EventArgs e)
         {
             if (!txtDs.Text.Trim().Equals("") && !txtFInic.Text.Trim().Equals("") && !txtFEnd.Text.Trim().Equals("") && !cbbxMed.Text.Trim().Equals(""))
-            {  
-                List<string> time = new List<string>();
-                foreach (RecepieTimeSelect temp in ListTime)
+            {
+                int ds = int.Parse(txtDs.Text);
+                if (ds > 0)
                 {
-                    if (!time.Contains(temp.Time))
-                        time.Add(temp.Time);
-                }
-                string hours = string.Empty;
-                foreach (string tmp in time)
-                    hours += "\n" + tmp;
-                string msg = @"¿Desea crear una receta para el usuario " + txtTargetUser.Text + "?\nMedicamento: " + cbbxMed.Text +
-                    "\nDosis: " + txtDs.Text + "\nFecha de inicio: " + txtFInic.Text + "\nFecha fin: " + txtFEnd.Text + "\nHorario de tomas:" + hours;
-                if (DialogResult.Yes == MessageBox.Show(msg,"Creando receta",MessageBoxButtons.YesNo,MessageBoxIcon.Question))
-                {
-                    this.Cursor = Cursors.AppStarting;
-                    try
+                    List<string> time = new List<string>();
+                    foreach (RecepieTimeSelect temp in ListTime)
                     {
-                        if (Sesion.DBConnection.AddRecepie(txtTargetUser.Text, Sesion.Account, cbbxMed.Text, txtFInic.Text, txtFEnd.Text, txtDs.Text, time))
+                        if (!time.Contains(temp.Time))
+                            time.Add(temp.Time);
+                    }
+                    string hours = string.Empty;
+                    foreach (string tmp in time)
+                        hours += "\n" + tmp;
+                    string msg = @"¿Desea crear una receta para el usuario " + txtTargetUser.Text + "?\nMedicamento: " + cbbxMed.Text +
+                        "\nDosis: " + txtDs.Text + "\nFecha de inicio: " + txtFInic.Text + "\nFecha fin: " + txtFEnd.Text + "\nHorario de tomas:" + hours;
+                    if (DialogResult.Yes == MessageBox.Show(msg, "Creando receta", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+                    {
+                        this.Cursor = Cursors.AppStarting;
+                        try
+                        {
+                            if (Sesion.DBConnection.AddRecepie(txtTargetUser.Text, Sesion.Account, cbbxMed.Text, txtFInic.Text, txtFEnd.Text, txtDs.Text, time))
+                            {
+                                this.Cursor = Cursors.Default;
+                                MessageBox.Show("Receta añadida correctamente");
+                                this.Close();
+                            }
+                        }
+                        catch (Exception ex)
                         {
                             this.Cursor = Cursors.Default;
-                            MessageBox.Show("Receta añadida correctamente");
-                            this.Close();
+                            MessageBox.Show(ex.Message);
                         }
                     }
-                    catch(Exception ex)
-                    {
-                        this.Cursor = Cursors.Default;
-                        MessageBox.Show(ex.Message);
-                    }
                 }
+                else
+                    MessageBox.Show("La dosis no puede ser 0");
             }
             else
                 MessageBox.Show("Debes indicar un valor para todos los campos");
@@ -91,14 +97,18 @@ namespace Farmacop
 
         private void txtTargetUser_TextChanged(object sender, EventArgs e)
         {
+            
             if (Users.Contains(txtTargetUser.Text))
             {
-                GetMedNames();
-                btnAdd.Enabled = true;
-                grpRecData.Visible = true;
-                List<string> Alerg = Sesion.DBConnection.GetUserAlg(txtTargetUser.Text);
-                foreach (string temp in Alerg)
-                    cbbxMed.Items.Remove(temp);
+                if (!Sesion.GettingData)
+                {
+                    GetMedNames();
+                    btnAdd.Enabled = true;
+                    grpRecData.Visible = true;
+                    List<string> Alerg = Sesion.DBConnection.GetUserAlg(txtTargetUser.Text);
+                    foreach (string temp in Alerg)
+                        cbbxMed.Items.Remove(temp);
+                }
             }
             else
             {

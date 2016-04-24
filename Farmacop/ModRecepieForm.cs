@@ -80,43 +80,49 @@ namespace Farmacop
         {
             if (CheckData())
             {
-                foreach (RecepieTimeSelect tmp in SelecTimeControl)
+                int ds = int.Parse(txtDs.Text);
+                if (ds > 0)
                 {
-                    if (!newTime.Contains(tmp.Time))
-                        newTime.Add(tmp.Time);
-                }
-                List<string> allRecepieTime = new List<string>();
-                allRecepieTime.AddRange(newTime.ToArray());
-                allRecepieTime.AddRange(timeShowing.ToArray());
-
-                if (allRecepieTime.Count > 0)
-                {
-                    try
+                    foreach (RecepieTimeSelect tmp in SelecTimeControl)
                     {
-                        this.Cursor = Cursors.AppStarting;
-                        if (Sesion.DBConnection.ModRecepie(RecToMod.getId(), RecToMod.Paciente, RecToMod.Medicamento, txtFInic.Text, txtFEnd.Text, RecToMod.FechaFin, txtDs.Text, newTime, deletedTime, allRecepieTime, timeShowing))
+                        if (!newTime.Contains(tmp.Time))
+                            newTime.Add(tmp.Time);
+                    }
+                    List<string> allRecepieTime = new List<string>();
+                    allRecepieTime.AddRange(newTime.ToArray());
+                    allRecepieTime.AddRange(timeShowing.ToArray());
+
+                    if (allRecepieTime.Count > 0)
+                    {
+                        try
                         {
-                            MessageBox.Show("Receta modificada correctamente");
-                            this.Cursor = Cursors.Default;
-                            this.Close();
+                            this.Cursor = Cursors.AppStarting;
+                            if (Sesion.DBConnection.ModRecepie(RecToMod.getId(), RecToMod.Paciente, RecToMod.Medicamento, txtFInic.Text, txtFEnd.Text, RecToMod.FechaFin, txtDs.Text, newTime, deletedTime, allRecepieTime, timeShowing))
+                            {
+                                MessageBox.Show("Receta modificada correctamente");
+                                this.Cursor = Cursors.Default;
+                                this.Close();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error al modificar la receta");
+                                this.Cursor = Cursors.Default;
+                            }
                         }
-                        else
+                        catch (Exception ex)
                         {
-                            MessageBox.Show("Error al modificar la receta");
+                            MessageBox.Show(ex.Message);
                             this.Cursor = Cursors.Default;
                         }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        MessageBox.Show(ex.Message);
-                        this.Cursor = Cursors.Default;
+                        MessageBox.Show("Una receta debe tener al menos una hora de toma");
+                        this.Close();
                     }
                 }
                 else
-                {
-                    MessageBox.Show("Una receta debe tener al menos una hora de toma");
-                    this.Close();
-                }
+                    MessageBox.Show("La dosis no puede ser 0");
 
             }
             else

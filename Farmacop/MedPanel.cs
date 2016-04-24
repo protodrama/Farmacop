@@ -108,6 +108,7 @@ namespace Farmacop
                     if (Sesion.DBConnection.InsertMedicament(Name, Type))
                     {
                         GetData();
+                        txtNewMedNm.Text = "";
                         MessageBox.Show("Medicamento insertado con éxito");
                     }
                     else {
