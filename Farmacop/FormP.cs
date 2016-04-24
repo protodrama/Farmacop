@@ -184,11 +184,16 @@ namespace Farmacop
 
         private void FormP_FormClosing(object sender, FormClosingEventArgs e)
         {
+            try
+            {
+                PPage.listenerThread.Abort();
+            }catch(Exception ex) { }
             if (Sesion.DBConnection.IsConnected)
             {
                 Sesion.DBConnection.UserDisconnect(Sesion.Account);
                 Sesion.DBConnection.Disconnect();
             }
+            
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

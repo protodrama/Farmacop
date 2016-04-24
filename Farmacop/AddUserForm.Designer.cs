@@ -50,6 +50,7 @@
             this.GpxAlg = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             splAlg = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(splAlg)).BeginInit();
             splAlg.Panel1.SuspendLayout();
@@ -116,7 +117,7 @@
             "Admin",
             "Medico",
             "Paciente"});
-            this.ComboboxType.Location = new System.Drawing.Point(150, 286);
+            this.ComboboxType.Location = new System.Drawing.Point(150, 309);
             this.ComboboxType.Name = "ComboboxType";
             this.ComboboxType.Size = new System.Drawing.Size(121, 21);
             this.ComboboxType.TabIndex = 5;
@@ -124,7 +125,7 @@
             // lblType
             // 
             this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(62, 289);
+            this.lblType.Location = new System.Drawing.Point(62, 312);
             this.lblType.Name = "lblType";
             this.lblType.Size = new System.Drawing.Size(82, 13);
             this.lblType.TabIndex = 42;
@@ -166,7 +167,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(342, 330);
+            this.btnCancel.Location = new System.Drawing.Point(342, 353);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(129, 23);
             this.btnCancel.TabIndex = 7;
@@ -176,7 +177,7 @@
             // 
             // btnAccept
             // 
-            this.btnAccept.Location = new System.Drawing.Point(184, 330);
+            this.btnAccept.Location = new System.Drawing.Point(184, 353);
             this.btnAccept.Name = "btnAccept";
             this.btnAccept.Size = new System.Drawing.Size(129, 23);
             this.btnAccept.TabIndex = 6;
@@ -258,12 +259,24 @@
             this.txtEmail.Size = new System.Drawing.Size(287, 20);
             this.txtEmail.TabIndex = 47;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(147, 262);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(474, 26);
+            this.label3.TabIndex = 49;
+            this.label3.Text = "Recuerda que el correo debe existir. Se utilizará para enviar información de camb" +
+    "ios en las recetas \r\ny recuperación de contraseña. Puede ser utilizado por más d" +
+    "e un usuario.";
+            // 
             // AddUserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(662, 393);
             this.ControlBox = false;
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.GpxAlg);
@@ -318,5 +331,6 @@
         private System.Windows.Forms.FlowLayoutPanel algContainer;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.Label label3;
     }
 }

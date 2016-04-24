@@ -11,36 +11,14 @@ namespace Farmacop
     {
         Label txtToShow;
         int sleep = 60000;
+        public int msgs = 0;
 
         public MsgObserver(Label toshow)
         {
             this.txtToShow = toshow;
         }
 
-        public void LookMsgs()
-        {
-            while (true)
-            {
-                if (!Sesion.GettingData)
-                {
-                    List<Message> list = Sesion.DBConnection.GetAllReceivedMessages(Sesion.Account);
-                    int count = 0;
-                    foreach (Message tmp in list)
-                        if (!tmp.IsReaded())
-                            count++;
+       
 
-                    if(count > 0)
-                    {
-                        txtToShow.Text = "" + count;
-                        txtToShow.Visible = true;
-                    }
-                    else
-                        txtToShow.Visible = false;
-
-                }
-
-                Thread.Sleep(sleep);
-            }
-        }
     }
 }

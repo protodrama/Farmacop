@@ -32,7 +32,7 @@ namespace Farmacop
                     {
                         int newPass = new Random().Next(999999);
                         string subject = "Recuperar contraseña";
-                        string body = "Su nueva contraseña es " + newPass.ToString("000000");
+                        string body = txtAccount.Text + ". Su nueva contraseña es " + newPass.ToString("000000");
                         string mailto = accountandemail.Split(':')[1];
 
                         Sesion.SendEmail(subject, body, mailto);

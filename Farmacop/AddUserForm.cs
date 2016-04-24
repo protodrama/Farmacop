@@ -45,27 +45,34 @@ namespace Farmacop
             {
                 if (!txtAccount.Text.Trim().Equals("") && !txtEmail.Text.Trim().Equals("") && !txtName.Text.Trim().Equals("") && !txtFApl.Text.Trim().Equals("") && !txtSApl.Text.Trim().Equals("") && !txtFNac.Text.Trim().Equals("") && !ComboboxType.Text.Trim().Equals(""))
                 {
-                    if (CheckAccountName(txtAccount.Text))
+                    if (CheckEmailFormat(txtEmail.Text))
                     {
-                        if (Sesion.DBConnection.InsertUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.Text, txtAccount.Text, txtEmail.Text))
+                        if (CheckAccountName(txtAccount.Text))
                         {
-                            foreach (Control Ctemp in algContainer.Controls)
+                            if (Sesion.DBConnection.InsertUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.Text, txtAccount.Text, txtEmail.Text))
                             {
-                                if (Ctemp is AlgControl)
+                                foreach (Control Ctemp in algContainer.Controls)
                                 {
-                                    if (((AlgControl)Ctemp).GetText.Equals(""))
-                                        continue;
-                                    else
-                                        Sesion.DBConnection.InsertAlg(txtAccount.Text, ((AlgControl)Ctemp).GetText);
+                                    if (Ctemp is AlgControl)
+                                    {
+                                        if (((AlgControl)Ctemp).GetText.Equals(""))
+                                            continue;
+                                        else
+                                            Sesion.DBConnection.InsertAlg(txtAccount.Text, ((AlgControl)Ctemp).GetText);
+                                    }
                                 }
+                                MessageBox.Show("Usuario insertado correctamente.");
+                                this.Close();
                             }
-                            MessageBox.Show("Usuario insertado correctamente.");
-                            this.Close();
+                            else
+                            {
+                                MessageBox.Show("Error al insertar el usuario");
+                            }
                         }
-                        else
-                        {
-                            MessageBox.Show("Error al insertar el usuario");
-                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("El formato del Email no es correcto.");
                     }
                 }
                 else
@@ -187,6 +194,20 @@ namespace Farmacop
 
             algContainer.Controls.Add(new AlgControl(MedNames.ToArray()));
 
+        }
+
+        private bool CheckEmailFormat(string email)
+        {
+            if (email.Contains("@") && !email.Contains(" "))
+            {
+                string[] data = email.Split('@');
+                foreach (string tmp in data)
+                    if (tmp.Trim().Equals(""))
+                        return false;
+                return true;
+            }
+            else
+                return false;
         }
     }
 }

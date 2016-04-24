@@ -13,13 +13,16 @@ namespace Farmacop
     public partial class PrincipalPage : UserControl
     {
         MsgObserver msgobserver;
-        Thread listenerThread;
+        public Thread listenerThread;
         ProfilePanel Profilepanel;
         MedPanel Medpanel;
         UsersPanel UserPanel;
         MessPanel MessagePanel;
         RecepiePanel RecPanel;
         public event MyDelegate ExitPressed;
+        delegate void ChangeText(int value);
+        int sleep = 10000;
+        public int msgs = 0;
 
         public PrincipalPage()
         {
@@ -27,8 +30,52 @@ namespace Farmacop
             Profilepanel = new ProfilePanel();
             Panel2Containt.Controls.Add(Profilepanel);
             msgobserver = new MsgObserver(txtNumMsgs);
-            listenerThread = new Thread(msgobserver.LookMsgs);
+            listenerThread = new Thread(LookMsgs);
             listenerThread.Start();
+        }
+
+        public void LookMsgs()
+        {
+            while (true)
+            {
+                if (!Sesion.GettingData)
+                {
+                    List<Message> list = Sesion.DBConnection.GetAllReceivedMessages(Sesion.Account);
+                    int count = 0;
+                    foreach (Message tmp in list)
+                        if (!tmp.IsReaded())
+                            count++;
+                    SetTxt(count);
+                }
+                Thread.Sleep(sleep);
+            }
+        }
+
+        public void SetTxt(int msgs)
+        {
+            if (this.InvokeRequired) //preguntamos si la llamada se hace desde un hilo 
+            {
+                //si es así entonces volvemos a llamar a CambiarProgreso pero esta vez a través del delegado 
+                //instanciamos el delegado indicandole el método que va a ejecutar 
+                ChangeText delegado = new ChangeText(SetTxt);
+                //ya que el delegado invocará a CambiarProgreso debemos indicarle los parámetros 
+                object[] parametros = new object[] { msgs };
+                //invocamos el método a través del mismo contexto del formulario (this) y enviamos los parámetros 
+                this.Invoke(delegado, parametros);
+            }
+            else
+            {
+                if (msgs > 0)
+                {
+                    txtNumMsgs.Text = "" + msgs;
+                    txtNumMsgs.Visible = true;
+                }
+                else
+                {
+                    txtNumMsgs.Visible = false;
+                }
+            }
+            
         }
 
         #region Events
@@ -86,6 +133,11 @@ namespace Farmacop
                             //Mostrar mensaje y cerrar app si acepta
                             if (DialogResult.Yes == MessageBox.Show("¿Seguro que desea desconectar?", "Salir", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                             {
+                                try
+                                {
+                                    listenerThread.Abort();
+                                }
+                                catch(Exception ex) { }
                                 ExitPressed();
                             }
                             break;

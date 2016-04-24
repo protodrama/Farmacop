@@ -103,8 +103,11 @@ namespace Farmacop
                     new MessageForm(ReceivedReadedMessages[e.RowIndex], false).ShowDialog();
                 else
                 {
-                    Sesion.DBConnection.SetReaded(ReceivedNonReadedMessages[e.RowIndex].Id());
-                    new MessageForm(ReceivedNonReadedMessages[e.RowIndex], false).ShowDialog();
+                    if (e.RowIndex >= 0)
+                    {
+                        Sesion.DBConnection.SetReaded(ReceivedNonReadedMessages[e.RowIndex].Id());
+                        new MessageForm(ReceivedNonReadedMessages[e.RowIndex], false).ShowDialog();
+                    }
                 }
             }
             else

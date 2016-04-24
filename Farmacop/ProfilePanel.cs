@@ -78,6 +78,7 @@ namespace Farmacop
         private void btnModPData_Click(object sender, EventArgs e)
         {
             string Name, FApl, SApl, FNac, Email;
+            
 
             if (txtbxName.Text.Trim().Equals(""))
                 Name = Sesion.Name;
@@ -104,26 +105,31 @@ namespace Farmacop
             else
                 Email = txtbxEmail.Text;
 
-            if (!Name.Equals(Sesion.Name) || !FApl.Equals(Sesion.FirstSurname) || !SApl.Equals(Sesion.SecondSurname) || !FNac.Equals(DateTime.Parse(Sesion.FNac).ToString("yyyy-MM-dd")) || !Email.Equals(Sesion.Email))
+            if (CheckEmailFormat(Email))
             {
-                if (Sesion.DBConnection.UpdateUserData(Name, FApl, SApl, FNac,Email, Sesion.Account))
+                if (!Name.Equals(Sesion.Name) || !FApl.Equals(Sesion.FirstSurname) || !SApl.Equals(Sesion.SecondSurname) || !FNac.Equals(DateTime.Parse(Sesion.FNac).ToString("yyyy-MM-dd")) || !Email.Equals(Sesion.Email))
                 {
-                    MessageBox.Show("Datos actualizados con éxito");
-                    Sesion.Name = Name;
-                    Sesion.FirstSurname = FApl;
-                    Sesion.SecondSurname = SApl;
-                    Sesion.FNac = DateTime.Parse(FNac).ToString("dd/MM/yyyy");
-                    Sesion.Email = Email;
-                    Inicialize();
-                    txtbxFApl.Text = "";
-                    txtbxFNac.Text = "";
-                    txtbxName.Text = "";
-                    txtbxSApl.Text = "";
-                    txtbxEmail.Text = "";
+                    if (Sesion.DBConnection.UpdateUserData(Name, FApl, SApl, FNac, Email, Sesion.Account))
+                    {
+                        MessageBox.Show("Datos actualizados con éxito");
+                        Sesion.Name = Name;
+                        Sesion.FirstSurname = FApl;
+                        Sesion.SecondSurname = SApl;
+                        Sesion.FNac = DateTime.Parse(FNac).ToString("dd/MM/yyyy");
+                        Sesion.Email = Email;
+                        Inicialize();
+                        txtbxFApl.Text = "";
+                        txtbxFNac.Text = "";
+                        txtbxName.Text = "";
+                        txtbxSApl.Text = "";
+                        txtbxEmail.Text = "";
+                    }
+                    else
+                        MessageBox.Show("Error al actualizar los datos");
                 }
-                else
-                    MessageBox.Show("Error al actualizar los datos");
             }
+            else
+                MessageBox.Show("El formato del Email no es correcto.");
         }
 
         private void MCalendar_MouseLeave(object sender, EventArgs e)
@@ -190,6 +196,20 @@ namespace Farmacop
             mCalendar.BringToFront();
             mCalendar.Focus();
             txtbxFNac.Enabled = false;
+        }
+
+        private bool CheckEmailFormat(string email)
+        {
+            if (email.Contains("@") && !email.Contains(" "))
+            {
+                string[] data = email.Split('@');
+                foreach (string tmp in data)
+                    if (tmp.Trim().Equals(""))
+                        return false;
+                return true;
+            }
+            else
+                return false;
         }
     }
 }

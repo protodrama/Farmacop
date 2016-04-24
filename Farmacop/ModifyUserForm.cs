@@ -64,26 +64,31 @@ namespace Farmacop
             {
                 if (!txtName.Text.Trim().Equals("") && !txtFNac.Text.Trim().Equals("") && !txtFApl.Text.Trim().Equals("") && !txtSApl.Text.Trim().Equals("") && !txtemail.Text.Trim().Equals(""))
                 {
-                    if (Sesion.DBConnection.UpdateModUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.SelectedItem.ToString(), UserToMod.Cuenta, txtemail.Text))
+                    if (CheckEmailFormat(txtemail.Text))
                     {
-                        if (algDeleted.Count > 0)
+                        if (Sesion.DBConnection.UpdateModUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.SelectedItem.ToString(), UserToMod.Cuenta, txtemail.Text))
                         {
-                            foreach (string alg in algDeleted)
-                                Sesion.DBConnection.DeleteAlg(UserToMod.Cuenta, alg);
-                        }
-                        foreach (Control Ctemp in algContainer.Controls)
-                        {
-                            if (Ctemp is AlgControl)
+                            if (algDeleted.Count > 0)
                             {
-                                if (((AlgControl)Ctemp).GetText.Equals(""))
-                                    continue;
-                                else
-                                    Sesion.DBConnection.InsertAlg(UserToMod.Cuenta, ((AlgControl)Ctemp).GetText);
+                                foreach (string alg in algDeleted)
+                                    Sesion.DBConnection.DeleteAlg(UserToMod.Cuenta, alg);
                             }
+                            foreach (Control Ctemp in algContainer.Controls)
+                            {
+                                if (Ctemp is AlgControl)
+                                {
+                                    if (((AlgControl)Ctemp).GetText.Equals(""))
+                                        continue;
+                                    else
+                                        Sesion.DBConnection.InsertAlg(UserToMod.Cuenta, ((AlgControl)Ctemp).GetText);
+                                }
+                            }
+                            MessageBox.Show("Usuario modificado con éxito");
+                            this.Close();
                         }
-                        MessageBox.Show("Usuario modificado con éxito");
-                        this.Close();
                     }
+                    else
+                        MessageBox.Show("El formato del Email no es correcto");
                 }
                 else
                 {
@@ -203,6 +208,20 @@ namespace Farmacop
                     AlgDataGrid.DataSource = UserToMod.GetAlgList();
                 }
             }
+        }
+
+        private bool CheckEmailFormat(string email)
+        {
+            if (email.Contains("@") && !email.Contains(" "))
+            {
+                string[] data = email.Split('@');
+                foreach (string tmp in data)
+                    if (tmp.Trim().Equals(""))
+                        return false;
+                return true;
+            }
+            else
+                return false;
         }
     }
 }
