@@ -93,19 +93,23 @@ namespace Farmacop
                 {
                     try
                     {
+                        this.Cursor = Cursors.AppStarting;
                         if (Sesion.DBConnection.ModRecepie(RecToMod.getId(), RecToMod.Paciente, RecToMod.Medicamento, txtFInic.Text, txtFEnd.Text, RecToMod.FechaFin, txtDs.Text, newTime, deletedTime, allRecepieTime, timeShowing))
                         {
                             MessageBox.Show("Receta modificada correctamente");
+                            this.Cursor = Cursors.Default;
                             this.Close();
                         }
                         else
                         {
                             MessageBox.Show("Error al modificar la receta");
+                            this.Cursor = Cursors.Default;
                         }
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
+                        this.Cursor = Cursors.Default;
                     }
                 }
                 else

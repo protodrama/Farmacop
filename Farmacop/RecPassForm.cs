@@ -78,6 +78,7 @@ namespace Farmacop
 
         public void CheckAccount(string account)
         {
+            this.Cursor = Cursors.AppStarting;
             bool find = false;
             foreach (string EmtoActive in AccountsToActive)
             {
@@ -106,6 +107,7 @@ namespace Farmacop
             }
 
             AccountsToActive = Sesion.DBConnection.GetUserAccountAndEmailToRecPass();
+            this.Cursor = Cursors.Default;
         }
     }
 }

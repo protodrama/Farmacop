@@ -162,7 +162,6 @@
     <Compile Include="ModRecepieForm.Designer.cs">
       <DependentUpon>ModRecepieForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MsgObserver.cs" />
     <Compile Include="NewMsgForm.cs">
       <SubType>Form</SubType>
     </Compile>

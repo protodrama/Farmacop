@@ -54,7 +54,7 @@ namespace Farmacop
         private void btnAdd_Click(object sender, EventArgs e)
         {
             if (!txtDs.Text.Trim().Equals("") && !txtFInic.Text.Trim().Equals("") && !txtFEnd.Text.Trim().Equals("") && !cbbxMed.Text.Trim().Equals(""))
-            {
+            {  
                 List<string> time = new List<string>();
                 foreach (RecepieTimeSelect temp in ListTime)
                 {
@@ -68,19 +68,21 @@ namespace Farmacop
                     "\nDosis: " + txtDs.Text + "\nFecha de inicio: " + txtFInic.Text + "\nFecha fin: " + txtFEnd.Text + "\nHorario de tomas:" + hours;
                 if (DialogResult.Yes == MessageBox.Show(msg,"Creando receta",MessageBoxButtons.YesNo,MessageBoxIcon.Question))
                 {
+                    this.Cursor = Cursors.AppStarting;
                     try
                     {
                         if (Sesion.DBConnection.AddRecepie(txtTargetUser.Text, Sesion.Account, cbbxMed.Text, txtFInic.Text, txtFEnd.Text, txtDs.Text, time))
                         {
+                            this.Cursor = Cursors.Default;
                             MessageBox.Show("Receta añadida correctamente");
                             this.Close();
                         }
                     }
                     catch(Exception ex)
                     {
+                        this.Cursor = Cursors.Default;
                         MessageBox.Show(ex.Message);
                     }
-
                 }
             }
             else

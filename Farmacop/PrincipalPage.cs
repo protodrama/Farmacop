@@ -12,7 +12,7 @@ namespace Farmacop
 {
     public partial class PrincipalPage : UserControl
     {
-        MsgObserver msgobserver;
+ 
         public Thread listenerThread;
         ProfilePanel Profilepanel;
         MedPanel Medpanel;
@@ -29,7 +29,6 @@ namespace Farmacop
             InitializeComponent();
             Profilepanel = new ProfilePanel();
             Panel2Containt.Controls.Add(Profilepanel);
-            msgobserver = new MsgObserver(txtNumMsgs);
             listenerThread = new Thread(LookMsgs);
             listenerThread.Start();
         }

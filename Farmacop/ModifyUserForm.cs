@@ -66,6 +66,7 @@ namespace Farmacop
                 {
                     if (CheckEmailFormat(txtemail.Text))
                     {
+                        this.Cursor = Cursors.AppStarting;
                         if (Sesion.DBConnection.UpdateModUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.SelectedItem.ToString(), UserToMod.Cuenta, txtemail.Text))
                         {
                             if (algDeleted.Count > 0)
@@ -83,6 +84,7 @@ namespace Farmacop
                                         Sesion.DBConnection.InsertAlg(UserToMod.Cuenta, ((AlgControl)Ctemp).GetText);
                                 }
                             }
+                            this.Cursor = Cursors.Default;
                             MessageBox.Show("Usuario modificado con éxito");
                             this.Close();
                         }
@@ -97,6 +99,7 @@ namespace Farmacop
             }
             catch (Exception ex)
             {
+                this.Cursor = Cursors.Default;
                 MessageBox.Show("Error al modificar el usuario");
             }
         }

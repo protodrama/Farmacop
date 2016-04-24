@@ -32,20 +32,17 @@ namespace Farmacop
 
         private void InicializeTable()
         {
-            if(Sesion.UserType == UserType.Admin)
+            BtnDeleteColumn = new DataGridViewButtonColumn()
             {
-                BtnDeleteColumn = new DataGridViewButtonColumn()
-                {
-                    Name = "Delete",
-                    Width = 80,
-                    HeaderText = "Eliminar",
-                    Text = "Eliminar",
-                    UseColumnTextForButtonValue = true
-                };
-                MedTable.Columns.Add(BtnDeleteColumn);
-                MedTable.Width += BtnDeleteColumn.Width + 5;
-                MedTable.Left = (this.Width / 2) - (MedTable.Width / 2);
-            }
+                Name = "Delete",
+                Width = 80,
+                HeaderText = "Eliminar",
+                Text = "Eliminar",
+                UseColumnTextForButtonValue = true
+            };
+            MedTable.Columns.Add(BtnDeleteColumn);
+            MedTable.Width += BtnDeleteColumn.Width + 5;
+            MedTable.Left = (this.Width / 2) - (MedTable.Width / 2);
             MedTable.ColumnHeadersDefaultCellStyle.BackColor = Color.LightBlue;
             MedTable.EnableHeadersVisualStyles = false;
         }
