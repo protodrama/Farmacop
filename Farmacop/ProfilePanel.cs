@@ -41,17 +41,22 @@ namespace Farmacop
                 {
                     if (Sesion.StringToMD5(txtOriginalPass.Text).Equals(Sesion.PassWord))
                     {
-                        if (txtNewPass.Text.Equals(txtNewPass2.Text))
+                        if (!txtNewPass.Text.Equals(txtOriginalPass.Text))
                         {
-                            if (Sesion.DBConnection.UpdateUserPassWord(Sesion.Account, Sesion.StringToMD5(txtNewPass.Text)))
-                                MessageBox.Show("Contraseña modificada con éxito");
+                            if (txtNewPass.Text.Equals(txtNewPass2.Text))
+                            {
+                                if (Sesion.DBConnection.UpdateUserPassWord(Sesion.Account, Sesion.StringToMD5(txtNewPass.Text)))
+                                    MessageBox.Show("Contraseña modificada con éxito");
+                                else
+                                    throw new Exception("Error al modificar la contraseña");
+                            }
                             else
-                                throw new Exception("Error al modificar la contraseña");
+                            {
+                                throw new Exception("La nueva contraseña debe coincidir");
+                            }
                         }
                         else
-                        {
-                            throw new Exception("La nueva contraseña debe coincidir");
-                        }
+                            throw new Exception("La nueva contraseña coincide con la actual");
                     }
                     else
                     {
