@@ -48,6 +48,7 @@
             this.AlgDataGrid = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.txtemail = new System.Windows.Forms.TextBox();
+            this.btnDelete = new System.Windows.Forms.Button();
             splAlg = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(splAlg)).BeginInit();
             splAlg.Panel1.SuspendLayout();
@@ -90,6 +91,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnDelete);
             this.panel1.Controls.Add(this.btnAddAlg);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
@@ -99,9 +101,9 @@
             // 
             // btnAddAlg
             // 
-            this.btnAddAlg.Location = new System.Drawing.Point(42, 3);
+            this.btnAddAlg.Location = new System.Drawing.Point(3, 3);
             this.btnAddAlg.Name = "btnAddAlg";
-            this.btnAddAlg.Size = new System.Drawing.Size(99, 23);
+            this.btnAddAlg.Size = new System.Drawing.Size(88, 23);
             this.btnAddAlg.TabIndex = 0;
             this.btnAddAlg.Text = "Agregar";
             this.btnAddAlg.UseVisualStyleBackColor = true;
@@ -264,6 +266,16 @@
             this.txtemail.Size = new System.Drawing.Size(287, 20);
             this.txtemail.TabIndex = 49;
             // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(85, 3);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(85, 23);
+            this.btnDelete.TabIndex = 1;
+            this.btnDelete.Text = "Eliminar";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
             // ModifyUserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -321,5 +333,6 @@
         private System.Windows.Forms.DataGridView AlgDataGrid;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtemail;
+        private System.Windows.Forms.Button btnDelete;
     }
 }

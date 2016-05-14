@@ -48,6 +48,7 @@
             this.btnAddMed = new System.Windows.Forms.Button();
             this.cbbxMed = new System.Windows.Forms.ComboBox();
             this.lblMed = new System.Windows.Forms.Label();
+            this.btnDelete = new System.Windows.Forms.Button();
             splAlg = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(splAlg)).BeginInit();
             splAlg.Panel1.SuspendLayout();
@@ -90,6 +91,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnDelete);
             this.panel1.Controls.Add(this.btnAddAlg);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
@@ -99,9 +101,9 @@
             // 
             // btnAddAlg
             // 
-            this.btnAddAlg.Location = new System.Drawing.Point(42, 3);
+            this.btnAddAlg.Location = new System.Drawing.Point(3, 3);
             this.btnAddAlg.Name = "btnAddAlg";
-            this.btnAddAlg.Size = new System.Drawing.Size(99, 23);
+            this.btnAddAlg.Size = new System.Drawing.Size(82, 23);
             this.btnAddAlg.TabIndex = 4;
             this.btnAddAlg.Text = "Agregar";
             this.btnAddAlg.UseVisualStyleBackColor = true;
@@ -255,6 +257,16 @@
             this.lblMed.TabIndex = 0;
             this.lblMed.Text = "Medicamento:";
             // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(85, 3);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(82, 23);
+            this.btnDelete.TabIndex = 5;
+            this.btnDelete.Text = "Eliminar";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
             // AddRecepie
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -303,5 +315,6 @@
         private System.Windows.Forms.FlowLayoutPanel TimeContainer;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnAddAlg;
+        private System.Windows.Forms.Button btnDelete;
     }
 }

@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddUserForm));
             this.algContainer = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnDel = new System.Windows.Forms.Button();
             this.btnAddAlg = new System.Windows.Forms.Button();
             this.ComboboxType = new System.Windows.Forms.ComboBox();
             this.lblType = new System.Windows.Forms.Label();
@@ -92,6 +93,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnDel);
             this.panel1.Controls.Add(this.btnAddAlg);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
@@ -99,11 +101,21 @@
             this.panel1.Size = new System.Drawing.Size(170, 40);
             this.panel1.TabIndex = 0;
             // 
+            // btnDel
+            // 
+            this.btnDel.Location = new System.Drawing.Point(86, 3);
+            this.btnDel.Name = "btnDel";
+            this.btnDel.Size = new System.Drawing.Size(84, 23);
+            this.btnDel.TabIndex = 1;
+            this.btnDel.Text = "Eliminar";
+            this.btnDel.UseVisualStyleBackColor = true;
+            this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
+            // 
             // btnAddAlg
             // 
-            this.btnAddAlg.Location = new System.Drawing.Point(42, 3);
+            this.btnAddAlg.Location = new System.Drawing.Point(0, 3);
             this.btnAddAlg.Name = "btnAddAlg";
-            this.btnAddAlg.Size = new System.Drawing.Size(99, 23);
+            this.btnAddAlg.Size = new System.Drawing.Size(84, 23);
             this.btnAddAlg.TabIndex = 0;
             this.btnAddAlg.Text = "Agregar";
             this.btnAddAlg.UseVisualStyleBackColor = true;
@@ -332,5 +344,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnDel;
     }
 }

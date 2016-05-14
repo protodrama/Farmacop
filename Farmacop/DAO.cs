@@ -280,7 +280,7 @@ namespace Farmacop
         {
             Sesion.GettingData = true;
             List<string> emails = new List<string>();
-            string sql = "select Cuenta from Usuarios where Validada = 1 and Cuenta not like \"" + Sesion.Account + "\"";
+            string sql = "select Cuenta from Usuarios where Cuenta not like \"" + Sesion.Account + "\"";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             MySqlDataReader DataReader = cmd.ExecuteReader();

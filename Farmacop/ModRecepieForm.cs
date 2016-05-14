@@ -288,5 +288,14 @@ namespace Farmacop
                 this.Hora = time;
             }
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (SelecTimeControl.Count > 0) {
+                RecepieTimeSelect SelectTemp = SelecTimeControl[SelecTimeControl.Count - 1];
+                SelecTimeControl.Remove(SelectTemp);
+                TimeContainer.Controls.Remove(SelectTemp);
+            }
+        }
     }
 }

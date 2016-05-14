@@ -97,7 +97,7 @@ namespace Farmacop
 
         private void txtTargetUser_TextChanged(object sender, EventArgs e)
         {
-            
+
             if (Users.Contains(txtTargetUser.Text))
             {
                 if (!Sesion.GettingData)
@@ -158,7 +158,7 @@ namespace Farmacop
         {
             txtFInic.Enabled = true;
             txtFEnd.Enabled = true;
-            if(FInic)
+            if (FInic)
                 txtFInic.Text = mCalendar.SelectionRange.Start.ToString("dd/MM/yyyy");
             else
                 txtFEnd.Text = mCalendar.SelectionRange.Start.ToString("dd/MM/yyyy");
@@ -224,6 +224,15 @@ namespace Farmacop
             RecepieTimeSelect select = new RecepieTimeSelect();
             ListTime.Add(select);
             TimeContainer.Controls.Add(select);
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        { 
+            if(ListTime.Count > 0){
+                RecepieTimeSelect temp = ListTime[ListTime.Count - 1];
+                ListTime.Remove(temp);
+                TimeContainer.Controls.Remove(temp);
+            }
         }
     }
 }

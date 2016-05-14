@@ -191,8 +191,6 @@ namespace Farmacop
             }
 
             algContainer.Controls.Add(new AlgControl(MedNames.ToArray()));
-            if (MedNames.Count == 0)
-                this.Controls.Remove(GpxAlg);
         }
 
         private void btnAddAlg_Click(object sender, EventArgs e)
@@ -225,6 +223,14 @@ namespace Farmacop
             }
             else
                 return false;
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if(algContainer.Controls.Count > 0)
+            {
+                algContainer.Controls.Remove(algContainer.Controls[algContainer.Controls.Count - 1]);
+            }
         }
     }
 }
