@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Media;
-
+using Newtonsoft.Json.Linq;
 
 namespace Farmacop
 {
@@ -25,7 +25,7 @@ namespace Farmacop
         {
             InitializeComponent();
             CenterLoginContent();
-            Sesion.DBConnection = new DAO();
+            Session.DBConnection = new DAO();
             tbxPass.GotFocus += TbxPass_GotFocus;
         }
 
@@ -81,52 +81,58 @@ namespace Farmacop
                 try
                 {
                     Cursor.Current = Cursors.WaitCursor;
-                    if (Sesion.Connect())
+                    JObject jobject = JObject.Parse(Session.DBConnection.GetCredentials(tbxAccount.Text));
+                    JToken dataObject;
+                    try
                     {
-                        try
+                        dataObject = jobject["data"][0];
+                        if (dataObject["Cuenta"].ToString() == "Paciente")
                         {
-                            string data = Sesion.DBConnection.GetCredentials(tbxAccount.Text);
-                            if (data.Split(':')[2].Equals("Paciente"))
-                                throw new Exception();
-                            if (tbxAccount.Text.Equals(data.Split(':')[0])) {
-                                if (CheckPassword(tbxPass.Text, data.Split(':')[1]))
-                                {
-                                    try {
-                                        logged = true;
-                                        GetUserData(tbxAccount.Text);
-                                        this.Controls.Clear();
-                                        PPage = new PrincipalPage();
-                                        this.Controls.Add(PPage);
-                                        //Sesion.DBConnection.UserConnect(Sesion.Account);
-                                        PPage.ExitPressed += PPage_ExitPressed;
-                                    }
-                                    catch(Exception e)
-                                    {
-                                        SystemSounds.Beep.Play();
-                                        MessageBox.Show(e.Message);
-                                        this.Close();
-                                    }
-                                }
-                                else
-                                    throw new Exception();
-                            }
-                            else
-                                throw new Exception();
-                        }
-                        catch(Exception ex)
-                        {
-                            SystemSounds.Beep.Play();
-                            MessageBox.Show("El usuario o la contraseña no son correctos");
-                            tbxAccount.Focus();
+                            throw new Exception();
                         }
                     }
+                    catch (Exception e)
+                    {
+                        throw new Exception("El usuario o la contraseña no son correctos");
+                    }
 
+
+                    if (tbxAccount.Text.Equals(dataObject["Cuenta"].ToString()))
+                    {
+                        if (CheckPassword(tbxPass.Text, dataObject["Contrasena"].ToString()))
+                        {
+                            Session.Apikey = dataObject["APIKEY"].ToString();
+                            try
+                            {
+                                logged = true;
+                                GetUserData(tbxAccount.Text);
+                                this.Controls.Clear();
+                                PPage = new PrincipalPage();
+                                this.Controls.Add(PPage);
+                                PPage.ExitPressed += PPage_ExitPressed;
+                            }
+                            catch (Exception e)
+                            {
+                                SystemSounds.Beep.Play();
+                                MessageBox.Show(e.Message);
+                                this.Close();
+                            }
+                        }
+                        else
+                            throw new Exception("El usuario o la contraseña no son correctos");
+                    }
+                    else
+                        throw new Exception("El usuario o la contraseña no son correctos");
+
+                    
                 }
-                catch (MySql.Data.MySqlClient.MySqlException ex)
+                catch (Exception ex)
                 {
                     SystemSounds.Beep.Play();
-                    MessageBox.Show(ex.Number + ": " + ex.Message);
+                    MessageBox.Show("El usuario o la contraseña no son correctos");
+                    tbxAccount.Focus();
                 }
+            
             }
             else
             {
@@ -152,32 +158,37 @@ namespace Farmacop
 
         private bool CheckPassword(string pass, string original)
         {
-            string Cripto = Sesion.StringToMD5(pass);
+            string Cripto = Session.StringToMD5(pass);
             return Cripto.ToString().Equals(original);
         }
 
         private void GetUserData(string account)
         {
-            try {
-                string data = Sesion.DBConnection.GetUserData(account);
-                string[] dataValues = data.Split(';');
-
-                Sesion.Name = dataValues[0];
-                Sesion.FirstSurname = dataValues[1];
-                Sesion.SecondSurname = dataValues[2];
-                Sesion.Account = dataValues[3];
-                Sesion.PassWord = dataValues[4];
-                Sesion.FNac = dataValues[5].Split(' ')[0].ToString();
-                if (dataValues[6].Equals("Admin"))
-                    Sesion.UserType = UserType.Admin;
-                else
-                    Sesion.UserType = UserType.Medico;
-                Sesion.Email = dataValues[7];
+            JObject jobject = JObject.Parse(Session.DBConnection.GetUserData(account));
+            JToken dataObject;
+            try
+            {
+                dataObject = jobject["data"][0];
             }
-            catch(Exception e)
+            catch (Exception ex)
             {
                 throw new Exception("Error al obtener los datos del usuario. Consulte con el administrador");
             }
+
+            if (dataObject["Tipo"].ToString().Equals("Paciente"))
+                throw new Exception("El usuario o la contraseña no son correctos");
+
+            Session.Name = dataObject["Nombre"].ToString();
+            Session.FirstSurname = dataObject["Apellido1"].ToString();
+            Session.SecondSurname = dataObject["Apellido2"].ToString();
+            Session.Account = dataObject["Cuenta"].ToString();
+            Session.PassWord = dataObject["Contrasena"].ToString();
+            Session.FNac = DateTime.Parse(dataObject["FechaNac"].ToString()).ToShortDateString();
+            if (dataObject["Tipo"].ToString().Equals("Admin"))
+                Session.UserType = UserType.Admin;
+            else
+                Session.UserType = UserType.Medico;
+            Session.Email = dataObject["correo"].ToString();
         }
 
         #endregion
@@ -187,12 +198,7 @@ namespace Farmacop
             try
             {
                 PPage.listenerThread.Abort();
-            }catch(Exception ex) { }
-            if (Sesion.DBConnection.IsConnected)
-            {
-                Sesion.DBConnection.UserDisconnect(Sesion.Account);
-                Sesion.DBConnection.Disconnect();
-            }
+            }catch(Exception ex) { }          
             
         }
 

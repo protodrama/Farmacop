@@ -29,7 +29,7 @@ namespace Farmacop
                     string FChar = NoCapName.Substring(0, 1);
                     string NameNoFChar = NoCapName.Substring(1, NoCapName.Length - 1);
                     Name = FChar.ToUpper() + NameNoFChar;
-                    if (Sesion.DBConnection.InsertMedicament(Name, Type))
+                    if (Session.DBConnection.InsertMedicament(Name, Type))
                     {
                         this.Close();
                     }
@@ -42,7 +42,7 @@ namespace Farmacop
             }
             catch(Exception ex)
             {
-                Sesion.GettingData = false;
+                Session.GettingData = false;
                 MessageBox.Show("Error al insertar el medicamento. Puede que ya exista.");
                 this.Close();
             }

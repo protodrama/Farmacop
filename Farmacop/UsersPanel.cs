@@ -39,10 +39,10 @@ namespace Farmacop
         {
             try
             {
-                Sesion.UserList = Sesion.DBConnection.GetAllUsersData();
+                Session.UserList = Session.DBConnection.GetAllUsersData();
                 ActiveUsers = new List<User>();
                 NonActiveUsers = new List<User>();
-                foreach (User us in Sesion.UserList)
+                foreach (User us in Session.UserList)
                     if (us.IsEnabled())
                         ActiveUsers.Add(us);
                     else
@@ -142,7 +142,7 @@ namespace Farmacop
                     {
                         if (DialogResult.Yes == MessageBox.Show("¿Deseas deshabilitar el usuario " + UserTemp.Nombre + " " + UserTemp.Apellidos + " ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                         {
-                            if (Sesion.DBConnection.DisableUser(UserTemp.Cuenta))
+                            if (Session.DBConnection.DisableUser(UserTemp.Cuenta))
                             {
                                 GetData();
                             }
@@ -152,7 +152,7 @@ namespace Farmacop
                     {
                         if (DialogResult.Yes == MessageBox.Show("¿Deseas habilitar el usuario " + UserTemp.Nombre + " " + UserTemp.Apellidos + " ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                         {
-                            if (Sesion.DBConnection.EnableUser(UserTemp.Cuenta))
+                            if (Session.DBConnection.EnableUser(UserTemp.Cuenta))
                             {
                                 GetData();
                             }

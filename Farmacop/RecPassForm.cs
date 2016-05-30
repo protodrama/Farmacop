@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,7 +16,7 @@ namespace Farmacop
     {
         List<string> AccountsToActive;
         bool Correct = false;
-        string accountandemail = "";
+        string account = "";
 
         public RecPassForm()
         {
@@ -26,20 +27,19 @@ namespace Farmacop
         {
             if (Correct)
             {
-                if (!accountandemail.Equals(""))
+                if (!account.Equals(""))
                 {
                     try
                     {
                         int newPass = new Random().Next(999999);
-                        string subject = "Recuperar contraseña";
-                        string body = txtAccount.Text + ". Su nueva contraseña es " + newPass.ToString("000000");
-                        string mailto = accountandemail.Split(':')[1];
 
-                        Sesion.SendEmail(subject, body, mailto);
-                        Sesion.DBConnection.UpdateUserPassWord(accountandemail.Split(':')[0], Sesion.StringToMD5(newPass.ToString("000000")));
-
-                        MessageBox.Show("Se ha enviado un correo a su cuenta de correo con la nueva contraseña asignada.");
-                        this.Close();
+                        if (Session.DBConnection.RecPass(account, newPass))
+                        {
+                            MessageBox.Show("Se ha enviado un correo a su cuenta de correo con la nueva contraseña asignada.");
+                            this.Close();
+                        }
+                        else
+                            MessageBox.Show("Error al realizar la operación de recuperación de cuenta");
                     }
                     catch (Exception ex)
                     {
@@ -56,9 +56,29 @@ namespace Farmacop
 
         private void RecPassForm_Load(object sender, EventArgs e)
         {
-            Sesion.DBConnection = new DAO();
-            Sesion.Connect();
-            AccountsToActive = Sesion.DBConnection.GetUserAccountAndEmailToRecPass();
+            Session.DBConnection = new DAO();
+            try
+            {
+                AccountsToActive = getData(Session.DBConnection.GetUserAccountToRecPass());
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error al obtener las cuentas");
+            }
+        }
+
+        public List<string> getData(string data)
+        {
+            JObject jdata = JObject.Parse(data);
+            JToken jobt = jdata["data"];
+            List<string> names = new List<string>();
+            for(int i = 0; i < jobt.Count<JToken>(); i++)
+            {
+                JToken temp = jobt[i];
+                names.Add(temp["Cuenta"].ToString());
+            }
+
+            return names;
         }
 
         private void txtAccount_Leave(object sender, EventArgs e)
@@ -71,21 +91,16 @@ namespace Farmacop
                 lblEmailMsg.Text = "";
         }
 
-        private void RecPassForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Sesion.Disconnect();
-        }
-
         public void CheckAccount(string account)
         {
             this.Cursor = Cursors.AppStarting;
             bool find = false;
             foreach (string EmtoActive in AccountsToActive)
             {
-                if (account.Equals(EmtoActive.Split(':')[0]))
+                if (account.Equals(EmtoActive))
                 {
                     find = true;
-                    accountandemail = EmtoActive;
+                    this.account = EmtoActive;
                     break;
                 }
             }
@@ -102,11 +117,18 @@ namespace Farmacop
                 lblEmailMsg.ForeColor = Color.Red;
                 lblEmailMsg.Text = "El nombre de cuenta no coincide";
                 ImgTick.Image = Farmacop.Properties.Resources.Cruz;
-                accountandemail = "";
+                this.account = "";
                 Correct = false;
             }
 
-            AccountsToActive = Sesion.DBConnection.GetUserAccountAndEmailToRecPass();
+            try
+            {
+                AccountsToActive = getData(Session.DBConnection.GetUserAccountToRecPass());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener las cuentas");
+            }
             this.Cursor = Cursors.Default;
         }
     }

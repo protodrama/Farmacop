@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
+using Newtonsoft.Json.Linq;
 
 namespace Farmacop
 {
@@ -37,15 +38,13 @@ namespace Farmacop
         {
             while (true)
             {
-                if (!Sesion.GettingData)
+                try
                 {
-                    List<Message> list = Sesion.DBConnection.GetAllReceivedMessages(Sesion.Account);
-                    int count = 0;
-                    foreach (Message tmp in list)
-                        if (!tmp.IsReaded())
-                            count++;
+                    JObject list = JObject.Parse(Session.DBConnection.GetAllReceivedMessages(Session.Account));
+                    int count = list["data"].Count<JToken>();
                     SetTxt(count);
                 }
+                catch (Exception ex) { }
                 Thread.Sleep(sleep);
             }
         }
@@ -92,7 +91,7 @@ namespace Farmacop
         {
             try
             {
-                if (!Sesion.GettingData)
+                if (!Session.GettingData)
                 {
                     Cursor.Current = Cursors.WaitCursor;
                     switch (((Control)sender).Tag.ToString())
@@ -146,7 +145,7 @@ namespace Farmacop
             }
             catch(Exception ex)
             {
-                Sesion.GettingData = false;
+                Session.GettingData = false;
                 MessageBox.Show(ex.Message);
             }
         }

@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
+using System.Net.Http;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json.Linq;
 
 namespace Farmacop
 {
@@ -10,85 +13,71 @@ namespace Farmacop
 
     public class DAO
     {
+        string loginURL = "https://jfrodriguez.pw/slimrest/api/Login";
+        string UserdataURL = "https://jfrodriguez.pw/slimrest/api/Userdata";
+        string GetNewMessagesURL = "https://jfrodriguez.pw/slimrest/api/NotReadedMessages";
+        string GetNotValidatedUsersURL = "https://jfrodriguez.pw/slimrest/api/getNotPatientUnvalidated"; 
+        string ValidateUserURL = "https://jfrodriguez.pw/slimrest/api/Validate";
+        string GetNoPatientUsersURL = "https://jfrodriguez.pw/slimrest/api/GetNoPatientUser";
+        string RestpassURL = "https://jfrodriguez.pw/slimrest/api/restpass";
+        string UpdatePasswordURL = "https://jfrodriguez.pw/slimrest/api/UpdatePassword";
+        string UpdateMyUserDataURL = "https://jfrodriguez.pw/slimrest/api/UpdateUser";
+
+        string defApikey = "eadmghacdg";
+
         //Conexión a base de datos MySql
         private MySqlConnection conexion;
         private bool _connected;
-
-        #region Conexion y desconexion
-        public bool IsConnected
-        {
-            get
-            {
-                return _connected;
-            }
-
-            set
-            {
-                _connected = value;
-            }
-        }
-
-        public bool Connect(string srv, string db, string user, string pwd)
-        {
-            string cadenaConexion = "server=" + srv + "; Port=3306; database=" + db + "; "
-                + "userid=" + user + "; " + "pwd=" + pwd + ";";
-            try
-            {
-                conexion = new MySqlConnection(cadenaConexion);
-                conexion.Open(); //conexión habilitada
-                IsConnected = true;
-                return true;
-            }
-            catch (MySqlException ex)
-            {
-                switch (ex.Number)
-                {
-                    case 113: throw new Exception("Error en la conexión");
-                    case 1045: throw new Exception("Usuario o contraseña incorrectos");
-                    default:
-                        throw;
-                }
-            }
-        } 
-
-        public void Disconnect()
-        {
-            conexion.Close();
-            IsConnected = false;
-            conexion = null;
-        }
-        #endregion
 
         #region Usuarios
         //Obtiene las credenciales del usuario indicado
         public string GetCredentials(string account)
         {
-            Sesion.GettingData = true;
-            string data = null;
-            string sql = "select Cuenta,Contrasena,Tipo from Usuarios where Cuenta like \"" + account + "\" and Validada = 1 and Conectada = 0";
+            Session.GettingData = true;
+            try
+            {
+                var builder = new UriBuilder(loginURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = account;
+                query["apikey"] = defApikey;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
 
-            MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
-            MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
-
-            if (DataReader.HasRows)  //Si tiene filas lee el contenido y devuelve las credenciales
-                while (DataReader.Read())
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
                 {
-                    try
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
                     {
-                        data = DataReader["Cuenta"].ToString() + ":" + DataReader["Contrasena"].ToString() + ":" + DataReader["Tipo"].ToString();
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                Session.GettingData = false;
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            Session.GettingData = false;
+                            throw new Exception();
+                        }
                     }
-                    catch (Exception e) { throw new Exception("Error al conectar al servidor."); }
                 }
-
-            DataReader.Close();
-            Sesion.GettingData = false;
-            return data;
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error obteniendo los datos de conexion");
+            }
         }
 
         //Obtiene las credenciales del usuario indicado
         public string GetUserEmail(string account)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             string data = "";
             string sql = "select correo from Usuarios where Cuenta like \"" + account + "\" and Validada = 1";
 
@@ -106,181 +95,321 @@ namespace Farmacop
                 }
 
             DataReader.Close();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return data;
-        }
-
-        //Actualiza la conexion a true
-        public bool UserConnect(string account)
-        {
-            Sesion.GettingData = true;
-            string sql = "update Usuarios set Conectada = 1 where Cuenta like \"" + account + "\"";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Sesion.GettingData = false;
-            return qr > 0;
-        }
-
-        //Actualiza la conexion a true
-        public bool UserDisconnect(string account)
-        {
-            Sesion.GettingData = true;
-            string sql = "update Usuarios set Conectada = 0 where Cuenta like \"" + account + "\"";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Sesion.GettingData = false;
-            return qr > 0;
         }
 
         //Obtiene los datos del usuario en cuestión
         public string GetUserData(string account)
         {
-            Sesion.GettingData = true;
-            string data = null;
-            string sql = "select Cuenta,Contrasena,Tipo,Nombre,Apellido1,Apellido2,FechaNac,correo from Usuarios where Cuenta like \"" + account + "\" and Validada = 1";
+            Session.GettingData = true;
+            try
+            {
+                var builder = new UriBuilder(UserdataURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = account;
+                query["apikey"] = Session.Apikey;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
 
-            MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
-            MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
-
-            if (DataReader.HasRows)  //Si tiene filas lee el contenido y devuelve las credenciales
-                while (DataReader.Read())
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
                 {
-                    try
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
                     {
-                        data = DataReader["Nombre"].ToString() + ";" + DataReader["Apellido1"].ToString() + ";" + DataReader["Apellido2"].ToString() + ";" +
-                            DataReader["Cuenta"].ToString() + ";" + DataReader["Contrasena"].ToString() + ";" + DataReader["FechaNac"].ToString() + ";" + DataReader["Tipo"].ToString() 
-                            + ";" + DataReader["correo"].ToString();
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                Session.GettingData = false;
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            Session.GettingData = false;
+                            throw new Exception();
+                        }
                     }
-                    catch (Exception e) { throw; }
                 }
-
-            DataReader.Close();
-            Sesion.GettingData = false;
-            return data;
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error obteniendo los datos de conexion");
+            }
         }
 
         //Validada un usuario desde el formulario de activación del login
         public bool ActivateUserWithPass(string account, string pass)
         {
-            Sesion.GettingData = true;
-            string sql = "update Usuarios set Validada = 1, Contrasena = \"" + Sesion.StringToMD5(pass) + "\" where Cuenta like \"" + account + "\"";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Sesion.SendEmail("Validada", "Su cuenta ha sido validada", GetUserEmail(account));
-            Sesion.GettingData = false;
-            return qr > 0;
+            Session.GettingData = true;
+            try
+            {
+                var postData = new List<KeyValuePair<string, string>>();
+                postData.Add(new KeyValuePair<string, string>("account", account));
+                postData.Add(new KeyValuePair<string, string>("apikey", defApikey));
+                postData.Add(new KeyValuePair<string, string>("password", Session.StringToMD5(pass)));
+                HttpContent content = new FormUrlEncodedContent(postData);
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    HttpResponseMessage response = client.PutAsync(ValidateUserURL, content).Result;
+                    Session.GettingData = false;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Session.GettingData = false;
+                        return true;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al activar usuario");
+            }
         }
 
         //Obtiene las cuentas que no están activadas y no son pacientes para poder activarlas en el formulario de activación debajo de la pantalla de login
-        public List<string> GetNonActiveUserEMailForRegist()
+        public string GetNonActiveUserEMailForRegist()
         {
-            Sesion.GettingData = true;
-            List<string> EmailList = new List<string>();
-            string sql = "select Cuenta from Usuarios where Validada = 0 and Tipo not like \"Paciente\"";
+            Session.GettingData = true;
+            try
+            {
+                var builder = new UriBuilder(GetNotValidatedUsersURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["apikey"] = defApikey;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
 
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            MySqlDataReader DataReader = cmd.ExecuteReader();     
-
-            if (DataReader.HasRows)
-                while (DataReader.Read())
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
                 {
-                    try
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
                     {
-                        EmailList.Add(DataReader["Cuenta"].ToString());
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                Session.GettingData = false;
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            Session.GettingData = false;
+                            throw new Exception();
+                        }
                     }
-                    catch (Exception e) { throw; }
                 }
-
-            DataReader.Close();
-            Sesion.GettingData = false;
-            return EmailList;
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error obteniendo los datos de conexion");
+            }
         }
 
-        public List<string> GetUserAccountAndEmailToRecPass()
+        //Obtiene las cuentas que pueden recuperar su contraseña
+        public string GetUserAccountToRecPass()
         {
-            Sesion.GettingData = true;
-            List<string> EmailList = new List<string>();
-            string sql = "select Cuenta,correo from Usuarios where Validada = 1 and Tipo not like \"Paciente\"";
+            Session.GettingData = true;
+            try
+            {
+                var builder = new UriBuilder(GetNoPatientUsersURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["apikey"] = defApikey;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
 
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            MySqlDataReader DataReader = cmd.ExecuteReader();
-
-            if (DataReader.HasRows)
-                while (DataReader.Read())
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
                 {
-                    try
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
                     {
-                        EmailList.Add(DataReader["Cuenta"].ToString() + ":" + DataReader["correo"].ToString());
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                Session.GettingData = false;
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            Session.GettingData = false;
+                            throw new Exception();
+                        }
                     }
-                    catch (Exception e) { throw; }
                 }
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al obtener las cuentas");
+            }
+        }
 
-            DataReader.Close();
-            Sesion.GettingData = false;
-            return EmailList;
+        //Realiza la operacion de recuperado de contraseña
+        public bool RecPass(string account, int code)
+        {
+            Session.GettingData = true;
+            try
+            {
+                var builder = new UriBuilder(RestpassURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = account;
+                query["code"] = "" + code;
+                query["npass"] = Session.StringToMD5("" + code);
+                query["apikey"] = defApikey;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
+
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            Session.GettingData = false;
+                            throw new Exception();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al realizar la operación");
+            }
         }
 
         //Actualiza la contraseña de un usuario
-        public bool UpdateUserPassWord(string account, string newPass)
+        public bool UpdateUserPassWord(string newPass)
         {
-            Sesion.GettingData = true;
-            string sql = "update Usuarios set Contrasena = \"" + newPass + "\" where Cuenta like \"" + account +"\"";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Sesion.GettingData = false;
-            return qr > 0;
+            Session.GettingData = true;
+            try
+            {
+                var postData = new List<KeyValuePair<string, string>>();
+                postData.Add(new KeyValuePair<string, string>("account", Session.Account));
+                postData.Add(new KeyValuePair<string, string>("apikey", Session.Apikey));
+                postData.Add(new KeyValuePair<string, string>("password", newPass));
+                HttpContent content = new FormUrlEncodedContent(postData);
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    HttpResponseMessage response = client.PutAsync(UpdatePasswordURL, content).Result;
+                    Session.GettingData = false;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Session.GettingData = false;
+                        return true;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al activar usuario");
+            }
         }
 
         //Actualiza los datos de un usuario
-        public bool UpdateUserData(string Name, string FApl, string SApl, string FNac,string Email, string account)
+        public bool UpdateUserData(string Name, string FApl, string SApl, string FNac,string Email)
         {
-            Sesion.GettingData = true;
-            int qr = 0;
-            if (Email != null)
+            Session.GettingData = true;
+            try
             {
-                string sql = "update Usuarios set Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', correo = \'" + Email + "\' where Cuenta like \"" + account + "\"";
-                MySqlCommand cmd = new MySqlCommand(sql, conexion);
-                qr = cmd.ExecuteNonQuery();
-                Sesion.GettingData = false;
+                var postData = new List<KeyValuePair<string, string>>();
+                postData.Add(new KeyValuePair<string, string>("account", Session.Account));
+                postData.Add(new KeyValuePair<string, string>("apikey", Session.Apikey));
+                postData.Add(new KeyValuePair<string, string>("date", FNac));
+                postData.Add(new KeyValuePair<string, string>("fsur", FApl));
+                postData.Add(new KeyValuePair<string, string>("ssur", SApl));
+                postData.Add(new KeyValuePair<string, string>("name", Name));
+                postData.Add(new KeyValuePair<string, string>("email", Email));
+                HttpContent content = new FormUrlEncodedContent(postData);
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    HttpResponseMessage response = client.PutAsync(UpdateMyUserDataURL, content).Result;
+                    Session.GettingData = false;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        Session.GettingData = false;
+                        return true;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                string sql = "update Usuarios set Nombre = \"" + Name + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\' where Cuenta like \"" + account + "\"";
-                MySqlCommand cmd = new MySqlCommand(sql, conexion);
-                qr = cmd.ExecuteNonQuery();
-                Sesion.GettingData = false;
+                Session.GettingData = false;
+                throw new Exception("Error al activar usuario");
             }
-            return qr > 0;
         }
 
         //Actualiza los datos de un usuario
         public bool UpdateModUserData(string Name, string FApl, string SApl, string FNac,string Type, string account,string email)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             string sql = "update Usuarios set Nombre = \"" + Name + "\", correo = \"" + email + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', Tipo = \'" + Type + "\' where Cuenta like \"" + account + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return qr > 0;
         }
 
         //Agregar un usuario
         public bool InsertUserData(string Name, string FApl, string SApl, string FNac, string Type, string account,string email)
         {
-            Sesion.GettingData = true;
-            string sql = "Insert into Usuarios set Cuenta = \"" + account + "\", Nombre = \"" + Name + "\", correo = \"" + email + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', Tipo = \'" + Type + "\', Contrasena = \"" + Sesion.StringToMD5(account+Name+"NewUser"+new Random().Next(100)) + "\"";
+            Session.GettingData = true;
+            string sql = "Insert into Usuarios set Cuenta = \"" + account + "\", Nombre = \"" + Name + "\", correo = \"" + email + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', Tipo = \'" + Type + "\', Contrasena = \"" + Session.StringToMD5(account+Name+"NewUser"+new Random().Next(100)) + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return qr > 0;
         }
 
         //Obtiene todos los correos de los usuarios menos el de la sesion
         public List<string> GetAllUsersNameAccount()
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             List<string> emails = new List<string>();
-            string sql = "select Cuenta from Usuarios where Cuenta not like \"" + Sesion.Account + "\"";
+            string sql = "select Cuenta from Usuarios where Cuenta not like \"" + Session.Account + "\"";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             MySqlDataReader DataReader = cmd.ExecuteReader();
@@ -296,20 +425,20 @@ namespace Farmacop
                 }
 
             DataReader.Close();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return emails;
         }
 
         //Obtiene todos los usuarios para la tabla de Usuarios
         public List<User> GetAllUsersData()
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             List<User> Users = new List<User>();
             string sql = "";
-            if (Sesion.UserType == UserType.Admin)
-                sql = "select Cuenta,Nombre,Apellido1,Apellido2,FechaNac,correo,Tipo,Deshabilitada from Usuarios where Validada = 1 and Cuenta not like \"" + Sesion.Account + "\"";
+            if (Session.UserType == UserType.Admin)
+                sql = "select Cuenta,Nombre,Apellido1,Apellido2,FechaNac,correo,Tipo,Deshabilitada from Usuarios where Validada = 1 and Cuenta not like \"" + Session.Account + "\"";
             else
-                sql = "select Cuenta,Nombre,Apellido1,Apellido2,FechaNac,correo,Tipo,Deshabilitada from Usuarios where Validada = 1 and Cuenta not like \"" + Sesion.Account + "\" and Tipo not like \"Admin\" and Tipo not like \"Medico\"";
+                sql = "select Cuenta,Nombre,Apellido1,Apellido2,FechaNac,correo,Tipo,Deshabilitada from Usuarios where Validada = 1 and Cuenta not like \"" + Session.Account + "\" and Tipo not like \"Admin\" and Tipo not like \"Medico\"";
 
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             MySqlDataReader DataReader = cmd.ExecuteReader();
@@ -326,29 +455,29 @@ namespace Farmacop
                 }
 
             DataReader.Close();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return Users;
         }
 
         //Disables User
         public bool DisableUser(string account)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             string sql = "update Usuarios set Deshabilitada = 1 where Cuenta like \"" + account + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return qr > 0;
         }
 
         //Enables User
         public bool EnableUser(string account)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             string sql = "update Usuarios set Deshabilitada = 0 where Cuenta like \"" + account + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return qr > 0;
         }
         #endregion
@@ -357,7 +486,7 @@ namespace Farmacop
         //Obtiene todos los medicamentos de la base de datos
         public List<Medicament> GetAllMedicaments()
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             List<Medicament> MedicamentList = null;
             string sql = "select Nombre,Tipo from Medicamentos";
 
@@ -373,7 +502,7 @@ namespace Farmacop
                     MedicamentList.Add(Tmp);
                 }
             }
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             DataReader.Close();
             return MedicamentList;
         }
@@ -381,48 +510,48 @@ namespace Farmacop
         //Elimina el medicamento a partir del nombre que se le indique
         public bool DeleteMedicament(string name)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             string sql = "delete from Medicamentos where Nombre like \"" + name + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = 0;
             try {
                 qr = cmd.ExecuteNonQuery();
             }
-            catch(Exception e) { Sesion.GettingData = false; }
-            Sesion.GettingData = false;
+            catch(Exception e) { Session.GettingData = false; }
+            Session.GettingData = false;
             return qr > 0;
         }
 
         //Inserta un medicamento
         public bool InsertMedicament(string name, string type)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             string sql = "insert into Medicamentos (Nombre,Tipo) values (\"" + name + "\", \"" + type +"\")";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return qr > 0;
         }
 
         //Modifica el tipo de un medicamento
         public bool UpdateTypeMedicament(string name, string type)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             string sql = "update Medicamentos set Tipo = \"" + type + "\" where Nombre like \"" + name + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return qr > 0;
         }
 
         //Modifica un medicamento
         public bool UpdateMedicament(string oldname, string newname, string type)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             string sql = "update Medicamentos set Nombre = \"" + newname + "\", Tipo = \"" + type + "\" where Nombre like \"" + oldname + "\"";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return qr > 0;
         }
         #endregion
@@ -432,28 +561,28 @@ namespace Farmacop
         //Insertar alergia para un usuario
         public bool InsertAlg(string account, string medicament)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             string sql = "insert into Alergias values (\"" + account + "\", (select ID from Medicamentos where Nombre like \"" + medicament + "\"))";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return qr > 0;
         }
 
         //Eliminar alergia para un usuario
         public bool DeleteAlg(string account, string medicament)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             string sql = "delete from Alergias where Cuenta like \"" + account + "\" and ID_Medicamento = (select ID from Medicamentos where Nombre like \"" + medicament + "\")";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return qr > 0;
         }
 
         public List<string> GetUserAlg(string account)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             List<string> AlgList = new List<string>();
             string sql = "select Nombre from Medicamentos where ID in (select ID_Medicamento from Alergias where Cuenta like '" + account + "')";
 
@@ -469,7 +598,7 @@ namespace Farmacop
             }
 
             DataReader.Close();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return AlgList;
         }
 
@@ -479,7 +608,7 @@ namespace Farmacop
         //Obtiene los mensajes enviados
         public List<Message> GetAllSendedMessages(string account)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             List<Message> LMessages = new List<Message>();
             string sql = "select ID, Cuenta_Envia, Cuenta_Recibe, Asunto, Mensaje, Leido from Mensajes where Cuenta_Envia like \'" + account + "\' order by ID DESC";
 
@@ -498,62 +627,80 @@ namespace Farmacop
                 }
 
             DataReader.Close();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return LMessages;
         }
+
         //Obtiene los mensajes recibidos
-        public List<Message> GetAllReceivedMessages(string account)
+        public string GetAllReceivedMessages(string account)
         {
-            Sesion.GettingData = true;
-            List<Message> LMessages = new List<Message>();
-            string sql = "select ID, Cuenta_Envia, Cuenta_Recibe, Asunto, Mensaje, Leido from Mensajes where Cuenta_Recibe like \'" + account + "\' order by ID DESC";
+            try
+            {
+                var builder = new UriBuilder(GetNewMessagesURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = account;
+                query["apikey"] = Session.Apikey;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
 
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            MySqlDataReader DataReader = cmd.ExecuteReader();
-
-            if (DataReader.HasRows)
-                while (DataReader.Read())
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
                 {
-                    try
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
                     {
-                        LMessages.Add(new Message(int.Parse(DataReader["ID"].ToString()), DataReader["Cuenta_Envia"].ToString(), DataReader["Cuenta_Recibe"].ToString(),
-                            DataReader["Asunto"].ToString(), DataReader["Mensaje"].ToString().Replace("[**]", "\r\n"), DataReader["Leido"].ToString().Equals("True")));
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                Session.GettingData = false;
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            Session.GettingData = false;
+                            throw new Exception();
+                        }
                     }
-                    catch(Exception e) { throw; }
                 }
-
-            DataReader.Close();
-            Sesion.GettingData = false;
-            return LMessages;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            
         }
         //Actualiza a leido el mensaje
         public bool SetReaded(int msgId)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             string sql = "update Mensajes set Leido = 1 where ID = " + msgId + "";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return qr > 0;
         }
         //Insertar mensaje
         public bool InsertMsg(string Sender, string Receiver, string Matter, string Message)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             string sql = "insert into Mensajes (Cuenta_Envia, Cuenta_Recibe, Asunto, Mensaje) values (\"" + Sender + "\",\"" + Receiver + "\",\"" + Matter + "\",\"" + Message + "\")";
             MySqlCommand cmd = new MySqlCommand(sql, conexion);
             int qr = cmd.ExecuteNonQuery();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return qr > 0;
         }
 
         #endregion
 
         #region Recetas
-        public List<Recepie> GetAllRecepies()
+        public List<Prescription> GetAllRecepies()
         {
-            Sesion.GettingData = true;
-            List<Recepie> Recepies = new List<Recepie>();
+            Session.GettingData = true;
+            List<Prescription> Recepies = new List<Prescription>();
             string sql = "select re.ID,re.Paciente,re.Medico,re.FechaInic,re.FechaFin,me.Nombre as Medicamento,re.Dosis from Recetas as re " + 
                 " left join Medicamentos as me on re.ID_Medicamento = me.ID";
 
@@ -565,7 +712,7 @@ namespace Farmacop
                 {
                     try
                     {
-                        Recepies.Add(new Recepie(int.Parse(DataReader["ID"].ToString()), DataReader["Paciente"].ToString(), DataReader["Medico"].ToString(),
+                        Recepies.Add(new Prescription(int.Parse(DataReader["ID"].ToString()), DataReader["Paciente"].ToString(), DataReader["Medico"].ToString(),
                             DateTime.Parse(DataReader["FechaInic"].ToString()).ToShortDateString(), DateTime.Parse(DataReader["FechaFin"].ToString()).ToShortDateString(),
                             DataReader["Medicamento"].ToString(), int.Parse(DataReader["Dosis"].ToString())));
                     }
@@ -574,18 +721,18 @@ namespace Farmacop
 
             DataReader.Close();
 
-            foreach (Recepie temp in Recepies)
+            foreach (Prescription temp in Recepies)
             {
                 temp.SetRControl(GetAllRecControl(temp.getId()));
                 temp.SetTimes(GetAllHours(temp.getId()));
             }
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return Recepies;
         }
 
         public List<Taken> GetAllRecControl(int idRec)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             List<Taken> RControl = new List<Taken>();
             string sql = "select Fecha,Hora,Minuto,Tomada from Rec_Control where ID_Receta = " + idRec;
 
@@ -604,13 +751,13 @@ namespace Farmacop
 
             DataReader.Close();
 
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return RControl;
         }
 
         public List<string> GetAllHours(int idRec)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             List<string> Horas = new List<string>();
             string sql = "select Hora,Minuto from Horas where ID_Receta = " + idRec;
 
@@ -628,13 +775,13 @@ namespace Farmacop
                 }
 
             DataReader.Close();
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return Horas;
         }
 
-        public bool DeleteRecepie(Recepie recepie)
+        public bool DeleteRecepie(Prescription recepie)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             string sqlc = "delete from Rec_Control where ID_Receta = " + recepie.getId();
             MySqlCommand cmdc = new MySqlCommand(sqlc, conexion);
             int qr = cmdc.ExecuteNonQuery();
@@ -651,17 +798,17 @@ namespace Farmacop
             {
                 InsertMsg(recepie.Medico, recepie.Paciente, "Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + recepie.Medicamento + " que comenzaba el día " + recepie.FechaInicio +
                     " y terminaba el día " + recepie.FechaFin);
-                Sesion.SendEmail("Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + recepie.Medicamento + " que comenzaba el día " + recepie.FechaInicio +
-                    " y terminaba el día " + recepie.FechaFin, GetUserEmail(recepie.Paciente));
+                //Session.SendEmail("Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + recepie.Medicamento + " que comenzaba el día " + recepie.FechaInicio +
+                  //  " y terminaba el día " + recepie.FechaFin, GetUserEmail(recepie.Paciente));
             }
 
-            Sesion.GettingData = false;
+            Session.GettingData = false;
             return qrr > 0;
         }
 
         public bool AddRecepie(string patient, string medic, string medicament, string FIni, string FEnd, string Amm,List<string> Time)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             string fInicFormat = DateTime.Parse(FIni).ToString("yyyy-MM-dd");
             string fEndFormat = DateTime.Parse(FEnd).ToString("yyyy-MM-dd");
             string sqlCheck = "select * from Recetas where Paciente like '" + patient +
@@ -679,7 +826,7 @@ namespace Farmacop
 
                 if (qr > 0)
                 {
-                    int ID = getRecepieID(patient, Sesion.Account, medicament, fInicFormat, fEndFormat);
+                    int ID = getRecepieID(patient, Session.Account, medicament, fInicFormat, fEndFormat);
                     string hours = string.Empty;
                     foreach (string tmp in Time)
                     {
@@ -689,14 +836,14 @@ namespace Farmacop
                     string msg = "Se ha añadido una nueva receta para usted.[**]-Medicamento: " + medicament +
                         "[**]-Dosis: " + Amm + "[**]-Fecha de inicio: " + FIni + "[**]-Fecha fin: " + FEnd + "[**]-Horario de tomas diarias:" + hours;
 
-                    InsertMsg(Sesion.Account, patient, "Nueva receta", msg);
-                    Sesion.SendEmail("Receta", msg.Replace("[**]", "\r\n"), GetUserEmail(patient));
-                    Sesion.GettingData = false;
+                    InsertMsg(Session.Account, patient, "Nueva receta", msg);
+                    //Session.SendEmail("Receta", msg.Replace("[**]", "\r\n"), GetUserEmail(patient));
+                    Session.GettingData = false;
                     return true;
                 }
                 else
                 {
-                    Sesion.GettingData = false;
+                    Session.GettingData = false;
                     return false;
                 }
             
@@ -704,7 +851,7 @@ namespace Farmacop
             else
             {
                 rows.Close();
-                Sesion.GettingData = false;
+                Session.GettingData = false;
                 throw new Exception("Ya existe una receta activa para ese usuario con el medicamento indicado en la fecha de inicio asignada");
             }
 
@@ -808,7 +955,7 @@ namespace Farmacop
 
         public bool ModRecepie(int RecId,string patient, string medicament, string FIni, string FEnd, string oldEndDate, string Amm, List<string> newTime, List<string> delTime, List<string> totalTime, List<string> stayTime)
         {
-            Sesion.GettingData = true;
+            Session.GettingData = true;
             string fInicFormat = DateTime.Parse(FIni).ToString("yyyy-MM-dd");
             string fEndFormat = DateTime.Parse(FEnd).ToString("yyyy-MM-dd");
             string sqlCheck = "select * from Recetas where ID <> " + RecId  + " and Paciente like '" + patient +
@@ -855,21 +1002,21 @@ namespace Farmacop
                     string msg = "Se ha modificado una receta suya. [**]Datos nuevos:[**]-Medicamento: " + medicament +
                         "[**]-Dosis: " + Amm + "[**]-Fecha de inicio: " + FIni + "[**]-Fecha fin: " + FEnd + "[**]-Horario de tomas diarias:" + hours;
 
-                    InsertMsg(Sesion.Account, patient, "Modificación de receta", msg);
-                    Sesion.GettingData = false;
-                    Sesion.SendEmail("Modificación de receta", msg.Replace("[**]", "\r\n"), GetUserEmail(patient));
+                    InsertMsg(Session.Account, patient, "Modificación de receta", msg);
+                    Session.GettingData = false;
+                    //Session.SendEmail("Modificación de receta", msg.Replace("[**]", "\r\n"), GetUserEmail(patient));
                     return true;
                 }
                 else
                 {
-                    Sesion.GettingData = false;
+                    Session.GettingData = false;
                     return false;
                 }
             }
             else
             {
                 rows.Close();
-                Sesion.GettingData = false;
+                Session.GettingData = false;
                 throw new Exception("Ya existe una receta activa para ese usuario con el medicamento indicado en la fecha de inicio asignada");
             }
         }

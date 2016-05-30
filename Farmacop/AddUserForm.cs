@@ -18,7 +18,7 @@ namespace Farmacop
         {
             InitializeComponent();
             GetData();
-            if(Sesion.UserType != UserType.Admin)
+            if(Session.UserType != UserType.Admin)
             {
                 ComboboxType.Items.Clear();
                 ComboboxType.Items.Add("Paciente");
@@ -30,7 +30,7 @@ namespace Farmacop
         {
             try
             {
-                Accounts = Sesion.DBConnection.GetAllUsersNameAccount();
+                Accounts = Session.DBConnection.GetAllUsersNameAccount();
             }
             catch(Exception e)
             {
@@ -49,7 +49,7 @@ namespace Farmacop
                     {
                         if (CheckAccountName(txtAccount.Text))
                         {
-                            if (Sesion.DBConnection.InsertUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.Text, txtAccount.Text, txtEmail.Text))
+                            if (Session.DBConnection.InsertUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.Text, txtAccount.Text, txtEmail.Text))
                             {
                                 foreach (Control Ctemp in algContainer.Controls)
                                 {
@@ -58,7 +58,7 @@ namespace Farmacop
                                         if (((AlgControl)Ctemp).GetText.Equals(""))
                                             continue;
                                         else
-                                            Sesion.DBConnection.InsertAlg(txtAccount.Text, ((AlgControl)Ctemp).GetText);
+                                            Session.DBConnection.InsertAlg(txtAccount.Text, ((AlgControl)Ctemp).GetText);
                                     }
                                 }
                                 MessageBox.Show("Usuario insertado correctamente.");
@@ -96,7 +96,7 @@ namespace Farmacop
         {
             if (Accounts.Contains(account))
                 return false;
-            else if (account.Equals(Sesion.Account))
+            else if (account.Equals(Session.Account))
                 return false;
             else
                 return true;
@@ -176,10 +176,10 @@ namespace Farmacop
 
         private void AddAlgComboBox()
         {
-            Sesion.MedList = Sesion.DBConnection.GetAllMedicaments();
+            Session.MedList = Session.DBConnection.GetAllMedicaments();
             List<string> MedNames = new List<string>();
 
-            foreach (Medicament temp in Sesion.MedList)
+            foreach (Medicament temp in Session.MedList)
                 MedNames.Add(temp.Nombre);
 
             foreach (Control Ctemp in algContainer.Controls)

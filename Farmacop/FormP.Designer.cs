@@ -44,9 +44,9 @@
             // pctbxFarmacop
             // 
             this.pctbxFarmacop.Image = ((System.Drawing.Image)(resources.GetObject("pctbxFarmacop.Image")));
-            this.pctbxFarmacop.Location = new System.Drawing.Point(553, 97);
+            this.pctbxFarmacop.Location = new System.Drawing.Point(528, 81);
             this.pctbxFarmacop.Name = "pctbxFarmacop";
-            this.pctbxFarmacop.Size = new System.Drawing.Size(366, 47);
+            this.pctbxFarmacop.Size = new System.Drawing.Size(449, 81);
             this.pctbxFarmacop.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pctbxFarmacop.TabIndex = 0;
             this.pctbxFarmacop.TabStop = false;
@@ -116,7 +116,7 @@
             this.lnkNewUser.Location = new System.Drawing.Point(622, 433);
             this.lnkNewUser.Name = "lnkNewUser";
             this.lnkNewUser.Size = new System.Drawing.Size(193, 30);
-            this.lnkNewUser.TabIndex = 6;
+            this.lnkNewUser.TabIndex = 7;
             this.lnkNewUser.TabStop = true;
             this.lnkNewUser.Text = "Si es la primera vez que entras \r\nañade la contraseña a tu usuario aquí";
             this.lnkNewUser.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -130,7 +130,7 @@
             this.linkLabel1.Location = new System.Drawing.Point(640, 393);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(113, 13);
-            this.linkLabel1.TabIndex = 7;
+            this.linkLabel1.TabIndex = 6;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Recuperar contraseña";
             this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

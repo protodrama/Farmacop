@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,14 +27,21 @@ namespace Farmacop
 
         private void FormReg_Load(object sender, EventArgs e)
         {
-            Sesion.DBConnection = new DAO();
-            Sesion.Connect();
-            AccountsToActive = Sesion.DBConnection.GetNonActiveUserEMailForRegist();
+            try
+            {
+                Session.DBConnection = new DAO();
+                
+                AccountsToActive = ReadData(Session.DBConnection.GetNonActiveUserEMailForRegist());
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error al comprobar cuentas");
+            }
         }
 
         private void FormReg_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Sesion.Disconnect();
+            
         }
 
         private void txtAccount_Leave(object sender, EventArgs e)
@@ -73,33 +81,66 @@ namespace Farmacop
                 Correct = false;
             }
 
-            AccountsToActive = Sesion.DBConnection.GetNonActiveUserEMailForRegist();
+            try
+            {
+                AccountsToActive = ReadData(Session.DBConnection.GetNonActiveUserEMailForRegist());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error al comprobar cuentas");
+            }
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
             if (Correct)
             {
-                if (!txtNewPass.Text.Trim().Equals("") && !txtNewPass2.Text.Trim().Equals(""))
+                try
                 {
-                    if (txtNewPass.Text.Equals(txtNewPass2.Text))
+                    Cursor.Current = Cursors.AppStarting;
+                    if (!txtNewPass.Text.Trim().Equals("") && !txtNewPass2.Text.Trim().Equals(""))
                     {
-                        if (Sesion.DBConnection.ActivateUserWithPass(txtAccount.Text, txtNewPass.Text))
+                        if (txtNewPass.Text.Equals(txtNewPass2.Text))
                         {
-                            MessageBox.Show("Cuenta activada con éxito");
-                            this.Close();
+                            if (Session.DBConnection.ActivateUserWithPass(txtAccount.Text, txtNewPass.Text))
+                            {
+                                Cursor.Current = Cursors.Default;
+                                MessageBox.Show("Cuenta activada con éxito");
+                                this.Close();
+                            }
+                            else
+                                MessageBox.Show("Error al activar la cuenta");
                         }
                         else
-                            MessageBox.Show("Error al activar la cuenta");
+                            MessageBox.Show("Las contraseñas no coinciden");
                     }
                     else
-                        MessageBox.Show("Las contraseñas no coinciden");
+                        MessageBox.Show("Introduzca todos los datos");
                 }
-                else
-                    MessageBox.Show("Introduzca todos los datos");
+                catch (Exception ex)
+                {
+                    Cursor.Current = Cursors.Default;
+                    MessageBox.Show(ex.Message);
+                }
             }
             else
                 MessageBox.Show("El nombre de cuenta debe ser correcto");
+            
+            Cursor.Current = Cursors.Default;
+        }
+
+        public List<string> ReadData(string data)
+        {
+            List<string> usersdata = new List<string>();
+            JObject jdata = JObject.Parse(data);
+            JToken users = jdata["data"];
+
+            for(int i = 0; i < users.Count<JToken>(); i++)
+            {
+                usersdata.Add(users[i]["Cuenta"].ToString());
+            }
+
+            return usersdata;
         }
     }
 }

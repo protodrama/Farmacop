@@ -11,7 +11,7 @@ namespace Farmacop
 {
     public partial class FormControls : Form
     {
-        Recepie RecToShow;
+        Prescription RecToShow;
         List<Taken> TakenShowing = new List<Taken>();
 
         public FormControls()
@@ -19,7 +19,7 @@ namespace Farmacop
             InitializeComponent();
         }
 
-        public FormControls(Recepie recepie)
+        public FormControls(Prescription recepie)
         {
             InitializeComponent();
             RecToShow = recepie;

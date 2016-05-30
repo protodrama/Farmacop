@@ -25,7 +25,7 @@ namespace Farmacop
 
         public void GetData()
         {
-            List<string> names = Sesion.DBConnection.GetAllUsersNameAccount();
+            List<string> names = Session.DBConnection.GetAllUsersNameAccount();
             Users = names;
             var source = new AutoCompleteStringCollection();
             source.AddRange(names.ToArray());
@@ -41,7 +41,7 @@ namespace Farmacop
         public void GetMedNames()
         {
             cbbxMed.Items.Clear();
-            List<Medicament> medlist = Sesion.DBConnection.GetAllMedicaments();
+            List<Medicament> medlist = Session.DBConnection.GetAllMedicaments();
             foreach (Medicament temp in medlist)
                 cbbxMed.Items.Add(temp.Nombre);
         }
@@ -74,7 +74,7 @@ namespace Farmacop
                         this.Cursor = Cursors.AppStarting;
                         try
                         {
-                            if (Sesion.DBConnection.AddRecepie(txtTargetUser.Text, Sesion.Account, cbbxMed.Text, txtFInic.Text, txtFEnd.Text, txtDs.Text, time))
+                            if (Session.DBConnection.AddRecepie(txtTargetUser.Text, Session.Account, cbbxMed.Text, txtFInic.Text, txtFEnd.Text, txtDs.Text, time))
                             {
                                 this.Cursor = Cursors.Default;
                                 MessageBox.Show("Receta añadida correctamente");
@@ -100,12 +100,12 @@ namespace Farmacop
 
             if (Users.Contains(txtTargetUser.Text))
             {
-                if (!Sesion.GettingData)
+                if (!Session.GettingData)
                 {
                     GetMedNames();
                     btnAdd.Enabled = true;
                     grpRecData.Visible = true;
-                    List<string> Alerg = Sesion.DBConnection.GetUserAlg(txtTargetUser.Text);
+                    List<string> Alerg = Session.DBConnection.GetUserAlg(txtTargetUser.Text);
                     foreach (string temp in Alerg)
                         cbbxMed.Items.Remove(temp);
                 }

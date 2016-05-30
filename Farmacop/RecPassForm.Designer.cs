@@ -108,7 +108,6 @@
             this.Name = "RecPassForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Recuperar contraseña";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RecPassForm_FormClosing);
             this.Load += new System.EventHandler(this.RecPassForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ImgTick)).EndInit();
             this.ResumeLayout(false);

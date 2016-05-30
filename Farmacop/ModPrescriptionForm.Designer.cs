@@ -1,6 +1,6 @@
 ﻿namespace Farmacop
 {
-    partial class ModRecepieForm
+    partial class ModPrescriptionForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.SplitContainer splAlg;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModRecepieForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModPrescriptionForm));
             this.TimeContainer = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnAddAlg = new System.Windows.Forms.Button();

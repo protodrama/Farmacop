@@ -10,18 +10,14 @@ namespace Farmacop
 {
     public enum UserType {Admin,Medico,Paciente}; //Tipos de usuarios
 
-    public static class Sesion
+    public static class Session
     {
         #region Fields
-        public static string HOST = "jfrodriguez.pw";
-        public static string DB = "Farmacop_DB";
-        public static string USER = "clientuser";
-        public static string PASS = "hx3CfFQFdrRJVRsd";
         public static List<Medicament> MedList;
         public static List<User> UserList;
         public static List<Message> SendedMessages;
         public static List<Message> ReceivedMessages;
-        public static List<Recepie> Recepies;
+        public static List<Prescription> Recepies;
         public static bool GettingData = false;
 
         public static DAO DBConnection;
@@ -49,19 +45,24 @@ namespace Farmacop
 
         static string fNac;
         public static string FNac { get { return fNac; } set { fNac = value; } }
+
+        public static string Apikey
+        {
+            get
+            {
+                return apikey;
+            }
+
+            set
+            {
+                apikey = value;
+            }
+        }
+        static string apikey;
+
         #endregion
 
         #region Static Methods
-        static public bool Connect()
-        {
-            return DBConnection.Connect(HOST, DB, USER, PASS);
-        }
-
-        static public void Disconnect()
-        {
-            DBConnection.Disconnect();
-        }
-
         static public string StringToMD5(string value)
         {
             MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
@@ -76,31 +77,7 @@ namespace Farmacop
             }
 
             return Cripto.ToString();
-        }
-
-        static public void SendEmail(string subject, string body, string mailto)
-        {
-            try
-            {
-                MailMessage email = new MailMessage();
-                email.To.Add(new MailAddress(mailto));
-                email.From = new MailAddress("farmacop_norep@hotmail.com");
-                email.Subject = subject;
-                email.Body = body;
-                email.IsBodyHtml = false;
-                email.Priority = MailPriority.Normal;
-
-                SmtpClient smtp = new SmtpClient("smtp.live.com");
-                smtp.Port = 25;
-                smtp.EnableSsl = true;
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = new NetworkCredential("farmacop_norep@hotmail.com", "juanfran15");
-
-                smtp.Send(email);
-                email.Dispose();
-            }
-            catch(Exception e) { }
-        }
+        }             
         #endregion
 
 

@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace Farmacop
 {
-    public partial class ModRecepieForm : Form
+    public partial class ModPrescriptionForm : Form
     {
-        Recepie RecToMod = null;
+        Prescription RecToMod = null;
         DataGridViewButtonColumn BtnDeleteColumn;
         List<RecepieTimeSelect> SelecTimeControl = new List<RecepieTimeSelect>();
         List<string> timeShowing = new List<string>();
@@ -20,7 +20,7 @@ namespace Farmacop
         MonthCalendar mCalendar;
         bool FInic = true;
 
-        public ModRecepieForm(Recepie recepie)
+        public ModPrescriptionForm(Prescription recepie)
         {
             InitializeComponent();
             this.RecToMod = recepie;
@@ -37,8 +37,8 @@ namespace Farmacop
         public void GetMedNames()
         {
             cbbxMed.Items.Clear();
-            List<Medicament> medList = Sesion.DBConnection.GetAllMedicaments();
-            List<string> algList = Sesion.DBConnection.GetUserAlg(RecToMod.Paciente);
+            List<Medicament> medList = Session.DBConnection.GetAllMedicaments();
+            List<string> algList = Session.DBConnection.GetUserAlg(RecToMod.Paciente);
             List<string> medNames = new List<string>();
 
             foreach (Medicament temp in medList)
@@ -97,7 +97,7 @@ namespace Farmacop
                         try
                         {
                             this.Cursor = Cursors.AppStarting;
-                            if (Sesion.DBConnection.ModRecepie(RecToMod.getId(), RecToMod.Paciente, RecToMod.Medicamento, txtFInic.Text, txtFEnd.Text, RecToMod.FechaFin, txtDs.Text, newTime, deletedTime, allRecepieTime, timeShowing))
+                            if (Session.DBConnection.ModRecepie(RecToMod.getId(), RecToMod.Paciente, RecToMod.Medicamento, txtFInic.Text, txtFEnd.Text, RecToMod.FechaFin, txtDs.Text, newTime, deletedTime, allRecepieTime, timeShowing))
                             {
                                 MessageBox.Show("Receta modificada correctamente");
                                 this.Cursor = Cursors.Default;

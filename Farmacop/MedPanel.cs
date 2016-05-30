@@ -51,12 +51,12 @@ namespace Farmacop
         {
             try
             {
-                Sesion.MedList = Sesion.DBConnection.GetAllMedicaments();
-                if (Sesion.MedList != null)
+                Session.MedList = Session.DBConnection.GetAllMedicaments();
+                if (Session.MedList != null)
                 {
-                    MedTable.DataSource = Sesion.MedList;
+                    MedTable.DataSource = Session.MedList;
                     List<string> names = new List<string>();
-                    foreach (Medicament tmp in Sesion.MedList)
+                    foreach (Medicament tmp in Session.MedList)
                         names.Add(tmp.Nombre);
                     var source = new AutoCompleteStringCollection();
                     source.AddRange(names.ToArray());
@@ -90,7 +90,7 @@ namespace Farmacop
             if (!Type.Equals("") && !txtNewMedNm.Text.Trim().Equals(""))
             {
                 bool find = false;
-                foreach (Medicament MedTmp in Sesion.MedList)
+                foreach (Medicament MedTmp in Session.MedList)
                 {
                     if (MedTmp.Nombre.ToLower().Equals(NoCapName.ToLower()))
                     {
@@ -105,7 +105,7 @@ namespace Farmacop
                     string FChar = NoCapName.Substring(0, 1);
                     string NameNoFChar = NoCapName.Substring(1, NoCapName.Length - 1);
                     Name = FChar.ToUpper() + NameNoFChar;
-                    if (Sesion.DBConnection.InsertMedicament(Name, Type))
+                    if (Session.DBConnection.InsertMedicament(Name, Type))
                     {
                         GetData();
                         txtNewMedNm.Text = "";
@@ -129,11 +129,11 @@ namespace Farmacop
 
             if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
             {
-                Medicament MedToDel = Sesion.MedList[e.RowIndex];
+                Medicament MedToDel = Session.MedList[e.RowIndex];
 
                 if (DialogResult.Yes == MessageBox.Show("¿Seguro que quiere eliminar el medicamento con nombre " + MedToDel.Nombre + "?\nSe eliminará de forma permamente...", "Eliminar medicamento", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation))
                 {
-                    if (Sesion.DBConnection.DeleteMedicament(MedToDel.Nombre))
+                    if (Session.DBConnection.DeleteMedicament(MedToDel.Nombre))
                     {
                         GetData();
                         MessageBox.Show("Medicamento eliminado correctamente", "Eliminado");
@@ -153,7 +153,7 @@ namespace Farmacop
                 string Name = FChar.ToUpper() + NameNoFChar;
                 bool ModifyMedType = false;
 
-                foreach (Medicament MedTmp in Sesion.MedList)
+                foreach (Medicament MedTmp in Session.MedList)
                 {
                     if (MedTmp.Nombre.ToLower().Equals(Name.ToLower()))
                     {
@@ -171,7 +171,7 @@ namespace Farmacop
                 }
                 if (ModifyMedType)
                 {
-                    if (Sesion.DBConnection.UpdateTypeMedicament(Name, cbbxTypeMod.Text))
+                    if (Session.DBConnection.UpdateTypeMedicament(Name, cbbxTypeMod.Text))
                     {
                         GetData();
                         MessageBox.Show("Medicamento modificado correctamente");
@@ -183,7 +183,7 @@ namespace Farmacop
                 }
                 else
                 {
-                    if (Sesion.DBConnection.UpdateMedicament(txtbxMedAMod.Text, Name, cbbxTypeMod.Text))
+                    if (Session.DBConnection.UpdateMedicament(txtbxMedAMod.Text, Name, cbbxTypeMod.Text))
                     {
                         GetData();
                         MessageBox.Show("Medicamento modificado correctamente");
@@ -204,7 +204,7 @@ namespace Farmacop
 
         private void txtbxMedAMod_TextChanged(object sender, EventArgs e)
         {
-            foreach(Medicament tmp in Sesion.MedList)
+            foreach(Medicament tmp in Session.MedList)
             {
                 if (tmp.Nombre.Equals(txtbxMedAMod.Text))
                 {

@@ -37,7 +37,7 @@ namespace Farmacop
                     ComboboxType.SelectedItem = "Medico";
                 if (UserToMod.Tipo.Equals("Paciente"))
                     ComboboxType.SelectedItem = "Paciente";
-                UserToMod.Alergias = Sesion.DBConnection.GetUserAlg(UserToMod.Cuenta);
+                UserToMod.Alergias = Session.DBConnection.GetUserAlg(UserToMod.Cuenta);
                 AlgDataGrid.DataSource = UserToMod.GetAlgList();
                 AlgDataGrid.ColumnHeadersDefaultCellStyle.BackColor = Color.LightBlue;
                 AlgDataGrid.EnableHeadersVisualStyles = false;
@@ -67,12 +67,12 @@ namespace Farmacop
                     if (CheckEmailFormat(txtemail.Text))
                     {
                         this.Cursor = Cursors.AppStarting;
-                        if (Sesion.DBConnection.UpdateModUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.SelectedItem.ToString(), UserToMod.Cuenta, txtemail.Text))
+                        if (Session.DBConnection.UpdateModUserData(txtName.Text, txtFApl.Text, txtSApl.Text, DateTime.Parse(txtFNac.Text).ToString("yyyy-MM-dd"), ComboboxType.SelectedItem.ToString(), UserToMod.Cuenta, txtemail.Text))
                         {
                             if (algDeleted.Count > 0)
                             {
                                 foreach (string alg in algDeleted)
-                                    Sesion.DBConnection.DeleteAlg(UserToMod.Cuenta, alg);
+                                    Session.DBConnection.DeleteAlg(UserToMod.Cuenta, alg);
                             }
                             foreach (Control Ctemp in algContainer.Controls)
                             {
@@ -81,7 +81,7 @@ namespace Farmacop
                                     if (((AlgControl)Ctemp).GetText.Equals(""))
                                         continue;
                                     else
-                                        Sesion.DBConnection.InsertAlg(UserToMod.Cuenta, ((AlgControl)Ctemp).GetText);
+                                        Session.DBConnection.InsertAlg(UserToMod.Cuenta, ((AlgControl)Ctemp).GetText);
                                 }
                             }
                             this.Cursor = Cursors.Default;
@@ -172,10 +172,10 @@ namespace Farmacop
 
         private void AddAlgComboBox()
         {
-            Sesion.MedList = Sesion.DBConnection.GetAllMedicaments();
+            Session.MedList = Session.DBConnection.GetAllMedicaments();
             List<string> MedNames = new List<string>();
 
-            foreach (Medicament temp in Sesion.MedList)
+            foreach (Medicament temp in Session.MedList)
                 if(!UserToMod.Alergias.Contains(temp.Nombre))
                     MedNames.Add(temp.Nombre);
 

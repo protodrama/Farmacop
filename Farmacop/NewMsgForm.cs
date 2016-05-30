@@ -17,7 +17,7 @@ namespace Farmacop
             InitializeComponent();
             try
             {
-                Emails = Sesion.DBConnection.GetAllUsersNameAccount();
+                Emails = Session.DBConnection.GetAllUsersNameAccount();
                 var source = new AutoCompleteStringCollection();
                 source.AddRange(Emails.ToArray());
                 txtReceiver.AutoCompleteMode = AutoCompleteMode.Suggest;
@@ -45,7 +45,7 @@ namespace Farmacop
             {
                 if (!txtMatter.Text.Trim().Equals("") && !txtMsg.Text.Trim().Equals("") && !txtReceiver.Text.Trim().Equals(""))
                 {
-                    if (Sesion.DBConnection.InsertMsg(Sesion.Account, txtReceiver.Text, txtMatter.Text, txtMsg.Text))
+                    if (Session.DBConnection.InsertMsg(Session.Account, txtReceiver.Text, txtMatter.Text, txtMsg.Text))
                     {
                         MessageBox.Show("Mensaje enviado con éxito.");
                         this.Close();

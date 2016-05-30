@@ -76,12 +76,12 @@ namespace Farmacop
             return _id;
         }
 
-        public Message(int id, string transmitter, string receiver, string matter, string text, bool readed)
+        public Message(int id, string transmitter, string receiver, string subject, string text, bool readed)
         {
             this._id = id;
             this.Emisor = transmitter;
             this.Receptor = receiver;
-            this.Asunto = matter;
+            this.Asunto = subject;
             this.Mensaje = text;
             this._readed = readed;
         }

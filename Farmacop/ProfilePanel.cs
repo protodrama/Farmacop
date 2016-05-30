@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace Farmacop
 {
@@ -21,16 +22,16 @@ namespace Farmacop
 
         public void Inicialize()
         {
-            lblName.Text = Sesion.Name;
-            lblApl1.Text = Sesion.FirstSurname;
-            lblApl2.Text = Sesion.SecondSurname;
-            lblAccount.Text = Sesion.Account;
-            lblFNac.Text = Sesion.FNac;
-            if (Sesion.UserType == UserType.Admin)
+            lblName.Text = Session.Name;
+            lblApl1.Text = Session.FirstSurname;
+            lblApl2.Text = Session.SecondSurname;
+            lblAccount.Text = Session.Account;
+            lblFNac.Text = Session.FNac;
+            if (Session.UserType == UserType.Admin)
                 lblTUser.Text = "Admin";
             else
                 lblTUser.Text = "Médico";
-            txtEmail.Text = Sesion.Email;
+            txtEmail.Text = Session.Email;
         }
 
         private void btnModifyPass_Click(object sender, EventArgs e)
@@ -39,14 +40,17 @@ namespace Farmacop
             try{
                 if(!txtNewPass.Text.Equals("") && !txtNewPass2.Text.Equals("") && !txtOriginalPass.Text.Equals(""))
                 {
-                    if (Sesion.StringToMD5(txtOriginalPass.Text).Equals(Sesion.PassWord))
+                    if (Session.StringToMD5(txtOriginalPass.Text).Equals(Session.PassWord))
                     {
                         if (!txtNewPass.Text.Equals(txtOriginalPass.Text))
                         {
                             if (txtNewPass.Text.Equals(txtNewPass2.Text))
                             {
-                                if (Sesion.DBConnection.UpdateUserPassWord(Sesion.Account, Sesion.StringToMD5(txtNewPass.Text)))
+                                if (Session.DBConnection.UpdateUserPassWord(Session.StringToMD5(txtNewPass.Text)))
+                                {
                                     MessageBox.Show("Contraseña modificada con éxito");
+                                    Session.PassWord = Session.StringToMD5(txtNewPass.Text);
+                                }
                                 else
                                     throw new Exception("Error al modificar la contraseña");
                             }
@@ -82,55 +86,61 @@ namespace Farmacop
 
         private void btnModPData_Click(object sender, EventArgs e)
         {
-            string Name, FApl, SApl, FNac, Email;
-            
+            string Name, FApl, SApl, FNac, Email;   
 
             if (txtbxName.Text.Trim().Equals(""))
-                Name = Sesion.Name;
+                Name = Session.Name;
             else
                 Name = txtbxName.Text;
 
             if (txtbxFApl.Text.Trim().Equals(""))
-                FApl = Sesion.FirstSurname;
+                FApl = Session.FirstSurname;
             else
                 FApl = txtbxFApl.Text;
 
             if (txtbxSApl.Text.Trim().Equals(""))
-                SApl = Sesion.SecondSurname;
+                SApl = Session.SecondSurname;
             else
                 SApl = txtbxSApl.Text;
 
             if (txtbxFNac.Text.Trim().Equals(""))
-                FNac = DateTime.Parse(Sesion.FNac).ToString("yyyy-MM-dd");
+                FNac = DateTime.Parse(Session.FNac).ToString("yyyy-MM-dd");
             else
                 FNac = DateTime.Parse(txtbxFNac.Text).ToString("yyyy-MM-dd");
 
             if (txtbxEmail.Text.Trim().Equals(""))
-                Email = Sesion.Email;
+                Email = Session.Email;
             else
                 Email = txtbxEmail.Text;
 
             if (CheckEmailFormat(Email))
             {
-                if (!Name.Equals(Sesion.Name) || !FApl.Equals(Sesion.FirstSurname) || !SApl.Equals(Sesion.SecondSurname) || !FNac.Equals(DateTime.Parse(Sesion.FNac).ToString("yyyy-MM-dd")) || !Email.Equals(Sesion.Email))
+                try
                 {
-                    if (Sesion.DBConnection.UpdateUserData(Name, FApl, SApl, FNac, Email, Sesion.Account))
+                    if (!Name.Equals(Session.Name) || !FApl.Equals(Session.FirstSurname) || !SApl.Equals(Session.SecondSurname) || !FNac.Equals(DateTime.Parse(Session.FNac).ToString("yyyy-MM-dd")) || !Email.Equals(Session.Email))
                     {
-                        MessageBox.Show("Datos actualizados con éxito");
-                        Sesion.Name = Name;
-                        Sesion.FirstSurname = FApl;
-                        Sesion.SecondSurname = SApl;
-                        Sesion.FNac = DateTime.Parse(FNac).ToString("dd/MM/yyyy");
-                        Sesion.Email = Email;
-                        Inicialize();
-                        txtbxFApl.Text = "";
-                        txtbxFNac.Text = "";
-                        txtbxName.Text = "";
-                        txtbxSApl.Text = "";
-                        txtbxEmail.Text = "";
+                        if (Session.DBConnection.UpdateUserData(Name, FApl, SApl, FNac, Email))
+                        {
+                            MessageBox.Show("Datos actualizados con éxito");
+                            Session.Name = Name;
+                            Session.FirstSurname = FApl;
+                            Session.SecondSurname = SApl;
+                            Session.FNac = DateTime.Parse(FNac).ToString("dd/MM/yyyy");
+                            Session.Email = Email;
+                            Inicialize();
+                            txtbxFApl.Text = "";
+                            txtbxFNac.Text = "";
+                            txtbxName.Text = "";
+                            txtbxSApl.Text = "";
+                            txtbxEmail.Text = "";
+                        }
+                        else
+                            MessageBox.Show("Error al actualizar los datos");
                     }
-                    else
-                        MessageBox.Show("Error al actualizar los datos");
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Error al actualizar los datos");
                 }
             }
             else
@@ -205,16 +215,7 @@ namespace Farmacop
 
         private bool CheckEmailFormat(string email)
         {
-            if (email.Contains("@") && !email.Contains(" "))
-            {
-                string[] data = email.Split('@');
-                foreach (string tmp in data)
-                    if (tmp.Trim().Equals(""))
-                        return false;
-                return true;
-            }
-            else
-                return false;
+            return Regex.IsMatch(email, @"\A(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)\Z");
         }
     }
 }

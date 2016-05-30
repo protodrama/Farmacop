@@ -11,7 +11,7 @@ namespace Farmacop
 {
     public partial class RecepiePanel : UserControl
     {
-        List<Recepie> RecepiesShowing = new List<Recepie>();
+        List<Prescription> RecepiesShowing = new List<Prescription>();
         DataGridViewButtonColumn BtnModColumn;
         DataGridViewButtonColumn BtnShowColumn;
         DataGridViewButtonColumn BtnDeleteColumn;
@@ -27,8 +27,8 @@ namespace Farmacop
         {
             RecGridView.DataSource = null;
             RecepiesShowing.Clear();
-            Sesion.Recepies = Sesion.DBConnection.GetAllRecepies();
-            RecepiesShowing.AddRange(Sesion.Recepies.ToArray());
+            Session.Recepies = Session.DBConnection.GetAllRecepies();
+            RecepiesShowing.AddRange(Session.Recepies.ToArray());
             RecGridView.DataSource = RecepiesShowing;
             try
             {
@@ -91,11 +91,11 @@ namespace Farmacop
             
             if (RecGridView.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
             {
-                Recepie recTemp = RecepiesShowing[e.RowIndex];
+                Prescription recTemp = RecepiesShowing[e.RowIndex];
                 if (RecGridView.Columns[e.ColumnIndex].Name.Equals("Modify"))
                 {
                     //Modify
-                    new ModRecepieForm(recTemp).ShowDialog();
+                    new ModPrescriptionForm(recTemp).ShowDialog();
                     GetData();
                 }
                 else
@@ -111,7 +111,7 @@ namespace Farmacop
                         //Delete
                         if(DialogResult.Yes == MessageBox.Show("¿Está seguro que desea eliminar la receta del paciente '" + recTemp.Paciente + "' con el medicamento " + recTemp.Medicamento + "?","Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Question))  
                         {
-                            if (Sesion.DBConnection.DeleteRecepie(recTemp))
+                            if (Session.DBConnection.DeleteRecepie(recTemp))
                             {
                                 MessageBox.Show("Receta eliminada");
                                 GetData();
@@ -125,10 +125,10 @@ namespace Farmacop
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
-            Sesion.Recepies = Sesion.DBConnection.GetAllRecepies();
-            List<Recepie> filtered = new List<Recepie>();
+            Session.Recepies = Session.DBConnection.GetAllRecepies();
+            List<Prescription> filtered = new List<Prescription>();
 
-            foreach(Recepie temp in Sesion.Recepies)
+            foreach(Prescription temp in Session.Recepies)
             {
                 if(temp.Paciente.ToLower().Contains(txtPatient.Text.ToLower()) && temp.Medico.ToLower().Contains(txtMedic.Text.ToLower()) && temp.Medicamento.ToLower().Contains(txtMedicament.Text.ToLower()))
                 {

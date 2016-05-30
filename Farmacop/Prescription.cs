@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Farmacop
 {
-    public class Recepie
+    public class Prescription
     {
         private int _id;
         private string _paciente;
@@ -17,7 +17,7 @@ namespace Farmacop
         private List<Taken> _tomas;
         private List<string> _horas;
 
-        public Recepie(int id, string paciente, string medico, string fechaInicio, string fechaFin, string medicamento, int dosis)
+        public Prescription(int id, string paciente, string medico, string fechaInicio, string fechaFin, string medicamento, int dosis)
         {
             Id = id;
             Paciente = paciente;
