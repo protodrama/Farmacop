@@ -40,7 +40,7 @@ namespace Farmacop
             {
                 try
                 {
-                    JObject list = JObject.Parse(Session.DBConnection.GetAllReceivedMessages(Session.Account));
+                    JObject list = JObject.Parse(Session.DBConnection.GetNewMessages());
                     int count = list["data"].Count<JToken>();
                     SetTxt(count);
                 }

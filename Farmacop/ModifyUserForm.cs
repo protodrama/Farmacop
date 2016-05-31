@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -172,26 +173,49 @@ namespace Farmacop
 
         private void AddAlgComboBox()
         {
-            Session.MedList = Session.DBConnection.GetAllMedicaments();
-            List<string> MedNames = new List<string>();
-
-            foreach (Medicament temp in Session.MedList)
-                if(!UserToMod.Alergias.Contains(temp.Nombre))
-                    MedNames.Add(temp.Nombre);
-
-            foreach (Control Ctemp in algContainer.Controls)
+            try
             {
-                if (Ctemp is AlgControl)
+                Session.MedList = ReadData(Session.DBConnection.GetAllMedicaments());
+                List<string> MedNames = new List<string>();
+
+                foreach (Medicament temp in Session.MedList)
+                    if (!UserToMod.Alergias.Contains(temp.Nombre))
+                        MedNames.Add(temp.Nombre);
+
+                foreach (Control Ctemp in algContainer.Controls)
                 {
-                    if (((AlgControl)Ctemp).GetText.Equals(""))
-                        return;
-                    if (MedNames.Contains(((AlgControl)Ctemp).GetText))
-                        MedNames.Remove(((AlgControl)Ctemp).GetText);
+                    if (Ctemp is AlgControl)
+                    {
+                        if (((AlgControl)Ctemp).GetText.Equals(""))
+                            return;
+                        if (MedNames.Contains(((AlgControl)Ctemp).GetText))
+                            MedNames.Remove(((AlgControl)Ctemp).GetText);
+                    }
                 }
+
+                algContainer.Controls.Add(new AlgControl(MedNames.ToArray()));
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error al obtener los datos de los medicamentos");
+            }
+        }
+
+        public List<Medicament> ReadData(string jsondata)
+        {
+            List<Medicament> thelist = new List<Medicament>();
+            JObject jobject = JObject.Parse(jsondata);
+            JToken jdata = jobject["data"];
+
+            for (int i = 0; i < jdata.Count<JToken>(); i++)
+            {
+                Medicament temp = new Medicament(jdata[i]["Nombre"].ToString(), jdata[i]["Tipo"].ToString());
+                thelist.Add(temp);
             }
 
-            algContainer.Controls.Add(new AlgControl(MedNames.ToArray()));
+            return thelist;
         }
+
 
         private void btnAddAlg_Click(object sender, EventArgs e)
         {

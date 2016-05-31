@@ -257,7 +257,7 @@
             this.MedTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.MedTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.MedTable.ShowEditingIcon = false;
-            this.MedTable.Size = new System.Drawing.Size(203, 327);
+            this.MedTable.Size = new System.Drawing.Size(203, 351);
             this.MedTable.TabIndex = 7;
             this.MedTable.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MedTable_CellContentClick);
             // 

@@ -83,18 +83,13 @@ namespace Farmacop
                     Cursor.Current = Cursors.WaitCursor;
                     JObject jobject = JObject.Parse(Session.DBConnection.GetCredentials(tbxAccount.Text));
                     JToken dataObject;
-                    try
-                    {
+                                      
                         dataObject = jobject["data"][0];
                         if (dataObject["Cuenta"].ToString() == "Paciente")
                         {
-                            throw new Exception();
+                            MessageBox.Show("El usuario o la contraseña no son correctos");
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        throw new Exception("El usuario o la contraseña no son correctos");
-                    }
+                    
 
 
                     if (tbxAccount.Text.Equals(dataObject["Cuenta"].ToString()))
@@ -119,17 +114,17 @@ namespace Farmacop
                             }
                         }
                         else
-                            throw new Exception("El usuario o la contraseña no son correctos");
+                            MessageBox.Show("El usuario o la contraseña no son correctos");
                     }
                     else
-                        throw new Exception("El usuario o la contraseña no son correctos");
+                        MessageBox.Show("El usuario o la contraseña no son correctos");
 
                     
                 }
                 catch (Exception ex)
                 {
                     SystemSounds.Beep.Play();
-                    MessageBox.Show("El usuario o la contraseña no son correctos");
+                    MessageBox.Show("Error al intentar conectar");
                     tbxAccount.Focus();
                 }
             

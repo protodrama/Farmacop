@@ -30,38 +30,11 @@ namespace Farmacop
         {
             try
             {
-                Session.ReceivedMessages = GetMessages(Session.DBConnection.GetAllReceivedMessages(Session.Account));
-                Session.SendedMessages = Session.DBConnection.GetAllSendedMessages(Session.Account);
-                if (ShowingReceibedMessages)
-                {
-                    if (ShowingReadedMessages)
-                    {
-                        lblInfo.Text = "Mostrando mensajes recibidos leídos";
-                        ReceivedReadedMessages = new List<Message>();
-                        foreach (Message tmp in Session.ReceivedMessages)
-                        {
-                            if (tmp.IsReaded())
-                                ReceivedReadedMessages.Add(tmp);
-                        }
-                        MessGridView.DataSource = ReceivedReadedMessages;
-                    }
-                    else
-                    {
-                        lblInfo.Text = "Mostrando mensajes recibidos";
-                        ReceivedNonReadedMessages = new List<Message>();
-                        foreach (Message tmp in Session.ReceivedMessages)
-                        {
-                            if (!tmp.IsReaded())
-                                ReceivedNonReadedMessages.Add(tmp);
-                        }
-                        MessGridView.DataSource = ReceivedNonReadedMessages;
-                    }
-                }
+                if (!txtSender.Text.Trim().Equals("") || !txtReader.Text.Trim().Equals(""))
+                    FilterMessages();
                 else
-                {
-                    lblInfo.Text = "Mostrando mensajes enviados";
-                    MessGridView.DataSource = Session.SendedMessages;
-                }
+                    GetAll();
+                
             }
             catch(Exception e)
             {
@@ -69,18 +42,20 @@ namespace Farmacop
             }
             MessGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.LightBlue;
             MessGridView.EnableHeadersVisualStyles = false;
+            
         }
 
         public List<Message> GetMessages(string data)
         {
             List<Message> messagesList = new List<Message>();
-            JToken jsondata = JObject.Parse(data)["data"];
+            JObject jsonobject = JObject.Parse(data);
+            JToken jsondata = jsonobject["data"];
 
             for(int i = 0; i < jsondata.Count<JToken>(); i++)
             {
                 JToken temp = jsondata[i];
-                Message mtemp = new Message(int.Parse(temp["ID"].ToString()), temp["Cuenta_Envia"].ToString(),
-                    temp["Cuenta_Recibe"].ToString(), temp["Asunto"].ToString(), temp["Mensaje"].ToString(), int.Parse(temp["Leido"].ToString()) == 1);
+                Message mtemp = new Message(int.Parse(temp["ID"].ToString()), temp["emisor"].ToString(),
+                    temp["receptor"].ToString(), temp["Asunto"].ToString(), (temp["Mensaje"].ToString()).Replace("[**]","\r\n"), int.Parse(temp["Leido"].ToString()) == 1);
                 messagesList.Add(mtemp);
             }
             return messagesList;
@@ -139,10 +114,16 @@ namespace Farmacop
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
+            if(!txtSender.Text.Trim().Equals("") || !txtReader.Text.Trim().Equals(""))
+                FilterMessages();
+        }
+
+        public void FilterMessages()
+        {
             try
             {
-                //Session.ReceivedMessages = Session.DBConnection.GetAllReceivedMessages(Session.Account);
-                Session.SendedMessages = Session.DBConnection.GetAllSendedMessages(Session.Account);
+                Session.ReceivedMessages = GetMessages(Session.DBConnection.GetAllReceivedMessages());
+                Session.SendedMessages = GetMessages(Session.DBConnection.GetAllSendedMessages());
                 if (ShowingReceibedMessages)
                 {
                     if (ShowingReadedMessages)
@@ -151,7 +132,7 @@ namespace Farmacop
                         ReceivedReadedMessages = new List<Message>();
                         foreach (Message tmp in Session.ReceivedMessages)
                         {
-                            if (tmp.IsReaded() && tmp.Emisor.ToLower().Contains(txtEnvia.Text.ToLower()) && tmp.Receptor.ToLower().Contains(txtRecibe.Text.ToLower()))
+                            if (tmp.IsReaded() && tmp.Emisor.ToLower().Contains(txtSender.Text.ToLower()) && tmp.Receptor.ToLower().Contains(txtReader.Text.ToLower()))
                                 ReceivedReadedMessages.Add(tmp);
                         }
                         MessGridView.DataSource = ReceivedReadedMessages;
@@ -162,7 +143,7 @@ namespace Farmacop
                         ReceivedNonReadedMessages = new List<Message>();
                         foreach (Message tmp in Session.ReceivedMessages)
                         {
-                            if (!tmp.IsReaded() && tmp.Emisor.ToLower().Contains(txtEnvia.Text.ToLower()) && tmp.Receptor.ToLower().Contains(txtRecibe.Text.ToLower()))
+                            if (!tmp.IsReaded() && tmp.Emisor.ToLower().Contains(txtSender.Text.ToLower()) && tmp.Receptor.ToLower().Contains(txtReader.Text.ToLower()))
                                 ReceivedNonReadedMessages.Add(tmp);
                         }
                         MessGridView.DataSource = ReceivedNonReadedMessages;
@@ -174,7 +155,7 @@ namespace Farmacop
                     List<Message> filtered = new List<Message>();
                     foreach (Message tmp in Session.SendedMessages)
                     {
-                        if (tmp.Emisor.ToLower().Contains(txtEnvia.Text.ToLower()) && tmp.Receptor.ToLower().Contains(txtRecibe.Text.ToLower()))
+                        if (tmp.Emisor.ToLower().Contains(txtSender.Text.ToLower()) && tmp.Receptor.ToLower().Contains(txtReader.Text.ToLower()))
                             filtered.Add(tmp);
                     }
                     MessGridView.DataSource = filtered;
@@ -186,6 +167,49 @@ namespace Farmacop
             }
             MessGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.LightBlue;
             MessGridView.EnableHeadersVisualStyles = false;
+        }
+
+        public void GetAll()
+        {
+            Session.ReceivedMessages = GetMessages(Session.DBConnection.GetAllReceivedMessages());
+            Session.SendedMessages = GetMessages(Session.DBConnection.GetAllSendedMessages());
+            if (ShowingReceibedMessages)
+            {
+                if (ShowingReadedMessages)
+                {
+                    lblInfo.Text = "Mostrando mensajes recibidos leídos";
+                    ReceivedReadedMessages = new List<Message>();
+                    foreach (Message tmp in Session.ReceivedMessages)
+                    {
+                        if (tmp.IsReaded())
+                            ReceivedReadedMessages.Add(tmp);
+                    }
+                    MessGridView.DataSource = ReceivedReadedMessages;
+                }
+                else
+                {
+                    lblInfo.Text = "Mostrando mensajes recibidos";
+                    ReceivedNonReadedMessages = new List<Message>();
+                    foreach (Message tmp in Session.ReceivedMessages)
+                    {
+                        if (!tmp.IsReaded())
+                            ReceivedNonReadedMessages.Add(tmp);
+                    }
+                    MessGridView.DataSource = ReceivedNonReadedMessages;
+                }
+            }
+            else
+            {
+                lblInfo.Text = "Mostrando mensajes enviados";
+                MessGridView.DataSource = Session.SendedMessages;
+            }
+        }
+
+        private void btnClean_Click(object sender, EventArgs e)
+        {
+            txtSender.Text = "";
+            txtReader.Text = "";
+            GetData();
         }
     }
 }

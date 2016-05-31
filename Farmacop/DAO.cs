@@ -16,18 +16,25 @@ namespace Farmacop
         string loginURL = "https://jfrodriguez.pw/slimrest/api/Login";
         string UserdataURL = "https://jfrodriguez.pw/slimrest/api/Userdata";
         string GetNewMessagesURL = "https://jfrodriguez.pw/slimrest/api/NotReadedMessages";
+        string GetReceibedMessagesURL = "https://jfrodriguez.pw/slimrest/api/ReceibedMessages";
+        string GetSendedMessagesURL = "https://jfrodriguez.pw/slimrest/api/SendedMessages";
         string GetNotValidatedUsersURL = "https://jfrodriguez.pw/slimrest/api/getNotPatientUnvalidated"; 
         string ValidateUserURL = "https://jfrodriguez.pw/slimrest/api/Validate";
         string GetNoPatientUsersURL = "https://jfrodriguez.pw/slimrest/api/GetNoPatientUser";
         string RestpassURL = "https://jfrodriguez.pw/slimrest/api/restpass";
         string UpdatePasswordURL = "https://jfrodriguez.pw/slimrest/api/UpdatePassword";
         string UpdateMyUserDataURL = "https://jfrodriguez.pw/slimrest/api/UpdateUser";
+        string GetMedicamentsDataURL = "https://jfrodriguez.pw/slimrest/api/GetAllMedicamentsData"; 
+        string UpdateMedicamentURL = "https://jfrodriguez.pw/slimrest/api/UpdateMedicament";
+        string AddMedicamentURL = "https://jfrodriguez.pw/slimrest/api/AddMedicament";
+        string DeleteMedicamentURL = "https://jfrodriguez.pw/slimrest/api/DeleteMedicament";
+        string ReadMessageURL = "https://jfrodriguez.pw/slimrest/api/ReadMessage";
+        string AddMessageURL = "https://jfrodriguez.pw/slimrest/api/AddMessage";
+        string GetAllUsersAccountURL = "https://jfrodriguez.pw/slimrest/api/getAllUsersAccount";
 
         string defApikey = "eadmghacdg";
 
-        //Conexión a base de datos MySql
-        private MySqlConnection conexion;
-        private bool _connected;
+        MySqlConnection conexion;
 
         #region Usuarios
         //Obtiene las credenciales del usuario indicado
@@ -162,7 +169,6 @@ namespace Farmacop
                     Session.GettingData = false;
                     if (response.IsSuccessStatusCode)
                     {
-                        Session.GettingData = false;
                         return true;
                     }
                     else
@@ -308,7 +314,7 @@ namespace Farmacop
             }
         }
 
-        //Actualiza la contraseña de un usuario
+        //Actualiza la contraseña de tu usuario
         public bool UpdateUserPassWord(string newPass)
         {
             Session.GettingData = true;
@@ -327,7 +333,6 @@ namespace Farmacop
                     Session.GettingData = false;
                     if (response.IsSuccessStatusCode)
                     {
-                        Session.GettingData = false;
                         return true;
                     }
                     else
@@ -343,7 +348,7 @@ namespace Farmacop
             }
         }
 
-        //Actualiza los datos de un usuario
+        //Actualiza los datos de tu usuario
         public bool UpdateUserData(string Name, string FApl, string SApl, string FNac,string Email)
         {
             Session.GettingData = true;
@@ -404,29 +409,48 @@ namespace Farmacop
             return qr > 0;
         }
 
-        //Obtiene todos los correos de los usuarios menos el de la sesion
-        public List<string> GetAllUsersNameAccount()
+        //Obtiene todos los nombres de los usuarios menos el de la sesion
+        public string GetAllUsersNameAccount()
         {
             Session.GettingData = true;
-            List<string> emails = new List<string>();
-            string sql = "select Cuenta from Usuarios where Cuenta not like \"" + Session.Account + "\"";
+            try
+            {
+                var builder = new UriBuilder(GetAllUsersAccountURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = Session.Account;
+                query["apikey"] = Session.Apikey;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
 
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            MySqlDataReader DataReader = cmd.ExecuteReader();
-
-            if (DataReader.HasRows)
-                while (DataReader.Read())
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
                 {
-                    try
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
                     {
-                        emails.Add(DataReader["Cuenta"].ToString());
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                Session.GettingData = false;
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            Session.GettingData = false;
+                            throw new Exception();
+                        }
                     }
-                    catch (Exception e) { throw; }
                 }
-
-            DataReader.Close();
-            Session.GettingData = false;
-            return emails;
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error obteniendo los datos de los usuarios");
+            }
         }
 
         //Obtiene todos los usuarios para la tabla de Usuarios
@@ -484,75 +508,157 @@ namespace Farmacop
 
         #region Medicamentos
         //Obtiene todos los medicamentos de la base de datos
-        public List<Medicament> GetAllMedicaments()
+        public string GetAllMedicaments()
         {
             Session.GettingData = true;
-            List<Medicament> MedicamentList = null;
-            string sql = "select Nombre,Tipo from Medicamentos";
-
-            MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
-            MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
-
-            if (DataReader.HasRows)
+            try
             {
-                MedicamentList = new List<Medicament>();
-                while (DataReader.Read())
+                var builder = new UriBuilder(GetMedicamentsDataURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = Session.Account;
+                query["apikey"] = Session.Apikey;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
+
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
                 {
-                    Medicament Tmp = new Medicament(DataReader.GetString("Nombre"),DataReader.GetString("Tipo"));
-                    MedicamentList.Add(Tmp);
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                Session.GettingData = false;
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            Session.GettingData = false;
+                            throw new Exception();
+                        }
+                    }
                 }
             }
-            Session.GettingData = false;
-            DataReader.Close();
-            return MedicamentList;
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error obteniendo los datos de conexion");
+            }
         }
 
         //Elimina el medicamento a partir del nombre que se le indique
         public bool DeleteMedicament(string name)
         {
             Session.GettingData = true;
-            string sql = "delete from Medicamentos where Nombre like \"" + name + "\"";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = 0;
-            try {
-                qr = cmd.ExecuteNonQuery();
+            try
+            {
+                var builder = new UriBuilder(DeleteMedicamentURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = Session.Account;
+                query["apikey"] = Session.Apikey;
+                query["medname"] = name;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    using (HttpResponseMessage response = client.DeleteAsync(url).Result)
+                    {
+                        Session.GettingData = false;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
             }
-            catch(Exception e) { Session.GettingData = false; }
-            Session.GettingData = false;
-            return qr > 0;
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al añadir el nuevo medicamento");
+            }
         }
 
         //Inserta un medicamento
         public bool InsertMedicament(string name, string type)
         {
             Session.GettingData = true;
-            string sql = "insert into Medicamentos (Nombre,Tipo) values (\"" + name + "\", \"" + type +"\")";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Session.GettingData = false;
-            return qr > 0;
-        }
-
-        //Modifica el tipo de un medicamento
-        public bool UpdateTypeMedicament(string name, string type)
-        {
-            Session.GettingData = true;
-            string sql = "update Medicamentos set Tipo = \"" + type + "\" where Nombre like \"" + name + "\"";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Session.GettingData = false;
-            return qr > 0;
+            try
+            {
+                var postData = new List<KeyValuePair<string, string>>();
+                postData.Add(new KeyValuePair<string, string>("account", Session.Account));
+                postData.Add(new KeyValuePair<string, string>("apikey", Session.Apikey));
+                postData.Add(new KeyValuePair<string, string>("newname", name));
+                postData.Add(new KeyValuePair<string, string>("newtype", type));
+                HttpContent content = new FormUrlEncodedContent(postData);
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    HttpResponseMessage response = client.PostAsync(AddMedicamentURL, content).Result;
+                    Session.GettingData = false;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al añadir el nuevo medicamento");
+            }
         }
 
         //Modifica un medicamento
         public bool UpdateMedicament(string oldname, string newname, string type)
         {
             Session.GettingData = true;
-            string sql = "update Medicamentos set Nombre = \"" + newname + "\", Tipo = \"" + type + "\" where Nombre like \"" + oldname + "\"";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Session.GettingData = false;
-            return qr > 0;
+            try
+            {
+                var postData = new List<KeyValuePair<string, string>>();
+                postData.Add(new KeyValuePair<string, string>("account", Session.Account));
+                postData.Add(new KeyValuePair<string, string>("apikey", Session.Apikey));
+                postData.Add(new KeyValuePair<string, string>("newname", newname));
+                postData.Add(new KeyValuePair<string, string>("oldname", oldname));
+                postData.Add(new KeyValuePair<string, string>("newtype", type));
+                HttpContent content = new FormUrlEncodedContent(postData);
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    HttpResponseMessage response = client.PutAsync(UpdateMedicamentURL, content).Result;
+                    Session.GettingData = false;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al actualizar el medicamento");
+            }
         }
         #endregion
 
@@ -606,40 +712,56 @@ namespace Farmacop
 
         #region Mensajes
         //Obtiene los mensajes enviados
-        public List<Message> GetAllSendedMessages(string account)
-        {
-            Session.GettingData = true;
-            List<Message> LMessages = new List<Message>();
-            string sql = "select ID, Cuenta_Envia, Cuenta_Recibe, Asunto, Mensaje, Leido from Mensajes where Cuenta_Envia like \'" + account + "\' order by ID DESC";
-
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            MySqlDataReader DataReader = cmd.ExecuteReader();
-
-            if (DataReader.HasRows)
-                while (DataReader.Read())
-                {
-                    try
-                    {
-                        LMessages.Add(new Message(int.Parse(DataReader["ID"].ToString()), DataReader["Cuenta_Envia"].ToString(), DataReader["Cuenta_Recibe"].ToString(),
-                        DataReader["Asunto"].ToString(), DataReader["Mensaje"].ToString().Replace("[**]","\r\n"), DataReader["Leido"].ToString().Equals("True")));
-                    }
-                    catch (Exception e) { throw; }
-                }
-
-            DataReader.Close();
-            Session.GettingData = false;
-            return LMessages;
-        }
-
-        //Obtiene los mensajes recibidos
-        public string GetAllReceivedMessages(string account)
+        public string GetAllSendedMessages()
         {
             try
             {
-                var builder = new UriBuilder(GetNewMessagesURL);
+                var builder = new UriBuilder(GetSendedMessagesURL);
                 builder.Port = -1;
                 var query = HttpUtility.ParseQueryString(builder.Query);
-                query["account"] = account;
+                query["account"] = Session.Account;
+                query["apikey"] = Session.Apikey;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
+
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                Session.GettingData = false;
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            Session.GettingData = false;
+                            throw new Exception();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        //Obtiene los mensajes recibidos
+        public string GetAllReceivedMessages()
+        {
+            try
+            {
+                var builder = new UriBuilder(GetReceibedMessagesURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = Session.Account;
                 query["apikey"] = Session.Apikey;
                 builder.Query = query.ToString();
                 string url = builder.ToString();
@@ -673,25 +795,117 @@ namespace Farmacop
             }
             
         }
+
+        //Obtiene los mensajes no leidos
+        public string GetNewMessages()
+        {
+            try
+            {
+                var builder = new UriBuilder(GetNewMessagesURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = Session.Account;
+                query["apikey"] = Session.Apikey;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
+
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                Session.GettingData = false;
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            Session.GettingData = false;
+                            throw new Exception();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
         //Actualiza a leido el mensaje
         public bool SetReaded(int msgId)
         {
             Session.GettingData = true;
-            string sql = "update Mensajes set Leido = 1 where ID = " + msgId + "";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Session.GettingData = false;
-            return qr > 0;
+            try
+            {
+                var postData = new List<KeyValuePair<string, string>>();
+                postData.Add(new KeyValuePair<string, string>("account", Session.Account));
+                postData.Add(new KeyValuePair<string, string>("apikey", Session.Apikey));
+                postData.Add(new KeyValuePair<string, string>("id", "" + msgId));
+                HttpContent content = new FormUrlEncodedContent(postData);
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    HttpResponseMessage response = client.PutAsync(ReadMessageURL, content).Result;
+                    Session.GettingData = false;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al activar usuario");
+            }
         }
         //Insertar mensaje
-        public bool InsertMsg(string Sender, string Receiver, string Matter, string Message)
+        public bool InsertMsg(string Receiver, string Subject, string Message)
         {
             Session.GettingData = true;
-            string sql = "insert into Mensajes (Cuenta_Envia, Cuenta_Recibe, Asunto, Mensaje) values (\"" + Sender + "\",\"" + Receiver + "\",\"" + Matter + "\",\"" + Message + "\")";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Session.GettingData = false;
-            return qr > 0;
+            try
+            {
+                var postData = new List<KeyValuePair<string, string>>();
+                postData.Add(new KeyValuePair<string, string>("account", Session.Account));
+                postData.Add(new KeyValuePair<string, string>("apikey", Session.Apikey));
+                postData.Add(new KeyValuePair<string, string>("to", Receiver));
+                postData.Add(new KeyValuePair<string, string>("subject", Subject));
+                postData.Add(new KeyValuePair<string, string>("message", Message.Replace("\r\n","[**]")));
+                HttpContent content = new FormUrlEncodedContent(postData);
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    HttpResponseMessage response = client.PostAsync(AddMessageURL, content).Result;
+                    Session.GettingData = false;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al activar usuario");
+            }
         }
 
         #endregion
@@ -796,7 +1010,7 @@ namespace Farmacop
 
             if (qrr > 0)
             {
-                InsertMsg(recepie.Medico, recepie.Paciente, "Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + recepie.Medicamento + " que comenzaba el día " + recepie.FechaInicio +
+                InsertMsg(recepie.Paciente, "Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + recepie.Medicamento + " que comenzaba el día " + recepie.FechaInicio +
                     " y terminaba el día " + recepie.FechaFin);
                 //Session.SendEmail("Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + recepie.Medicamento + " que comenzaba el día " + recepie.FechaInicio +
                   //  " y terminaba el día " + recepie.FechaFin, GetUserEmail(recepie.Paciente));
@@ -836,7 +1050,7 @@ namespace Farmacop
                     string msg = "Se ha añadido una nueva receta para usted.[**]-Medicamento: " + medicament +
                         "[**]-Dosis: " + Amm + "[**]-Fecha de inicio: " + FIni + "[**]-Fecha fin: " + FEnd + "[**]-Horario de tomas diarias:" + hours;
 
-                    InsertMsg(Session.Account, patient, "Nueva receta", msg);
+                    InsertMsg(patient, "Nueva receta", msg);
                     //Session.SendEmail("Receta", msg.Replace("[**]", "\r\n"), GetUserEmail(patient));
                     Session.GettingData = false;
                     return true;
@@ -1002,7 +1216,7 @@ namespace Farmacop
                     string msg = "Se ha modificado una receta suya. [**]Datos nuevos:[**]-Medicamento: " + medicament +
                         "[**]-Dosis: " + Amm + "[**]-Fecha de inicio: " + FIni + "[**]-Fecha fin: " + FEnd + "[**]-Horario de tomas diarias:" + hours;
 
-                    InsertMsg(Session.Account, patient, "Modificación de receta", msg);
+                    InsertMsg(patient, "Modificación de receta", msg);
                     Session.GettingData = false;
                     //Session.SendEmail("Modificación de receta", msg.Replace("[**]", "\r\n"), GetUserEmail(patient));
                     return true;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -30,13 +31,27 @@ namespace Farmacop
         {
             try
             {
-                Accounts = Session.DBConnection.GetAllUsersNameAccount();
+                Accounts = ReadUsersData(Session.DBConnection.GetAllUsersNameAccount());
             }
             catch(Exception e)
             {
                 MessageBox.Show("Error al obtener los nombres de cuenta existentes. Consulte al administrador." + e.Message);
                 this.Close();
             }
+        }
+
+        public List<string> ReadUsersData(string data)
+        {
+            List<string> userslist = new List<string>();
+            JObject jsonobject = JObject.Parse(data);
+            JToken jsondata = jsonobject["data"];
+
+            for (int i = 0; i < jsondata.Count<JToken>(); i++)
+            {
+                JToken temp = jsondata[i];
+                userslist.Add(temp["Cuenta"].ToString());
+            }
+            return userslist;
         }
 
         private void btnAccept_Click(object sender, EventArgs e)
@@ -176,25 +191,48 @@ namespace Farmacop
 
         private void AddAlgComboBox()
         {
-            Session.MedList = Session.DBConnection.GetAllMedicaments();
-            List<string> MedNames = new List<string>();
-
-            foreach (Medicament temp in Session.MedList)
-                MedNames.Add(temp.Nombre);
-
-            foreach (Control Ctemp in algContainer.Controls)
+            try
             {
-                if (Ctemp is AlgControl){
-                    if (((AlgControl)Ctemp).GetText.Equals(""))
-                        return;
-                    if (MedNames.Contains(((AlgControl)Ctemp).GetText))
-                        MedNames.Remove(((AlgControl)Ctemp).GetText);
+                Session.MedList = ReadData(Session.DBConnection.GetAllMedicaments());
+                List<string> MedNames = new List<string>();
+
+                foreach (Medicament temp in Session.MedList)
+                    MedNames.Add(temp.Nombre);
+
+                foreach (Control Ctemp in algContainer.Controls)
+                {
+                    if (Ctemp is AlgControl)
+                    {
+                        if (((AlgControl)Ctemp).GetText.Equals(""))
+                            return;
+                        if (MedNames.Contains(((AlgControl)Ctemp).GetText))
+                            MedNames.Remove(((AlgControl)Ctemp).GetText);
+                    }
                 }
+
+                if (MedNames.Count > 0)
+                    algContainer.Controls.Add(new AlgControl(MedNames.ToArray()));
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error al obtener los datos de los medicamentos");
             }
 
-            if(MedNames.Count > 0)
-                algContainer.Controls.Add(new AlgControl(MedNames.ToArray()));
+        }
 
+        public List<Medicament> ReadData(string jsondata)
+        {
+            List<Medicament> thelist = new List<Medicament>();
+            JObject jobject = JObject.Parse(jsondata);
+            JToken jdata = jobject["data"];
+
+            for (int i = 0; i < jdata.Count<JToken>(); i++)
+            {
+                Medicament temp = new Medicament(jdata[i]["Nombre"].ToString(), jdata[i]["Tipo"].ToString());
+                thelist.Add(temp);
+            }
+
+            return thelist;
         }
 
         private bool CheckEmailFormat(string email)

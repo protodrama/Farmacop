@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Media;
+using Newtonsoft.Json.Linq;
 
 namespace Farmacop
 {
@@ -51,7 +52,7 @@ namespace Farmacop
         {
             try
             {
-                Session.MedList = Session.DBConnection.GetAllMedicaments();
+                Session.MedList = ReadData(Session.DBConnection.GetAllMedicaments());
                 if (Session.MedList != null)
                 {
                     MedTable.DataSource = Session.MedList;
@@ -81,6 +82,21 @@ namespace Farmacop
 
         }
 
+        public List<Medicament> ReadData(string jsondata)
+        {
+            List<Medicament> thelist = new List<Medicament>();
+            JObject jobject = JObject.Parse(jsondata);
+            JToken jdata = jobject["data"];
+
+            for(int i = 0; i < jdata.Count<JToken>(); i++)
+            {
+                Medicament temp = new Medicament(jdata[i]["Nombre"].ToString(), jdata[i]["Tipo"].ToString());
+                thelist.Add(temp);
+            }
+
+            return thelist;
+        }
+
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             string Name = "";
@@ -105,13 +121,22 @@ namespace Farmacop
                     string FChar = NoCapName.Substring(0, 1);
                     string NameNoFChar = NoCapName.Substring(1, NoCapName.Length - 1);
                     Name = FChar.ToUpper() + NameNoFChar;
-                    if (Session.DBConnection.InsertMedicament(Name, Type))
+                    try
                     {
-                        GetData();
-                        txtNewMedNm.Text = "";
-                        MessageBox.Show("Medicamento insertado con éxito");
+                        if (Session.DBConnection.InsertMedicament(Name, Type))
+                        {
+                            GetData();
+                            txtNewMedNm.Text = "";
+                            MessageBox.Show("Medicamento insertado con éxito");
+                        }
+                        else
+                        {
+                            SystemSounds.Beep.Play();
+                            MessageBox.Show("Error al insertar el medicamento");
+                        }
                     }
-                    else {
+                    catch(Exception ex)
+                    {
                         SystemSounds.Beep.Play();
                         MessageBox.Show("Error al insertar el medicamento");
                     }
@@ -133,13 +158,20 @@ namespace Farmacop
 
                 if (DialogResult.Yes == MessageBox.Show("¿Seguro que quiere eliminar el medicamento con nombre " + MedToDel.Nombre + "?\nSe eliminará de forma permamente...", "Eliminar medicamento", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation))
                 {
-                    if (Session.DBConnection.DeleteMedicament(MedToDel.Nombre))
+                    try
                     {
-                        GetData();
-                        MessageBox.Show("Medicamento eliminado correctamente", "Eliminado");
+                        if (Session.DBConnection.DeleteMedicament(MedToDel.Nombre))
+                        {
+                            GetData();
+                            MessageBox.Show("Medicamento eliminado correctamente", "Eliminado");
+                        }
+                        else
+                            MessageBox.Show("Error al eliminar el medicamento. Puede que algunos pacientes tengan alergias asignadas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    else
-                        MessageBox.Show("Error al eliminar el medicamento. Puede que algunos pacientes tengan alergias asignadas.", "Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show("Error al eliminar el medicamento.");
+                    }
                 }
             }
         }
@@ -151,48 +183,45 @@ namespace Farmacop
                 string FChar = txtbxMedNewName.Text.Substring(0, 1);
                 string NameNoFChar = txtbxMedNewName.Text.Substring(1, txtbxMedNewName.Text.Length - 1);
                 string Name = FChar.ToUpper() + NameNoFChar;
-                bool ModifyMedType = false;
+                bool toUpdate = true;
 
                 foreach (Medicament MedTmp in Session.MedList)
                 {
-                    if (MedTmp.Nombre.ToLower().Equals(Name.ToLower()))
+                    if (!MedTmp.Nombre.ToLower().Equals(txtbxMedAMod.Text.ToLower()))
                     {
-                        if (MedTmp.Nombre.ToLower().Equals(txtbxMedNewName.Text.ToLower()))
+                        if (MedTmp.Nombre.ToLower().Equals(Name.ToLower()))
                         {
-                            ModifyMedType = true;
-                            break;
+                            MessageBox.Show("El nuevo nombre coincide con uno de los medicamentos existentes.");
+                            toUpdate = false;
+                        }
+                    }
+                    else if (MedTmp.Tipo.ToLower().Equals(cbbxTypeMod.Text.ToLower()) && MedTmp.Nombre.ToLower().Equals(Name.ToLower()))
+                    {
+                        MessageBox.Show("No se realizan modificaciones al medicamento");
+                        toUpdate = false;
+                    }              
+                }
+
+                if (toUpdate)
+                {
+                    try
+                    {
+                        if (Session.DBConnection.UpdateMedicament(txtbxMedAMod.Text, Name, cbbxTypeMod.Text))
+                        {
+                            GetData();
+                            MessageBox.Show("Medicamento modificado correctamente");
                         }
                         else
                         {
-                            MessageBox.Show("El nuevo nombre coincide con uno de los medicamentos existentes.");
-                            return;
+                            MessageBox.Show("Error al modificar el medicamento");
                         }
                     }
-                }
-                if (ModifyMedType)
-                {
-                    if (Session.DBConnection.UpdateTypeMedicament(Name, cbbxTypeMod.Text))
-                    {
-                        GetData();
-                        MessageBox.Show("Medicamento modificado correctamente");
-                    }
-                    else
+                    catch(Exception ex)
                     {
                         MessageBox.Show("Error al modificar el medicamento");
                     }
                 }
-                else
-                {
-                    if (Session.DBConnection.UpdateMedicament(txtbxMedAMod.Text, Name, cbbxTypeMod.Text))
-                    {
-                        GetData();
-                        MessageBox.Show("Medicamento modificado correctamente");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error al modificar el medicamento");
-                    }
-                }
+                
                 txtbxMedAMod.Text = "";
                 txtbxMedNewName.Text = "";
                 cbbxTypeMod.Text = "";

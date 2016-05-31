@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -36,17 +37,39 @@ namespace Farmacop
 
         public void GetMedNames()
         {
-            cbbxMed.Items.Clear();
-            List<Medicament> medList = Session.DBConnection.GetAllMedicaments();
-            List<string> algList = Session.DBConnection.GetUserAlg(RecToMod.Paciente);
-            List<string> medNames = new List<string>();
+            try
+            {
+                cbbxMed.Items.Clear();
+                List<Medicament> medList = ReadData(Session.DBConnection.GetAllMedicaments());
+                List<string> algList = Session.DBConnection.GetUserAlg(RecToMod.Paciente);
+                List<string> medNames = new List<string>();
 
-            foreach (Medicament temp in medList)
-                if (!algList.Contains(temp.Nombre))
-                    medNames.Add(temp.Nombre);
+                foreach (Medicament temp in medList)
+                    if (!algList.Contains(temp.Nombre))
+                        medNames.Add(temp.Nombre);
 
-            cbbxMed.Items.AddRange(medNames.ToArray());
-            cbbxMed.SelectedItem = RecToMod.Medicamento;
+                cbbxMed.Items.AddRange(medNames.ToArray());
+                cbbxMed.SelectedItem = RecToMod.Medicamento;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error al obtener los datos de los medicamentos");
+            }
+        }
+
+        public List<Medicament> ReadData(string jsondata)
+        {
+            List<Medicament> thelist = new List<Medicament>();
+            JObject jobject = JObject.Parse(jsondata);
+            JToken jdata = jobject["data"];
+
+            for (int i = 0; i < jdata.Count<JToken>(); i++)
+            {
+                Medicament temp = new Medicament(jdata[i]["Nombre"].ToString(), jdata[i]["Tipo"].ToString());
+                thelist.Add(temp);
+            }
+
+            return thelist;
         }
 
         public void SetTableData()

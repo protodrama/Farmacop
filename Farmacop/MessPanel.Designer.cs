@@ -34,11 +34,12 @@
             this.btnNewMsg = new System.Windows.Forms.Button();
             this.lblInfo = new System.Windows.Forms.Label();
             this.grpxFiltrar = new System.Windows.Forms.GroupBox();
-            this.btnFilter = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.txtReader = new System.Windows.Forms.TextBox();
+            this.txtSender = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtEnvia = new System.Windows.Forms.TextBox();
-            this.txtRecibe = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnFilter = new System.Windows.Forms.Button();
+            this.btnClean = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.MessGridView)).BeginInit();
             this.grpxFiltrar.SuspendLayout();
             this.SuspendLayout();
@@ -63,7 +64,7 @@
             this.MessGridView.RowHeadersVisible = false;
             this.MessGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.MessGridView.ShowEditingIcon = false;
-            this.MessGridView.Size = new System.Drawing.Size(402, 335);
+            this.MessGridView.Size = new System.Drawing.Size(402, 502);
             this.MessGridView.TabIndex = 3;
             this.MessGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MessGridView_CellContentClick);
             // 
@@ -110,8 +111,9 @@
             // 
             // grpxFiltrar
             // 
-            this.grpxFiltrar.Controls.Add(this.txtRecibe);
-            this.grpxFiltrar.Controls.Add(this.txtEnvia);
+            this.grpxFiltrar.Controls.Add(this.btnClean);
+            this.grpxFiltrar.Controls.Add(this.txtReader);
+            this.grpxFiltrar.Controls.Add(this.txtSender);
             this.grpxFiltrar.Controls.Add(this.label2);
             this.grpxFiltrar.Controls.Add(this.label1);
             this.grpxFiltrar.Controls.Add(this.btnFilter);
@@ -122,24 +124,19 @@
             this.grpxFiltrar.TabStop = false;
             this.grpxFiltrar.Text = "Filtro";
             // 
-            // btnFilter
+            // txtReader
             // 
-            this.btnFilter.Location = new System.Drawing.Point(358, 31);
-            this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(75, 23);
-            this.btnFilter.TabIndex = 0;
-            this.btnFilter.Text = "Filtrar";
-            this.btnFilter.UseVisualStyleBackColor = true;
-            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
+            this.txtReader.Location = new System.Drawing.Point(190, 33);
+            this.txtReader.Name = "txtReader";
+            this.txtReader.Size = new System.Drawing.Size(137, 20);
+            this.txtReader.TabIndex = 4;
             // 
-            // label1
+            // txtSender
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(29, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Envia:";
+            this.txtSender.Location = new System.Drawing.Point(32, 33);
+            this.txtSender.Name = "txtSender";
+            this.txtSender.Size = new System.Drawing.Size(137, 20);
+            this.txtSender.TabIndex = 3;
             // 
             // label2
             // 
@@ -150,19 +147,34 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Recibe:";
             // 
-            // txtEnvia
+            // label1
             // 
-            this.txtEnvia.Location = new System.Drawing.Point(32, 33);
-            this.txtEnvia.Name = "txtEnvia";
-            this.txtEnvia.Size = new System.Drawing.Size(137, 20);
-            this.txtEnvia.TabIndex = 3;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(29, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(37, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Envia:";
             // 
-            // txtRecibe
+            // btnFilter
             // 
-            this.txtRecibe.Location = new System.Drawing.Point(190, 33);
-            this.txtRecibe.Name = "txtRecibe";
-            this.txtRecibe.Size = new System.Drawing.Size(137, 20);
-            this.txtRecibe.TabIndex = 4;
+            this.btnFilter.Location = new System.Drawing.Point(359, 13);
+            this.btnFilter.Name = "btnFilter";
+            this.btnFilter.Size = new System.Drawing.Size(75, 23);
+            this.btnFilter.TabIndex = 0;
+            this.btnFilter.Text = "Filtrar";
+            this.btnFilter.UseVisualStyleBackColor = true;
+            this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
+            // 
+            // btnClean
+            // 
+            this.btnClean.Location = new System.Drawing.Point(359, 40);
+            this.btnClean.Name = "btnClean";
+            this.btnClean.Size = new System.Drawing.Size(75, 23);
+            this.btnClean.TabIndex = 5;
+            this.btnClean.Text = "Limpiar";
+            this.btnClean.UseVisualStyleBackColor = true;
+            this.btnClean.Click += new System.EventHandler(this.btnClean_Click);
             // 
             // MessPanel
             // 
@@ -195,7 +207,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnFilter;
-        private System.Windows.Forms.TextBox txtRecibe;
-        private System.Windows.Forms.TextBox txtEnvia;
+        private System.Windows.Forms.TextBox txtReader;
+        private System.Windows.Forms.TextBox txtSender;
+        private System.Windows.Forms.Button btnClean;
     }
 }

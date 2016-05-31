@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,7 +26,7 @@ namespace Farmacop
 
         public void GetData()
         {
-            List<string> names = Session.DBConnection.GetAllUsersNameAccount();
+            List<string> names = ReadUsersData(Session.DBConnection.GetAllUsersNameAccount());
             Users = names;
             var source = new AutoCompleteStringCollection();
             source.AddRange(names.ToArray());
@@ -38,12 +39,48 @@ namespace Farmacop
             TimeContainer.Controls.Add(select);
         }
 
+        public List<string> ReadUsersData(string data)
+        {
+            List<string> userslist = new List<string>();
+            JObject jsonobject = JObject.Parse(data);
+            JToken jsondata = jsonobject["data"];
+
+            for (int i = 0; i < jsondata.Count<JToken>(); i++)
+            {
+                JToken temp = jsondata[i];
+                userslist.Add(temp["Cuenta"].ToString());
+            }
+            return userslist;
+        }
+
         public void GetMedNames()
         {
-            cbbxMed.Items.Clear();
-            List<Medicament> medlist = Session.DBConnection.GetAllMedicaments();
-            foreach (Medicament temp in medlist)
-                cbbxMed.Items.Add(temp.Nombre);
+            try
+            {
+                cbbxMed.Items.Clear();
+                List<Medicament> medlist = ReadData(Session.DBConnection.GetAllMedicaments());
+                foreach (Medicament temp in medlist)
+                    cbbxMed.Items.Add(temp.Nombre);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error al obtener los datos de los medicamentos");
+            }
+        }
+
+        public List<Medicament> ReadData(string jsondata)
+        {
+            List<Medicament> thelist = new List<Medicament>();
+            JObject jobject = JObject.Parse(jsondata);
+            JToken jdata = jobject["data"];
+
+            for (int i = 0; i < jdata.Count<JToken>(); i++)
+            {
+                Medicament temp = new Medicament(jdata[i]["Nombre"].ToString(), jdata[i]["Tipo"].ToString());
+                thelist.Add(temp);
+            }
+
+            return thelist;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
