@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Newtonsoft.Json.Linq;
 
 namespace Farmacop
 {
@@ -39,7 +40,7 @@ namespace Farmacop
         {
             try
             {
-                Session.UserList = Session.DBConnection.GetAllUsersData();
+                Session.UserList = ReadUsersData(Session.DBConnection.GetAllUsersData());
                 ActiveUsers = new List<User>();
                 NonActiveUsers = new List<User>();
                 foreach (User us in Session.UserList)
@@ -61,6 +62,22 @@ namespace Farmacop
             }
             UsersGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.LightBlue;
             UsersGridView.EnableHeadersVisualStyles = false;
+        }
+
+        public List<User> ReadUsersData(string data)
+        {
+            List<User> userslist = new List<User>();
+            JObject jsonobject = JObject.Parse(data);
+            JToken jsondata = jsonobject["data"];
+
+            for (int i = 0; i < jsondata.Count<JToken>(); i++)
+            {
+                JToken temp = jsondata[i];
+                User mtemp = new User(temp["Nombre"].ToString(), temp["Apellido1"].ToString(), temp["Apellido2"].ToString(), temp["Cuenta"].ToString(),
+                    DateTime.Parse(temp["FechaNac"].ToString()).ToShortDateString(), temp["Tipo"].ToString(), int.Parse(temp["Deshabilitada"].ToString()) == 0, temp["correo"].ToString());
+                userslist.Add(mtemp);
+            }
+            return userslist;
         }
 
         public void PutColumns()
@@ -142,9 +159,22 @@ namespace Farmacop
                     {
                         if (DialogResult.Yes == MessageBox.Show("¿Deseas deshabilitar el usuario " + UserTemp.Nombre + " " + UserTemp.Apellidos + " ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                         {
-                            if (Session.DBConnection.DisableUser(UserTemp.Cuenta))
+                            try
                             {
-                                GetData();
+                                if (Session.DBConnection.DisableUser(UserTemp.Cuenta))
+                                {
+                                    MessageBox.Show("Usuario deshabilitado");
+                                    GetData();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Error al deshabilitar el usuario");
+                                    GetData();
+                                }
+                            }
+                            catch(Exception ex)
+                            {
+                                MessageBox.Show("Error al deshabilitar el usuario. Comprueba tu conexión.");
                             }
                         }
                     }
@@ -152,18 +182,27 @@ namespace Farmacop
                     {
                         if (DialogResult.Yes == MessageBox.Show("¿Deseas habilitar el usuario " + UserTemp.Nombre + " " + UserTemp.Apellidos + " ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                         {
-                            if (Session.DBConnection.EnableUser(UserTemp.Cuenta))
+                            try
                             {
-                                GetData();
+                                if (Session.DBConnection.EnableUser(UserTemp.Cuenta))
+                                {
+                                    MessageBox.Show("Usuario habilitado");
+                                    GetData();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Error al habilitar el usuario");
+                                    GetData();
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Error al habilitar el usuario. Comprueba tu conexión.");
                             }
                         }
                     }
 
-                }
-
-
-
-                
+                }                
             }
         }
 

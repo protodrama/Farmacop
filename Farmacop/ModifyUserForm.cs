@@ -38,7 +38,7 @@ namespace Farmacop
                     ComboboxType.SelectedItem = "Medico";
                 if (UserToMod.Tipo.Equals("Paciente"))
                     ComboboxType.SelectedItem = "Paciente";
-                UserToMod.Alergias = Session.DBConnection.GetUserAlg(UserToMod.Cuenta);
+                UserToMod.Alergias = ReadAlg(Session.DBConnection.GetUserAlg(UserToMod.Cuenta));
                 AlgDataGrid.DataSource = UserToMod.GetAlgList();
                 AlgDataGrid.ColumnHeadersDefaultCellStyle.BackColor = Color.LightBlue;
                 AlgDataGrid.EnableHeadersVisualStyles = false;
@@ -52,6 +52,21 @@ namespace Farmacop
                 AlgDataGrid.Columns.Add(BtnDeleteColumn);
             }
             catch (Exception e) { }
+        }
+
+        public List<string> ReadAlg(string data)
+        {
+            List<string> thelist = new List<string>();
+            JObject jobject = JObject.Parse(data);
+            JToken jdata = jobject["data"];
+
+            for (int i = 0; i < jdata.Count<JToken>(); i++)
+            {
+                string temp = jdata[i]["Nombre"].ToString();
+                thelist.Add(temp);
+            }
+
+            return thelist;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -88,6 +103,11 @@ namespace Farmacop
                             this.Cursor = Cursors.Default;
                             MessageBox.Show("Usuario modificado con éxito");
                             this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error al actualizar usuario");
+                            this.Cursor = Cursors.Default;
                         }
                     }
                     else

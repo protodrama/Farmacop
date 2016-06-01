@@ -132,9 +132,24 @@ namespace Farmacop
                 MessageBox.Show("Debes indicar un valor para todos los campos");
         }
 
+        public List<string> ReadAlg(string data)
+        {
+            List<string> thelist = new List<string>();
+            JObject jobject = JObject.Parse(data);
+            JToken jdata = jobject["data"];
+
+            for (int i = 0; i < jdata.Count<JToken>(); i++)
+            {
+                string temp = jdata[i]["Nombre"].ToString();
+                thelist.Add(temp);
+            }
+
+            return thelist;
+        }
+
         private void txtTargetUser_TextChanged(object sender, EventArgs e)
         {
-
+            
             if (Users.Contains(txtTargetUser.Text))
             {
                 if (!Session.GettingData)
@@ -142,9 +157,16 @@ namespace Farmacop
                     GetMedNames();
                     btnAdd.Enabled = true;
                     grpRecData.Visible = true;
-                    List<string> Alerg = Session.DBConnection.GetUserAlg(txtTargetUser.Text);
-                    foreach (string temp in Alerg)
-                        cbbxMed.Items.Remove(temp);
+                    try
+                    {
+                        List<string> Alerg = ReadAlg(Session.DBConnection.GetUserAlg(txtTargetUser.Text));
+                        foreach (string temp in Alerg)
+                            cbbxMed.Items.Remove(temp);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al obtener las alergias del usuario");
+                    }
                 }
             }
             else
@@ -153,6 +175,7 @@ namespace Farmacop
                 grpRecData.Visible = false;
                 GetMedNames();
             }
+            
         }
 
         private void btnAddMed_Click(object sender, EventArgs e)

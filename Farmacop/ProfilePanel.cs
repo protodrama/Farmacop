@@ -140,7 +140,7 @@ namespace Farmacop
                 }
                 catch(Exception ex)
                 {
-                    MessageBox.Show("Error al actualizar los datos");
+                    MessageBox.Show("Error al actualizar los datos. Consulta tu conexión.");
                 }
             }
             else

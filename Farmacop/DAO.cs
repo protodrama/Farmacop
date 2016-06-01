@@ -31,6 +31,15 @@ namespace Farmacop
         string ReadMessageURL = "https://jfrodriguez.pw/slimrest/api/ReadMessage";
         string AddMessageURL = "https://jfrodriguez.pw/slimrest/api/AddMessage";
         string GetAllUsersAccountURL = "https://jfrodriguez.pw/slimrest/api/getAllUsersAccount";
+        string GetAllUsersDataURL = "https://jfrodriguez.pw/slimrest/api/getAllUsersData"; 
+        string DisableUserURL = "https://jfrodriguez.pw/slimrest/api/disableUser";
+        string EnableUserURL = "https://jfrodriguez.pw/slimrest/api/enableUser";
+        string AddNewUserURL = "https://jfrodriguez.pw/slimrest/api/AddUser";
+        string AddAlgURL = "https://jfrodriguez.pw/slimrest/api/AddAlg";
+        string GetUserAlgURL = "https://jfrodriguez.pw/slimrest/api/GetUserAlg";
+        string UpdateAUserURL = "https://jfrodriguez.pw/slimrest/api/UpdateAUser";
+        string DeleteAlgURL = "https://jfrodriguez.pw/slimrest/api/DeleteAlg";
+
 
         string defApikey = "eadmghacdg";
 
@@ -371,19 +380,18 @@ namespace Farmacop
                     Session.GettingData = false;
                     if (response.IsSuccessStatusCode)
                     {
-                        Session.GettingData = false;
                         return true;
                     }
                     else
                     {
-                        throw new Exception();
+                        return false; 
                     }
                 }
             }
             catch (Exception ex)
             {
                 Session.GettingData = false;
-                throw new Exception("Error al activar usuario");
+                throw new Exception("Error al actualizar usuario");
             }
         }
 
@@ -391,22 +399,81 @@ namespace Farmacop
         public bool UpdateModUserData(string Name, string FApl, string SApl, string FNac,string Type, string account,string email)
         {
             Session.GettingData = true;
-            string sql = "update Usuarios set Nombre = \"" + Name + "\", correo = \"" + email + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', Tipo = \'" + Type + "\' where Cuenta like \"" + account + "\"";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Session.GettingData = false;
-            return qr > 0;
+            try
+            {
+                var postData = new List<KeyValuePair<string, string>>();
+                postData.Add(new KeyValuePair<string, string>("account", Session.Account));
+                postData.Add(new KeyValuePair<string, string>("apikey", Session.Apikey));
+                postData.Add(new KeyValuePair<string, string>("theaccount",account));
+                postData.Add(new KeyValuePair<string, string>("fnac", FNac));
+                postData.Add(new KeyValuePair<string, string>("fsur", FApl));
+                postData.Add(new KeyValuePair<string, string>("ssur", SApl));
+                postData.Add(new KeyValuePair<string, string>("name", Name));
+                postData.Add(new KeyValuePair<string, string>("email", email));
+                postData.Add(new KeyValuePair<string, string>("type", Type));
+                HttpContent content = new FormUrlEncodedContent(postData);
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    HttpResponseMessage response = client.PutAsync(UpdateAUserURL, content).Result;
+                    Session.GettingData = false;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al actualizar usuario");
+            }
         }
 
         //Agregar un usuario
         public bool InsertUserData(string Name, string FApl, string SApl, string FNac, string Type, string account,string email)
         {
             Session.GettingData = true;
-            string sql = "Insert into Usuarios set Cuenta = \"" + account + "\", Nombre = \"" + Name + "\", correo = \"" + email + "\", Apellido1 = \"" + FApl + "\", Apellido2 = \"" + SApl + "\", FechaNac = \'" + FNac + "\', Tipo = \'" + Type + "\', Contrasena = \"" + Session.StringToMD5(account+Name+"NewUser"+new Random().Next(100)) + "\"";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Session.GettingData = false;
-            return qr > 0;
+            try
+            {
+                var postData = new List<KeyValuePair<string, string>>();
+                postData.Add(new KeyValuePair<string, string>("account", Session.Account));
+                postData.Add(new KeyValuePair<string, string>("apikey", Session.Apikey));
+                postData.Add(new KeyValuePair<string, string>("newaccount", account));
+                postData.Add(new KeyValuePair<string, string>("fsur", FApl));
+                postData.Add(new KeyValuePair<string, string>("ssur", SApl));
+                postData.Add(new KeyValuePair<string, string>("fnac", FNac));
+                postData.Add(new KeyValuePair<string, string>("type", Type));
+                postData.Add(new KeyValuePair<string, string>("email", email));
+                postData.Add(new KeyValuePair<string, string>("pass", Session.StringToMD5(account+"NEWUSER"+DateTime.Now.ToShortDateString())));
+                postData.Add(new KeyValuePair<string, string>("name", Name));
+                HttpContent content = new FormUrlEncodedContent(postData);
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    HttpResponseMessage response = client.PostAsync(AddNewUserURL, content).Result;
+                    Session.GettingData = false;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al añadir el nuevo usuario");
+            }
         }
 
         //Obtiene todos los nombres de los usuarios menos el de la sesion
@@ -454,55 +521,123 @@ namespace Farmacop
         }
 
         //Obtiene todos los usuarios para la tabla de Usuarios
-        public List<User> GetAllUsersData()
+        public string GetAllUsersData()
         {
             Session.GettingData = true;
-            List<User> Users = new List<User>();
-            string sql = "";
-            if (Session.UserType == UserType.Admin)
-                sql = "select Cuenta,Nombre,Apellido1,Apellido2,FechaNac,correo,Tipo,Deshabilitada from Usuarios where Validada = 1 and Cuenta not like \"" + Session.Account + "\"";
-            else
-                sql = "select Cuenta,Nombre,Apellido1,Apellido2,FechaNac,correo,Tipo,Deshabilitada from Usuarios where Validada = 1 and Cuenta not like \"" + Session.Account + "\" and Tipo not like \"Admin\" and Tipo not like \"Medico\"";
+            try
+            {
+                string usertype = "";
+                if (Session.UserType == UserType.Admin)
+                    usertype = "Admin";
+                else
+                    usertype = "Medico";
+                var builder = new UriBuilder(GetAllUsersDataURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = Session.Account;
+                query["apikey"] = Session.Apikey;
+                query["type"] = usertype;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
 
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            MySqlDataReader DataReader = cmd.ExecuteReader();
-
-            if (DataReader.HasRows)
-                while (DataReader.Read())
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
                 {
-                    try
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
                     {
-                        Users.Add(new User(DataReader["Nombre"].ToString(), DataReader["Apellido1"].ToString(), DataReader["Apellido2"].ToString(), DataReader["Cuenta"].ToString(),
-                            DateTime.Parse(DataReader["FechaNac"].ToString()).ToString("dd/MM/yyyy"), DataReader["Tipo"].ToString(), DataReader["Deshabilitada"].ToString().Equals("False"), DataReader["correo"].ToString()));
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                Session.GettingData = false;
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            Session.GettingData = false;
+                            throw new Exception();
+                        }
                     }
-                    catch (Exception e) { throw; }
                 }
-
-            DataReader.Close();
-            Session.GettingData = false;
-            return Users;
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error obteniendo los datos de los usuarios");
+            }
         }
 
         //Disables User
         public bool DisableUser(string account)
         {
             Session.GettingData = true;
-            string sql = "update Usuarios set Deshabilitada = 1 where Cuenta like \"" + account + "\"";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Session.GettingData = false;
-            return qr > 0;
+            try
+            {
+                var postData = new List<KeyValuePair<string, string>>();
+                postData.Add(new KeyValuePair<string, string>("account", Session.Account));
+                postData.Add(new KeyValuePair<string, string>("apikey", Session.Apikey));
+                postData.Add(new KeyValuePair<string, string>("todisable", account));
+                
+                HttpContent content = new FormUrlEncodedContent(postData);
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    HttpResponseMessage response = client.PutAsync(DisableUserURL, content).Result;
+                    Session.GettingData = false;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al deshabilitar usuario");
+            }
         }
 
         //Enables User
         public bool EnableUser(string account)
         {
             Session.GettingData = true;
-            string sql = "update Usuarios set Deshabilitada = 0 where Cuenta like \"" + account + "\"";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Session.GettingData = false;
-            return qr > 0;
+            try
+            {
+                var postData = new List<KeyValuePair<string, string>>();
+                postData.Add(new KeyValuePair<string, string>("account", Session.Account));
+                postData.Add(new KeyValuePair<string, string>("apikey", Session.Apikey));
+                postData.Add(new KeyValuePair<string, string>("toenable", account));
+
+                HttpContent content = new FormUrlEncodedContent(postData);
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    HttpResponseMessage response = client.PutAsync(EnableUserURL, content).Result;
+                    Session.GettingData = false;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al deshabilitar usuario");
+            }
         }
         #endregion
 
@@ -668,44 +803,120 @@ namespace Farmacop
         public bool InsertAlg(string account, string medicament)
         {
             Session.GettingData = true;
-            string sql = "insert into Alergias values (\"" + account + "\", (select ID from Medicamentos where Nombre like \"" + medicament + "\"))";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Session.GettingData = false;
-            return qr > 0;
+            try
+            {
+                var postData = new List<KeyValuePair<string, string>>();
+                postData.Add(new KeyValuePair<string, string>("account", Session.Account));
+                postData.Add(new KeyValuePair<string, string>("apikey", Session.Apikey));
+                postData.Add(new KeyValuePair<string, string>("theaccount", account));
+                postData.Add(new KeyValuePair<string, string>("med", medicament));
+                HttpContent content = new FormUrlEncodedContent(postData);
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    HttpResponseMessage response = client.PostAsync(AddAlgURL, content).Result;
+                    Session.GettingData = false;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al añadir el nuevo usuario");
+            }
         }
 
         //Eliminar alergia para un usuario
         public bool DeleteAlg(string account, string medicament)
         {
+
             Session.GettingData = true;
-            string sql = "delete from Alergias where Cuenta like \"" + account + "\" and ID_Medicamento = (select ID from Medicamentos where Nombre like \"" + medicament + "\")";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
-            Session.GettingData = false;
-            return qr > 0;
-        }
-
-        public List<string> GetUserAlg(string account)
-        {
-            Session.GettingData = true;
-            List<string> AlgList = new List<string>();
-            string sql = "select Nombre from Medicamentos where ID in (select ID_Medicamento from Alergias where Cuenta like '" + account + "')";
-
-            MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
-            MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
-
-            if (DataReader.HasRows)
+            try
             {
-                while (DataReader.Read())
+                var builder = new UriBuilder(DeleteAlgURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = Session.Account;
+                query["apikey"] = Session.Apikey;
+                query["theaccount"] = account;
+                query["med"] = medicament;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
                 {
-                    AlgList.Add(DataReader.GetString("Nombre"));
+                    using (HttpResponseMessage response = client.DeleteAsync(url).Result)
+                    {
+                        Session.GettingData = false;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al eliminar alergia");
+            }
+        }
 
-            DataReader.Close();
-            Session.GettingData = false;
-            return AlgList;
+        public string GetUserAlg(string account)
+        {
+            Session.GettingData = true;
+            try
+            {
+                var builder = new UriBuilder(GetUserAlgURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = Session.Account;
+                query["apikey"] = Session.Apikey;
+                query["theaccount"] = account;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                Session.GettingData = false;
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            Session.GettingData = false;
+                            throw new Exception();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al obtener las alergias del usuario");
+            }
+
         }
 
         #endregion

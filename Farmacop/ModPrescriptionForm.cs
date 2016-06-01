@@ -41,7 +41,7 @@ namespace Farmacop
             {
                 cbbxMed.Items.Clear();
                 List<Medicament> medList = ReadData(Session.DBConnection.GetAllMedicaments());
-                List<string> algList = Session.DBConnection.GetUserAlg(RecToMod.Paciente);
+                List<string> algList = ReadAlg(Session.DBConnection.GetUserAlg(RecToMod.Paciente));
                 List<string> medNames = new List<string>();
 
                 foreach (Medicament temp in medList)
@@ -56,6 +56,22 @@ namespace Farmacop
                 MessageBox.Show("Error al obtener los datos de los medicamentos");
             }
         }
+
+        public List<string> ReadAlg(string data)
+        {
+            List<string> thelist = new List<string>();
+            JObject jobject = JObject.Parse(data);
+            JToken jdata = jobject["data"];
+
+            for (int i = 0; i < jdata.Count<JToken>(); i++)
+            {
+                string temp = jdata[i]["Nombre"].ToString();
+                thelist.Add(temp);
+            }
+
+            return thelist;
+        }
+
 
         public List<Medicament> ReadData(string jsondata)
         {

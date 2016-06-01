@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Farmacop
@@ -83,6 +84,10 @@ namespace Farmacop
                             {
                                 MessageBox.Show("Error al insertar el usuario");
                             }
+                        }
+                        else
+                        {
+                            MessageBox.Show("El nombre de usuario ya esta en uso, pruebe otro.");
                         }
                     }
                     else
@@ -237,16 +242,7 @@ namespace Farmacop
 
         private bool CheckEmailFormat(string email)
         {
-            if (email.Contains("@") && !email.Contains(" "))
-            {
-                string[] data = email.Split('@');
-                foreach (string tmp in data)
-                    if (tmp.Trim().Equals(""))
-                        return false;
-                return true;
-            }
-            else
-                return false;
+            return Regex.IsMatch(email, @"\A(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)\Z");
         }
 
         private void btnDel_Click(object sender, EventArgs e)

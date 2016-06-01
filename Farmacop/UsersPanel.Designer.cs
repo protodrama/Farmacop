@@ -136,7 +136,7 @@
             this.UsersGridView.RowHeadersVisible = false;
             this.UsersGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.UsersGridView.ShowEditingIcon = false;
-            this.UsersGridView.Size = new System.Drawing.Size(841, 335);
+            this.UsersGridView.Size = new System.Drawing.Size(841, 426);
             this.UsersGridView.TabIndex = 2;
             this.UsersGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.UsersGridView_CellContentClick);
             // 

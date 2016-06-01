@@ -31,6 +31,7 @@
             System.Windows.Forms.SplitContainer splAlg;
             this.algContainer = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.btnAddAlg = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnAccept = new System.Windows.Forms.Button();
@@ -48,7 +49,6 @@
             this.AlgDataGrid = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.txtemail = new System.Windows.Forms.TextBox();
-            this.btnDelete = new System.Windows.Forms.Button();
             splAlg = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(splAlg)).BeginInit();
             splAlg.Panel1.SuspendLayout();
@@ -74,7 +74,7 @@
             // splAlg.Panel2
             // 
             splAlg.Panel2.Controls.Add(this.panel1);
-            splAlg.Size = new System.Drawing.Size(170, 228);
+            splAlg.Size = new System.Drawing.Size(183, 228);
             splAlg.SplitterDistance = 199;
             splAlg.SplitterWidth = 1;
             splAlg.TabIndex = 0;
@@ -85,7 +85,7 @@
             this.algContainer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.algContainer.Location = new System.Drawing.Point(3, 0);
             this.algContainer.Name = "algContainer";
-            this.algContainer.Size = new System.Drawing.Size(164, 198);
+            this.algContainer.Size = new System.Drawing.Size(172, 198);
             this.algContainer.TabIndex = 0;
             this.algContainer.WrapContents = false;
             // 
@@ -96,8 +96,18 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(170, 40);
+            this.panel1.Size = new System.Drawing.Size(183, 40);
             this.panel1.TabIndex = 0;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(90, 3);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(85, 23);
+            this.btnDelete.TabIndex = 1;
+            this.btnDelete.Text = "Eliminar";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnAddAlg
             // 
@@ -220,9 +230,9 @@
             // GpxAlg
             // 
             this.GpxAlg.Controls.Add(splAlg);
-            this.GpxAlg.Location = new System.Drawing.Point(492, 130);
+            this.GpxAlg.Location = new System.Drawing.Point(670, 69);
             this.GpxAlg.Name = "GpxAlg";
-            this.GpxAlg.Size = new System.Drawing.Size(176, 247);
+            this.GpxAlg.Size = new System.Drawing.Size(189, 247);
             this.GpxAlg.TabIndex = 47;
             this.GpxAlg.TabStop = false;
             this.GpxAlg.Text = "Añadir alergias";
@@ -239,14 +249,14 @@
             this.AlgDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.AlgDataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.AlgDataGrid.GridColor = System.Drawing.SystemColors.AppWorkspace;
-            this.AlgDataGrid.Location = new System.Drawing.Point(457, 12);
+            this.AlgDataGrid.Location = new System.Drawing.Point(440, 12);
             this.AlgDataGrid.MultiSelect = false;
             this.AlgDataGrid.Name = "AlgDataGrid";
             this.AlgDataGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.AlgDataGrid.RowHeadersVisible = false;
             this.AlgDataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.AlgDataGrid.ShowEditingIcon = false;
-            this.AlgDataGrid.Size = new System.Drawing.Size(227, 95);
+            this.AlgDataGrid.Size = new System.Drawing.Size(227, 313);
             this.AlgDataGrid.TabIndex = 48;
             this.AlgDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.AlgDataGrid_CellContentClick);
             // 
@@ -266,21 +276,11 @@
             this.txtemail.Size = new System.Drawing.Size(287, 20);
             this.txtemail.TabIndex = 49;
             // 
-            // btnDelete
-            // 
-            this.btnDelete.Location = new System.Drawing.Point(85, 3);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(85, 23);
-            this.btnDelete.TabIndex = 1;
-            this.btnDelete.Text = "Eliminar";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
             // ModifyUserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(696, 405);
+            this.ClientSize = new System.Drawing.Size(868, 405);
             this.ControlBox = false;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtemail);
@@ -298,6 +298,7 @@
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.txtFApl);
             this.Controls.Add(this.txtName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "ModifyUserForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Modificar usuario";
