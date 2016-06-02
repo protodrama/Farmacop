@@ -39,6 +39,12 @@ namespace Farmacop
         string GetUserAlgURL = "https://jfrodriguez.pw/slimrest/api/GetUserAlg";
         string UpdateAUserURL = "https://jfrodriguez.pw/slimrest/api/UpdateAUser";
         string DeleteAlgURL = "https://jfrodriguez.pw/slimrest/api/DeleteAlg";
+        string GetAllPrescriptionsURL = "https://jfrodriguez.pw/slimrest/api/GetAllPrescriptions";
+        string GetPrescriptionControlsURL = "https://jfrodriguez.pw/slimrest/api/GetControlFromPrescription";
+        string CheckBeforeInsertPrescriptionURL = "https://jfrodriguez.pw/slimrest/api/CheckBeforeInserPresc";
+        string AddPrescriptionURL = "https://jfrodriguez.pw/slimrest/api/AddPrescription";
+        string AddTimeURL = "https://jfrodriguez.pw/slimrest/api/AddPrescTime"; 
+        string GetPrescriptionIDURL = "https://jfrodriguez.pw/slimrest/api/GetPrescriptionID";
 
 
         string defApikey = "eadmghacdg";
@@ -875,6 +881,7 @@ namespace Farmacop
             }
         }
 
+        //Obtiene las alergias de un usuario
         public string GetUserAlg(string account)
         {
             Session.GettingData = true;
@@ -1122,62 +1129,91 @@ namespace Farmacop
         #endregion
 
         #region Recetas
-        public List<Prescription> GetAllRecepies()
+        public string GetAllPrescriptions()
         {
             Session.GettingData = true;
-            List<Prescription> Recepies = new List<Prescription>();
-            string sql = "select re.ID,re.Paciente,re.Medico,re.FechaInic,re.FechaFin,me.Nombre as Medicamento,re.Dosis from Recetas as re " + 
-                " left join Medicamentos as me on re.ID_Medicamento = me.ID";
-
-            MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
-            MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
-
-            if (DataReader.HasRows)  //Si tiene filas lee el contenido y devuelve las credenciales
-                while (DataReader.Read())
-                {
-                    try
-                    {
-                        Recepies.Add(new Prescription(int.Parse(DataReader["ID"].ToString()), DataReader["Paciente"].ToString(), DataReader["Medico"].ToString(),
-                            DateTime.Parse(DataReader["FechaInic"].ToString()).ToShortDateString(), DateTime.Parse(DataReader["FechaFin"].ToString()).ToShortDateString(),
-                            DataReader["Medicamento"].ToString(), int.Parse(DataReader["Dosis"].ToString())));
-                    }
-                    catch (Exception e) { throw new Exception("Error al obtener las recetas."); }
-                }
-
-            DataReader.Close();
-
-            foreach (Prescription temp in Recepies)
+            try
             {
-                temp.SetRControl(GetAllRecControl(temp.getId()));
-                temp.SetTimes(GetAllHours(temp.getId()));
+                var builder = new UriBuilder(GetAllPrescriptionsURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = Session.Account;
+                query["apikey"] = Session.Apikey;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
+
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                Session.GettingData = false;
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            Session.GettingData = false;
+                            throw new Exception();
+                        }
+                    }
+                }
             }
-            Session.GettingData = false;
-            return Recepies;
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error obteniendo las recetas");
+            }
         }
 
-        public List<Taken> GetAllRecControl(int idRec)
+        public string GetAllRecControl(int idRec)
         {
             Session.GettingData = true;
-            List<Taken> RControl = new List<Taken>();
-            string sql = "select Fecha,Hora,Minuto,Tomada from Rec_Control where ID_Receta = " + idRec;
+            try
+            {
+                var builder = new UriBuilder(GetPrescriptionControlsURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = Session.Account;
+                query["apikey"] = Session.Apikey;
+                query["id"] = "" + idRec;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
 
-            MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
-            MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
-
-            if (DataReader.HasRows)  //Si tiene filas lee el contenido y devuelve las credenciales
-                while (DataReader.Read())
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
                 {
-                    try
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
                     {
-                        RControl.Add(new Taken(DateTime.Parse(DataReader["Fecha"].ToString()).ToShortDateString(), int.Parse(DataReader["Hora"].ToString()).ToString("00") + ":" + int.Parse(DataReader["Minuto"].ToString()).ToString("00"), DataReader["Tomada"].ToString().Equals("1")));
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                Session.GettingData = false;
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            Session.GettingData = false;
+                            throw new Exception();
+                        }
                     }
-                    catch (Exception e) { throw new Exception("Error al conectar al servidor."); }
                 }
-
-            DataReader.Close();
-
-            Session.GettingData = false;
-            return RControl;
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error obteniendo las recetas");
+            }
         }
 
         public List<string> GetAllHours(int idRec)
@@ -1231,79 +1267,179 @@ namespace Farmacop
             return qrr > 0;
         }
 
-        public bool AddRecepie(string patient, string medic, string medicament, string FIni, string FEnd, string Amm,List<string> Time)
+        public string CheckBeforeAddPresciption(string patient, string medicament, string FInic)
+        {
+            try
+            {
+                var builder = new UriBuilder(CheckBeforeInsertPrescriptionURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = Session.Account;
+                query["apikey"] = Session.Apikey;
+                query["patient"] = patient;
+                query["med"] = medicament;
+                query["fstart"] = FInic;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
+
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                Session.GettingData = false;
+                                return result;
+                            }
+                        }
+                        else
+                        {
+                            Session.GettingData = false;
+                            throw new Exception();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public bool AddRecepie(string patient, string medic, string medicament, string FIni, string FEnd, string Amm, List<string> Time)
         {
             Session.GettingData = true;
-            string fInicFormat = DateTime.Parse(FIni).ToString("yyyy-MM-dd");
-            string fEndFormat = DateTime.Parse(FEnd).ToString("yyyy-MM-dd");
-            string sqlCheck = "select * from Recetas where Paciente like '" + patient +
-                "' and ID_Medicamento = (select ID from Medicamentos where Nombre like '" + medicament + "') and FechaFin >= '" + fInicFormat + "'";
-            MySqlCommand comCheck = new MySqlCommand(sqlCheck, conexion);
-            MySqlDataReader rows = comCheck.ExecuteReader();
-
-            if (!rows.HasRows)
+            try
             {
-                rows.Close();
-                string sql = "insert into Recetas (Paciente,Medico,FechaInic,FechaFin,ID_Medicamento,Dosis) values ('" + patient + "','" + medic + "','" + fInicFormat +
-                    "','" + fEndFormat + "', (select ID from Medicamentos where Nombre like '" + medicament + "')," + Amm + ")";
-                MySqlCommand com = new MySqlCommand(sql, conexion);
-                int qr = com.ExecuteNonQuery();
-
-                if (qr > 0)
+                string fstartformated = DateTime.Parse(FIni).ToString("yyyy-MM-dd");
+                string fendformated = DateTime.Parse(FEnd).ToString("yyyy-MM-dd");
+                var postData = new List<KeyValuePair<string, string>>();
+                postData.Add(new KeyValuePair<string, string>("account", Session.Account));
+                postData.Add(new KeyValuePair<string, string>("apikey", Session.Apikey));
+                postData.Add(new KeyValuePair<string, string>("patient", patient));
+                postData.Add(new KeyValuePair<string, string>("medic", medic));
+                postData.Add(new KeyValuePair<string, string>("med", medicament));
+                postData.Add(new KeyValuePair<string, string>("finic", fstartformated));
+                postData.Add(new KeyValuePair<string, string>("fend", fendformated));
+                postData.Add(new KeyValuePair<string, string>("Amm", Amm));            
+                HttpContent content = new FormUrlEncodedContent(postData);
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
                 {
-                    int ID = getRecepieID(patient, Session.Account, medicament, fInicFormat, fEndFormat);
-                    string hours = string.Empty;
-                    foreach (string tmp in Time)
+                    HttpResponseMessage response = client.PostAsync(AddPrescriptionURL, content).Result;
+                    
+                    if (response.IsSuccessStatusCode)
                     {
-                        hours += "[**]" + tmp;
-                        InsertHour(ID, tmp.Split(':')[0], tmp.Split(':')[1]);
+                        string hours = string.Empty;
+                        int ID = getPrescriptionID(patient, medic, medicament, fstartformated, fendformated);
+                        foreach (string tmp in Time)
+                        {
+                            hours += "[**]" + tmp;
+                            InsertHour(ID, tmp.Split(':')[0], tmp.Split(':')[1]);
+                        }
+                        string msg = "Se ha añadido una nueva receta para usted.[**]-Medicamento: " + medicament +
+                            "[**]-Dosis: " + Amm + "[**]-Fecha de inicio: " + FIni + "[**]-Fecha fin: " + FEnd + "[**]-Horario de tomas diarias:" + hours;
+
+                        InsertMsg(patient, "Nueva receta", msg);
+                        Session.GettingData = false;
+                        return true;
                     }
-                    string msg = "Se ha añadido una nueva receta para usted.[**]-Medicamento: " + medicament +
-                        "[**]-Dosis: " + Amm + "[**]-Fecha de inicio: " + FIni + "[**]-Fecha fin: " + FEnd + "[**]-Horario de tomas diarias:" + hours;
-
-                    InsertMsg(patient, "Nueva receta", msg);
-                    //Session.SendEmail("Receta", msg.Replace("[**]", "\r\n"), GetUserEmail(patient));
-                    Session.GettingData = false;
-                    return true;
+                    else
+                    {
+                        Session.GettingData = false;
+                        return false;
+                    }
                 }
-                else
-                {
-                    Session.GettingData = false;
-                    return false;
-                }
-            
             }
-            else
+            catch (Exception ex)
             {
-                rows.Close();
                 Session.GettingData = false;
-                throw new Exception("Ya existe una receta activa para ese usuario con el medicamento indicado en la fecha de inicio asignada");
+                throw new Exception("Error al añadir el nuevo usuario");
             }
 
+            
+            //Session.SendEmail("Receta", msg.Replace("[**]", "\r\n"), GetUserEmail(patient));
         }
 
-        public int getRecepieID(string patient,string medic,string medicament,string FIni,string FEnd)
+        public int getPrescriptionID(string patient,string medic,string medicament,string FIni,string FEnd)
         {
-            string sqlCheck = "select ID from Recetas where Paciente like '" + patient +
-                "' and ID_Medicamento = (select ID from Medicamentos where Nombre like '" + medicament + "') and FechaInic = '" + FIni
-                + "' and FechaFin = '" + FEnd + "'";
-            MySqlCommand comCheck = new MySqlCommand(sqlCheck, conexion);
-            MySqlDataReader rows = comCheck.ExecuteReader();
-            if (rows.Read())
+            try
             {
-                int Id = int.Parse(rows["ID"].ToString());
-                rows.Close();
-                return Id;
+                var builder = new UriBuilder(GetPrescriptionIDURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = Session.Account;
+                query["apikey"] = Session.Apikey;
+                query["patient"] = patient;
+                query["medic"] = medic;
+                query["med"] = medicament;
+                query["finic"] = FIni;
+                query["fend"] = FEnd;
+                builder.Query = query.ToString();
+                string url = builder.ToString();
+
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            using (HttpContent content = response.Content)
+                            {
+                                string result = content.ReadAsStringAsync().Result;
+                                JObject jobject = JObject.Parse(result);
+                                JToken jdata = jobject["data"];
+                                int temp = int.Parse(jdata[0]["ID"].ToString());
+                                return temp;
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception();
+                        }
+                    }
+                }
             }
-            return 0;
+            catch (Exception ex)
+            {
+                throw;
+            }
+
 
         }
 
-        public void InsertHour(int ID,string hour,string min)
+        public void InsertHour(int ID, string hour, string min)
         {
-            string sql = "insert into Horas values (" + ID + ",'"+ hour+"','" + min +"')";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qr = cmd.ExecuteNonQuery();
+            Session.GettingData = true;
+
+            var postData = new List<KeyValuePair<string, string>>();
+            postData.Add(new KeyValuePair<string, string>("account", Session.Account));
+            postData.Add(new KeyValuePair<string, string>("apikey", Session.Apikey));
+            postData.Add(new KeyValuePair<string, string>("idpresc", "" + ID));
+            postData.Add(new KeyValuePair<string, string>("hour", hour));
+            postData.Add(new KeyValuePair<string, string>("time", min));
+            HttpContent content = new FormUrlEncodedContent(postData);
+            HttpClient client = new HttpClient();
+            client.Timeout = new TimeSpan(0, 0, 10);
+            using (client)
+            {
+                HttpResponseMessage response = client.PostAsync(AddTimeURL, content).Result;
+                Session.GettingData = false;
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception();
+
+                }
+            }
+
         }
 
         public void DeletetHour(int ID, string hour, string min)

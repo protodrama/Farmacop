@@ -5,17 +5,17 @@ using System.Text;
 
 namespace Farmacop
 {
-    public class Taken
+    public class RecControl
     {
         private string _fecha;
         private string _hora;
         private string tomada;
 
-        public Taken(string fecha, string hora, bool tomada)
+        public RecControl(string date, string time, bool done)
         {
-            Fecha = fecha;
-            Hora = hora;
-            if (tomada)
+            Fecha = date;
+            Hora = time;
+            if (done)
                 Tomada = "SI";
             else
                 Tomada = "NO";

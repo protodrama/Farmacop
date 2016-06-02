@@ -84,7 +84,7 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(256, 294);
+            this.btnClose.Location = new System.Drawing.Point(249, 440);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 9;
@@ -94,7 +94,7 @@
             // 
             // btnSendMsg
             // 
-            this.btnSendMsg.Location = new System.Drawing.Point(101, 294);
+            this.btnSendMsg.Location = new System.Drawing.Point(94, 440);
             this.btnSendMsg.Name = "btnSendMsg";
             this.btnSendMsg.Size = new System.Drawing.Size(107, 23);
             this.btnSendMsg.TabIndex = 8;
@@ -122,14 +122,14 @@
             this.TakenGridView.RowHeadersVisible = false;
             this.TakenGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.TakenGridView.ShowEditingIcon = false;
-            this.TakenGridView.Size = new System.Drawing.Size(321, 157);
+            this.TakenGridView.Size = new System.Drawing.Size(321, 312);
             this.TakenGridView.TabIndex = 15;
             // 
             // FormControls
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(445, 353);
+            this.ClientSize = new System.Drawing.Size(445, 493);
             this.ControlBox = false;
             this.Controls.Add(this.TakenGridView);
             this.Controls.Add(this.txtMedic);

@@ -1,6 +1,6 @@
 ﻿namespace Farmacop
 {
-    partial class AddRecepie
+    partial class AddPrescription
     {
         /// <summary>
         /// Required designer variable.
@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.SplitContainer splAlg;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddRecepie));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddPrescription));
             this.TimeContainer = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.btnAddAlg = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -48,7 +49,6 @@
             this.btnAddMed = new System.Windows.Forms.Button();
             this.cbbxMed = new System.Windows.Forms.ComboBox();
             this.lblMed = new System.Windows.Forms.Label();
-            this.btnDelete = new System.Windows.Forms.Button();
             splAlg = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(splAlg)).BeginInit();
             splAlg.Panel1.SuspendLayout();
@@ -74,8 +74,8 @@
             // splAlg.Panel2
             // 
             splAlg.Panel2.Controls.Add(this.panel1);
-            splAlg.Size = new System.Drawing.Size(170, 176);
-            splAlg.SplitterDistance = 136;
+            splAlg.Size = new System.Drawing.Size(170, 216);
+            splAlg.SplitterDistance = 166;
             splAlg.SplitterWidth = 1;
             splAlg.TabIndex = 0;
             // 
@@ -85,7 +85,7 @@
             this.TimeContainer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.TimeContainer.Location = new System.Drawing.Point(3, 0);
             this.TimeContainer.Name = "TimeContainer";
-            this.TimeContainer.Size = new System.Drawing.Size(164, 134);
+            this.TimeContainer.Size = new System.Drawing.Size(164, 163);
             this.TimeContainer.TabIndex = 0;
             this.TimeContainer.WrapContents = false;
             // 
@@ -98,6 +98,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(170, 39);
             this.panel1.TabIndex = 0;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(85, 3);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(82, 23);
+            this.btnDelete.TabIndex = 5;
+            this.btnDelete.Text = "Eliminar";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnAddAlg
             // 
@@ -172,7 +182,7 @@
             this.GpxTime.Controls.Add(splAlg);
             this.GpxTime.Location = new System.Drawing.Point(391, 22);
             this.GpxTime.Name = "GpxTime";
-            this.GpxTime.Size = new System.Drawing.Size(176, 195);
+            this.GpxTime.Size = new System.Drawing.Size(176, 235);
             this.GpxTime.TabIndex = 48;
             this.GpxTime.TabStop = false;
             this.GpxTime.Text = "Hora de tomas";
@@ -257,16 +267,6 @@
             this.lblMed.TabIndex = 0;
             this.lblMed.Text = "Medicamento:";
             // 
-            // btnDelete
-            // 
-            this.btnDelete.Location = new System.Drawing.Point(85, 3);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(82, 23);
-            this.btnDelete.TabIndex = 5;
-            this.btnDelete.Text = "Eliminar";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
             // AddRecepie
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -278,6 +278,7 @@
             this.Controls.Add(this.lblUserName);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnAdd);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddRecepie";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

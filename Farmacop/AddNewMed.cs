@@ -35,7 +35,7 @@ namespace Farmacop
                     }
                     cbbxType.Text = "";
                     txtNewMedNm.Text = "";
-
+                    MessageBox.Show("El medicamento ya existe.");
                 }
                 else
                     MessageBox.Show("Debes introducir los datos del medicamento");

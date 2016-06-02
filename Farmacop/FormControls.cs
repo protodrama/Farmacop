@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +13,7 @@ namespace Farmacop
     public partial class FormControls : Form
     {
         Prescription RecToShow;
-        List<Taken> TakenShowing = new List<Taken>();
+        List<RecControl> TakenShowing = new List<RecControl>();
 
         public FormControls()
         {
@@ -22,15 +23,34 @@ namespace Farmacop
         public FormControls(Prescription recepie)
         {
             InitializeComponent();
-            RecToShow = recepie;
-            foreach(Taken temp in RecToShow.GetControl())
+            try
             {
-                if (DateTime.Parse(temp.Fecha) <= DateTime.Now)
-                    TakenShowing.Add(temp);
+                RecToShow = recepie;
+                txtPatient.Text = RecToShow.Paciente;
+                txtMedic.Text = RecToShow.Medicamento + " " + RecToShow.Dosis + " mg";
+                RecToShow.SetRControl(ReadControlData(Session.DBConnection.GetAllRecControl(RecToShow.getId())));
+                TakenGridView.DataSource = RecToShow.GetControl();
             }
-            TakenGridView.DataSource = TakenShowing;
-            txtPatient.Text = RecToShow.Paciente;
-            txtMedic.Text = RecToShow.Medicamento;
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error al obtener el horario de tomas.");
+            }
+        }
+
+        public List<RecControl> ReadControlData(string data)
+        {
+            List<RecControl> thelist = new List<RecControl>();
+            JObject jobject = JObject.Parse(data);
+            JToken jdata = jobject["data"];
+
+            for (int i = 0; i < jdata.Count<JToken>(); i++)
+            {
+                RecControl rtemp = new RecControl(DateTime.Parse(jdata[i]["Fecha"].ToString()).ToShortDateString(), int.Parse(jdata[i]["Hora"].ToString()).ToString("00") + ":"
+                    + int.Parse(jdata[i]["Minuto"].ToString()).ToString("00"), int.Parse(jdata[i]["Tomada"].ToString()) == 1);
+                thelist.Add(rtemp);
+            }
+
+            return thelist;
         }
 
         private void btnClose_Click(object sender, EventArgs e)

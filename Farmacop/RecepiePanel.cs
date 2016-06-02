@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Newtonsoft.Json.Linq;
 
 namespace Farmacop
 {
@@ -27,11 +28,12 @@ namespace Farmacop
         {
             RecGridView.DataSource = null;
             RecepiesShowing.Clear();
-            Session.Recepies = Session.DBConnection.GetAllRecepies();
-            RecepiesShowing.AddRange(Session.Recepies.ToArray());
-            RecGridView.DataSource = RecepiesShowing;
             try
             {
+                Session.Recepies = ReadPrescData(Session.DBConnection.GetAllPrescriptions());
+                RecepiesShowing.AddRange(Session.Recepies.ToArray());
+                RecGridView.DataSource = RecepiesShowing;
+            
                 RecGridView.Columns.Remove(BtnModColumn);
                 RecGridView.Columns.Remove(BtnShowColumn);
                 RecGridView.Columns.Remove(BtnDeleteColumn);
@@ -41,9 +43,26 @@ namespace Farmacop
                 BtnDeleteColumn = null;
                 SetTableSize();
             }
-            catch(Exception e) { }
-            
-            
+            catch(Exception e) {
+                MessageBox.Show("Error al obtener los datos de las recetas.");
+            }
+        }
+
+        public List<Prescription> ReadPrescData(string data)
+        {
+            List<Prescription> thelist = new List<Prescription>();
+            JObject jobject = JObject.Parse(data);
+            JToken jdata = jobject["data"];
+
+            for (int i = 0; i < jdata.Count<JToken>(); i++)
+            {
+                Prescription ptemp = new Prescription(int.Parse(jdata[i]["ID"].ToString()), jdata[i]["Paciente"].ToString(), jdata[i]["Medico"].ToString(),
+                    DateTime.Parse(jdata[i]["FechaInic"].ToString()).ToShortDateString(), DateTime.Parse(jdata[i]["FechaFin"].ToString()).ToShortDateString(),
+                    jdata[i]["Medicamento"].ToString(), int.Parse(jdata[i]["Dosis"].ToString()));
+                thelist.Add(ptemp);
+            }
+
+            return thelist;
         }
 
         public void SetTableSize()
@@ -125,24 +144,31 @@ namespace Farmacop
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
-            Session.Recepies = Session.DBConnection.GetAllRecepies();
-            List<Prescription> filtered = new List<Prescription>();
-
-            foreach(Prescription temp in Session.Recepies)
+            try
             {
-                if(temp.Paciente.ToLower().Contains(txtPatient.Text.ToLower()) && temp.Medico.ToLower().Contains(txtMedic.Text.ToLower()) && temp.Medicamento.ToLower().Contains(txtMedicament.Text.ToLower()))
-                {
-                    filtered.Add(temp);
-                }
-            }
+                Session.Recepies = ReadPrescData(Session.DBConnection.GetAllPrescriptions());
+                List<Prescription> filtered = new List<Prescription>();
 
-            RecGridView.DataSource = filtered;
-            RecepiesShowing = filtered;
+                foreach (Prescription temp in Session.Recepies)
+                {
+                    if (temp.Paciente.ToLower().Contains(txtPatient.Text.ToLower()) && temp.Medico.ToLower().Contains(txtMedic.Text.ToLower()) && temp.Medicamento.ToLower().Contains(txtMedicament.Text.ToLower()))
+                    {
+                        filtered.Add(temp);
+                    }
+                }
+
+                RecGridView.DataSource = filtered;
+                RecepiesShowing = filtered;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error al obtener los datos de las recetas.");
+            }
         }
 
         private void AddRecep_Click(object sender, EventArgs e)
         {
-            new AddRecepie().ShowDialog();
+            new AddPrescription().ShowDialog();
             GetData();
         }
     }

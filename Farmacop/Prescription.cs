@@ -14,18 +14,18 @@ namespace Farmacop
         private string _fechaFin;
         private string _medicamento;
         private int _dosis;
-        private List<Taken> _tomas;
+        private List<RecControl> _tomas;
         private List<string> _horas;
 
-        public Prescription(int id, string paciente, string medico, string fechaInicio, string fechaFin, string medicamento, int dosis)
+        public Prescription(int id, string patient, string medic, string startdate, string enddate, string medicament, int ammount)
         {
             Id = id;
-            Paciente = paciente;
-            Medico = medico;
-            FechaInicio = fechaInicio;
-            FechaFin = fechaFin;
-            Medicamento = medicamento;
-            Dosis = dosis;
+            Paciente = patient;
+            Medico = medic;
+            FechaInicio = startdate;
+            FechaFin = enddate;
+            Medicamento = medicament;
+            Dosis = ammount;
         }
 
         private int Id
@@ -119,7 +119,7 @@ namespace Farmacop
             }
         }
 
-        private List<Taken> Tomas
+        private List<RecControl> Tomas
         {
             get
             {
@@ -145,12 +145,12 @@ namespace Farmacop
             }
         }
 
-        public void SetRControl(List<Taken> taken)
+        public void SetRControl(List<RecControl> taken)
         {
             this.Tomas = taken;
         }
 
-        public List<Taken> GetControl()
+        public List<RecControl> GetControl()
         {
             return Tomas;
         }

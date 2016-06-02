@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace Farmacop
 {
-    public partial class AddRecepie : Form
+    public partial class AddPrescription : Form
     {
         List<string> Users;
         List<RecepieTimeSelect> ListTime = new List<RecepieTimeSelect>();
         MonthCalendar mCalendar;
         bool FInic = true;
 
-        public AddRecepie()
+        public AddPrescription()
         {
             InitializeComponent();
             GetData();
@@ -111,17 +111,30 @@ namespace Farmacop
                         this.Cursor = Cursors.AppStarting;
                         try
                         {
-                            if (Session.DBConnection.AddRecepie(txtTargetUser.Text, Session.Account, cbbxMed.Text, txtFInic.Text, txtFEnd.Text, txtDs.Text, time))
+                            if (!CheckRecepies(Session.DBConnection.CheckBeforeAddPresciption(txtTargetUser.Text, cbbxMed.Text, DateTime.Parse(txtFInic.Text).ToString("yyyy-MM-dd"))))
+                            {
+                                if (Session.DBConnection.AddRecepie(txtTargetUser.Text, Session.Account, cbbxMed.Text, txtFInic.Text, txtFEnd.Text, txtDs.Text, time))
+                                {
+                                    this.Cursor = Cursors.Default;
+                                    MessageBox.Show("Receta añadida correctamente");
+                                    this.Close();
+                                }
+                                else
+                                {
+                                    this.Cursor = Cursors.Default;
+                                    MessageBox.Show("Error al añadir la receta.");
+                                }
+                            }
+                            else
                             {
                                 this.Cursor = Cursors.Default;
-                                MessageBox.Show("Receta añadida correctamente");
-                                this.Close();
+                                MessageBox.Show("El paciente ya tiene una receta con el medicamento indicado activa actualmente.");
                             }
                         }
                         catch (Exception ex)
                         {
                             this.Cursor = Cursors.Default;
-                            MessageBox.Show(ex.Message);
+                            MessageBox.Show("Error al añadir la receta.");
                         }
                     }
                 }
@@ -130,6 +143,15 @@ namespace Farmacop
             }
             else
                 MessageBox.Show("Debes indicar un valor para todos los campos");
+        }
+
+        public bool CheckRecepies(string data)
+        {
+            JObject jobject = JObject.Parse(data);
+            JToken jdata = jobject["data"];
+            int temp = int.Parse(jdata[0]["count(*)"].ToString());       
+
+            return temp > 0;
         }
 
         public List<string> ReadAlg(string data)
