@@ -44,8 +44,8 @@ namespace Farmacop
         string CheckBeforeInsertPrescriptionURL = "https://jfrodriguez.pw/slimrest/api/CheckBeforeInserPresc";
         string AddPrescriptionURL = "https://jfrodriguez.pw/slimrest/api/AddPrescription";
         string AddTimeURL = "https://jfrodriguez.pw/slimrest/api/AddPrescTime"; 
-        string GetPrescriptionIDURL = "https://jfrodriguez.pw/slimrest/api/GetPrescriptionID";
-
+        string GetPrescriptionIDURL = "https://jfrodriguez.pw/slimrest/api/GetPrescriptionID"; 
+        string DeletePrescriptionURL = "https://jfrodriguez.pw/slimrest/api/DeletePrescription";
 
         string defApikey = "eadmghacdg";
 
@@ -1243,28 +1243,43 @@ namespace Farmacop
         public bool DeleteRecepie(Prescription recepie)
         {
             Session.GettingData = true;
-            string sqlc = "delete from Rec_Control where ID_Receta = " + recepie.getId();
-            MySqlCommand cmdc = new MySqlCommand(sqlc, conexion);
-            int qr = cmdc.ExecuteNonQuery();
-
-            string sqlh = "delete from Horas where ID_Receta = " + recepie.getId();
-            MySqlCommand cmdh = new MySqlCommand(sqlh, conexion);
-            int qrh = cmdh.ExecuteNonQuery();
-
-            string sql = "delete from Recetas where ID = " + recepie.getId();
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            int qrr = cmd.ExecuteNonQuery();
-
-            if (qrr > 0)
+            try
             {
-                InsertMsg(recepie.Paciente, "Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + recepie.Medicamento + " que comenzaba el día " + recepie.FechaInicio +
-                    " y terminaba el día " + recepie.FechaFin);
+                var builder = new UriBuilder(DeletePrescriptionURL);
+                builder.Port = -1;
+                var query = HttpUtility.ParseQueryString(builder.Query);
+                query["account"] = Session.Account;
+                query["apikey"] = Session.Apikey;
+                query["id"] = "" + recepie.getId();
+                builder.Query = query.ToString();
+                string url = builder.ToString();
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    using (HttpResponseMessage response = client.DeleteAsync(url).Result)
+                    {
+                        Session.GettingData = false;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            InsertMsg(recepie.Paciente, "Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + recepie.Medicamento + " que comenzaba el día " + recepie.FechaInicio +
+                                " y terminaba el día " + recepie.FechaFin);
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al añadir el nuevo medicamento");
+            }
                 //Session.SendEmail("Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + recepie.Medicamento + " que comenzaba el día " + recepie.FechaInicio +
                   //  " y terminaba el día " + recepie.FechaFin, GetUserEmail(recepie.Paciente));
-            }
-
-            Session.GettingData = false;
-            return qrr > 0;
         }
 
         public string CheckBeforeAddPresciption(string patient, string medicament, string FInic)
