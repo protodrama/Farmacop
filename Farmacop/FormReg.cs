@@ -88,6 +88,7 @@ namespace Farmacop
             catch (Exception e)
             {
                 MessageBox.Show("Error al comprobar cuentas");
+                this.Close();
             }
         }
 

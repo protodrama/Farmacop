@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace Farmacop
 {
-    public partial class RecepieTimeSelect : UserControl
+    public partial class PrescTimeSelect : UserControl
     {
-        public RecepieTimeSelect()
+        public PrescTimeSelect()
         {
             InitializeComponent();
             FillMins();

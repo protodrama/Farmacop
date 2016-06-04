@@ -32,7 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModPrescriptionForm));
             this.TimeContainer = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnAddAlg = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnAddTime = new System.Windows.Forms.Button();
             this.lblUserName = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnMod = new System.Windows.Forms.Button();
@@ -43,13 +44,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lblFInic = new System.Windows.Forms.Label();
-            this.btnAddMed = new System.Windows.Forms.Button();
-            this.cbbxMed = new System.Windows.Forms.ComboBox();
             this.lblMed = new System.Windows.Forms.Label();
             this.TimeDataGrid = new System.Windows.Forms.DataGridView();
             this.txtPatName = new System.Windows.Forms.Label();
             this.lblTableTittle = new System.Windows.Forms.Label();
-            this.btnDelete = new System.Windows.Forms.Button();
+            this.lblmedicament = new System.Windows.Forms.Label();
             splAlg = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(splAlg)).BeginInit();
             splAlg.Panel1.SuspendLayout();
@@ -75,8 +74,8 @@
             // splAlg.Panel2
             // 
             splAlg.Panel2.Controls.Add(this.panel1);
-            splAlg.Size = new System.Drawing.Size(170, 176);
-            splAlg.SplitterDistance = 136;
+            splAlg.Size = new System.Drawing.Size(170, 307);
+            splAlg.SplitterDistance = 259;
             splAlg.SplitterWidth = 1;
             splAlg.TabIndex = 0;
             // 
@@ -86,29 +85,39 @@
             this.TimeContainer.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.TimeContainer.Location = new System.Drawing.Point(3, 0);
             this.TimeContainer.Name = "TimeContainer";
-            this.TimeContainer.Size = new System.Drawing.Size(164, 134);
+            this.TimeContainer.Size = new System.Drawing.Size(164, 256);
             this.TimeContainer.TabIndex = 0;
             this.TimeContainer.WrapContents = false;
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.btnDelete);
-            this.panel1.Controls.Add(this.btnAddAlg);
+            this.panel1.Controls.Add(this.btnAddTime);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(170, 39);
+            this.panel1.Size = new System.Drawing.Size(170, 33);
             this.panel1.TabIndex = 0;
             // 
-            // btnAddAlg
+            // btnDelete
             // 
-            this.btnAddAlg.Location = new System.Drawing.Point(3, 3);
-            this.btnAddAlg.Name = "btnAddAlg";
-            this.btnAddAlg.Size = new System.Drawing.Size(83, 23);
-            this.btnAddAlg.TabIndex = 5;
-            this.btnAddAlg.Text = "Agregar";
-            this.btnAddAlg.UseVisualStyleBackColor = true;
-            this.btnAddAlg.Click += new System.EventHandler(this.btnAddAlg_Click);
+            this.btnDelete.Location = new System.Drawing.Point(86, 3);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(81, 23);
+            this.btnDelete.TabIndex = 6;
+            this.btnDelete.Text = "Eliminar";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnAddTime
+            // 
+            this.btnAddTime.Location = new System.Drawing.Point(3, 3);
+            this.btnAddTime.Name = "btnAddTime";
+            this.btnAddTime.Size = new System.Drawing.Size(83, 23);
+            this.btnAddTime.TabIndex = 5;
+            this.btnAddTime.Text = "Agregar";
+            this.btnAddTime.UseVisualStyleBackColor = true;
+            this.btnAddTime.Click += new System.EventHandler(this.btnAddTime_Click);
             // 
             // lblUserName
             // 
@@ -142,9 +151,9 @@
             // GpxTime
             // 
             this.GpxTime.Controls.Add(splAlg);
-            this.GpxTime.Location = new System.Drawing.Point(443, 141);
+            this.GpxTime.Location = new System.Drawing.Point(521, 12);
             this.GpxTime.Name = "GpxTime";
-            this.GpxTime.Size = new System.Drawing.Size(176, 195);
+            this.GpxTime.Size = new System.Drawing.Size(176, 326);
             this.GpxTime.TabIndex = 58;
             this.GpxTime.TabStop = false;
             this.GpxTime.Text = "Nuevas horas";
@@ -155,15 +164,17 @@
             this.txtFEnd.Name = "txtFEnd";
             this.txtFEnd.Size = new System.Drawing.Size(100, 20);
             this.txtFEnd.TabIndex = 4;
+            this.txtFEnd.TabStop = false;
             this.txtFEnd.Enter += new System.EventHandler(this.txtFEnd_Enter);
             // 
             // txtFInic
             // 
-            this.txtFInic.Enabled = false;
             this.txtFInic.Location = new System.Drawing.Point(148, 163);
             this.txtFInic.Name = "txtFInic";
             this.txtFInic.Size = new System.Drawing.Size(100, 20);
             this.txtFInic.TabIndex = 2;
+            this.txtFInic.TabStop = false;
+            this.txtFInic.Enter += new System.EventHandler(this.txtFInic_Enter);
             // 
             // txtDs
             // 
@@ -201,25 +212,6 @@
             this.lblFInic.TabIndex = 52;
             this.lblFInic.Text = "Fecha de inicio:";
             // 
-            // btnAddMed
-            // 
-            this.btnAddMed.Location = new System.Drawing.Point(275, 76);
-            this.btnAddMed.Name = "btnAddMed";
-            this.btnAddMed.Size = new System.Drawing.Size(124, 23);
-            this.btnAddMed.TabIndex = 0;
-            this.btnAddMed.Text = "Nuevo medicamento";
-            this.btnAddMed.UseVisualStyleBackColor = true;
-            this.btnAddMed.Click += new System.EventHandler(this.btnAddMed_Click);
-            // 
-            // cbbxMed
-            // 
-            this.cbbxMed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbbxMed.FormattingEnabled = true;
-            this.cbbxMed.Location = new System.Drawing.Point(148, 76);
-            this.cbbxMed.Name = "cbbxMed";
-            this.cbbxMed.Size = new System.Drawing.Size(121, 21);
-            this.cbbxMed.TabIndex = 50;
-            // 
             // lblMed
             // 
             this.lblMed.AutoSize = true;
@@ -241,14 +233,14 @@
             this.TimeDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.TimeDataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.TimeDataGrid.GridColor = System.Drawing.SystemColors.AppWorkspace;
-            this.TimeDataGrid.Location = new System.Drawing.Point(428, 26);
+            this.TimeDataGrid.Location = new System.Drawing.Point(314, 24);
             this.TimeDataGrid.MultiSelect = false;
             this.TimeDataGrid.Name = "TimeDataGrid";
             this.TimeDataGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.TimeDataGrid.RowHeadersVisible = false;
             this.TimeDataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.TimeDataGrid.ShowEditingIcon = false;
-            this.TimeDataGrid.Size = new System.Drawing.Size(201, 111);
+            this.TimeDataGrid.Size = new System.Drawing.Size(201, 240);
             this.TimeDataGrid.TabIndex = 59;
             this.TimeDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.TimeDataGrid_CellContentClick);
             // 
@@ -264,28 +256,28 @@
             // lblTableTittle
             // 
             this.lblTableTittle.AutoSize = true;
-            this.lblTableTittle.Location = new System.Drawing.Point(446, 8);
+            this.lblTableTittle.Location = new System.Drawing.Point(332, 6);
             this.lblTableTittle.Name = "lblTableTittle";
             this.lblTableTittle.Size = new System.Drawing.Size(122, 13);
             this.lblTableTittle.TabIndex = 61;
             this.lblTableTittle.Text = "Horario de tomas actual:";
             // 
-            // btnDelete
+            // lblmedicament
             // 
-            this.btnDelete.Location = new System.Drawing.Point(86, 3);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(81, 23);
-            this.btnDelete.TabIndex = 6;
-            this.btnDelete.Text = "Eliminar";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            this.lblmedicament.AutoSize = true;
+            this.lblmedicament.Location = new System.Drawing.Point(148, 79);
+            this.lblmedicament.Name = "lblmedicament";
+            this.lblmedicament.Size = new System.Drawing.Size(16, 13);
+            this.lblmedicament.TabIndex = 62;
+            this.lblmedicament.Text = "...";
             // 
-            // ModRecepieForm
+            // ModPrescriptionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(670, 378);
+            this.ClientSize = new System.Drawing.Size(715, 378);
             this.ControlBox = false;
+            this.Controls.Add(this.lblmedicament);
             this.Controls.Add(this.lblTableTittle);
             this.Controls.Add(this.txtPatName);
             this.Controls.Add(this.TimeDataGrid);
@@ -296,15 +288,13 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblFInic);
-            this.Controls.Add(this.btnAddMed);
-            this.Controls.Add(this.cbbxMed);
             this.Controls.Add(this.lblMed);
             this.Controls.Add(this.lblUserName);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnMod);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "ModRecepieForm";
+            this.Name = "ModPrescriptionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Modidicar receta";
             splAlg.Panel1.ResumeLayout(false);
@@ -326,19 +316,18 @@
         private System.Windows.Forms.GroupBox GpxTime;
         private System.Windows.Forms.FlowLayoutPanel TimeContainer;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btnAddAlg;
+        private System.Windows.Forms.Button btnAddTime;
         private System.Windows.Forms.TextBox txtFEnd;
         private System.Windows.Forms.TextBox txtFInic;
         private System.Windows.Forms.TextBox txtDs;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblFInic;
-        private System.Windows.Forms.Button btnAddMed;
-        private System.Windows.Forms.ComboBox cbbxMed;
         private System.Windows.Forms.Label lblMed;
         private System.Windows.Forms.DataGridView TimeDataGrid;
         private System.Windows.Forms.Label txtPatName;
         private System.Windows.Forms.Label lblTableTittle;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Label lblmedicament;
     }
 }

@@ -19,7 +19,7 @@ namespace Farmacop
         MedPanel Medpanel;
         UsersPanel UserPanel;
         MessPanel MessagePanel;
-        RecepiePanel RecPanel;
+        PrescriptionPanel RecPanel;
         public event MyDelegate ExitPressed;
         delegate void ChangeText(int value);
         int sleep = 10000;
@@ -116,7 +116,7 @@ namespace Farmacop
                             break;
                         case "Recepies":
                             lblTitle.Text = "Recetas";
-                            RecPanel = new RecepiePanel();
+                            RecPanel = new PrescriptionPanel();
                             Panel2Containt.Controls.Clear();
                             Panel2Containt.Controls.Add(RecPanel);
                             break;

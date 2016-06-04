@@ -51,7 +51,10 @@ namespace Farmacop
                 };
                 AlgDataGrid.Columns.Add(BtnDeleteColumn);
             }
-            catch (Exception e) { }
+            catch (Exception e) {
+                MessageBox.Show("Error al cargar los datos del usuario");
+                this.Close();
+            }
         }
 
         public List<string> ReadAlg(string data)

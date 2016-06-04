@@ -1,6 +1,6 @@
 ﻿namespace Farmacop
 {
-    partial class RecepiePanel
+    partial class PrescriptionPanel
     {
         /// <summary> 
         /// Variable del diseñador necesaria.

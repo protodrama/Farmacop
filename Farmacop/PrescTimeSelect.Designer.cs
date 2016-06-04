@@ -1,6 +1,6 @@
 ﻿namespace Farmacop
 {
-    partial class RecepieTimeSelect
+    partial class PrescTimeSelect
     {
         /// <summary> 
         /// Variable del diseñador necesaria.

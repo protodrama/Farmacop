@@ -13,7 +13,7 @@ namespace Farmacop
     public partial class AddPrescription : Form
     {
         List<string> Users;
-        List<RecepieTimeSelect> ListTime = new List<RecepieTimeSelect>();
+        List<PrescTimeSelect> ListTime = new List<PrescTimeSelect>();
         MonthCalendar mCalendar;
         bool FInic = true;
 
@@ -34,7 +34,7 @@ namespace Farmacop
             txtTargetUser.AutoCompleteSource = AutoCompleteSource.CustomSource;
             txtTargetUser.AutoCompleteMode = AutoCompleteMode.Suggest;
             txtFInic.Text = DateTime.Now.ToShortDateString();
-            RecepieTimeSelect select = new RecepieTimeSelect();
+            PrescTimeSelect select = new PrescTimeSelect();
             ListTime.Add(select);
             TimeContainer.Controls.Add(select);
         }
@@ -96,47 +96,52 @@ namespace Farmacop
                 if (ds > 0)
                 {
                     List<string> time = new List<string>();
-                    foreach (RecepieTimeSelect temp in ListTime)
+                    foreach (PrescTimeSelect temp in ListTime)
                     {
                         if (!time.Contains(temp.Time))
                             time.Add(temp.Time);
                     }
-                    string hours = string.Empty;
-                    foreach (string tmp in time)
-                        hours += "\n" + tmp;
-                    string msg = @"¿Desea crear una receta para el usuario " + txtTargetUser.Text + "?\nMedicamento: " + cbbxMed.Text +
-                        "\nDosis: " + txtDs.Text + "\nFecha de inicio: " + txtFInic.Text + "\nFecha fin: " + txtFEnd.Text + "\nHorario de tomas:" + hours;
-                    if (DialogResult.Yes == MessageBox.Show(msg, "Creando receta", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+                    if (time.Count > 0)
                     {
-                        this.Cursor = Cursors.AppStarting;
-                        try
+                        string hours = string.Empty;
+                        foreach (string tmp in time)
+                            hours += "\n" + tmp;
+                        string msg = @"¿Desea crear una receta para el usuario " + txtTargetUser.Text + "?\nMedicamento: " + cbbxMed.Text +
+                            "\nDosis: " + txtDs.Text + "\nFecha de inicio: " + txtFInic.Text + "\nFecha fin: " + txtFEnd.Text + "\nHorario de tomas:" + hours;
+                        if (DialogResult.Yes == MessageBox.Show(msg, "Creando receta", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                         {
-                            if (!CheckRecepies(Session.DBConnection.CheckBeforeAddPresciption(txtTargetUser.Text, cbbxMed.Text, DateTime.Parse(txtFInic.Text).ToString("yyyy-MM-dd"))))
+                            this.Cursor = Cursors.AppStarting;
+                            try
                             {
-                                if (Session.DBConnection.AddRecepie(txtTargetUser.Text, Session.Account, cbbxMed.Text, txtFInic.Text, txtFEnd.Text, txtDs.Text, time))
+                                if (!CheckRecepies(Session.DBConnection.CheckBeforeAddPresciption(txtTargetUser.Text, cbbxMed.Text, DateTime.Parse(txtFInic.Text).ToString("yyyy-MM-dd"))))
                                 {
-                                    this.Cursor = Cursors.Default;
-                                    MessageBox.Show("Receta añadida correctamente");
-                                    this.Close();
+                                    if (Session.DBConnection.AddRecepie(txtTargetUser.Text, Session.Account, cbbxMed.Text, txtFInic.Text, txtFEnd.Text, txtDs.Text, time))
+                                    {
+                                        this.Cursor = Cursors.Default;
+                                        MessageBox.Show("Receta añadida correctamente");
+                                        this.Close();
+                                    }
+                                    else
+                                    {
+                                        this.Cursor = Cursors.Default;
+                                        MessageBox.Show("Error al añadir la receta.");
+                                    }
                                 }
                                 else
                                 {
                                     this.Cursor = Cursors.Default;
-                                    MessageBox.Show("Error al añadir la receta.");
+                                    MessageBox.Show("El paciente ya tiene una receta con el medicamento indicado activa actualmente.");
                                 }
                             }
-                            else
+                            catch (Exception ex)
                             {
                                 this.Cursor = Cursors.Default;
-                                MessageBox.Show("El paciente ya tiene una receta con el medicamento indicado activa actualmente.");
+                                MessageBox.Show("Error al añadir la receta.");
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            this.Cursor = Cursors.Default;
-                            MessageBox.Show("Error al añadir la receta.");
-                        }
                     }
+                    else
+                        MessageBox.Show("La receta debe tener al menos una hora de toma");
                 }
                 else
                     MessageBox.Show("La dosis no puede ser 0");
@@ -303,7 +308,7 @@ namespace Farmacop
 
         private void btnAddAlg_Click(object sender, EventArgs e)
         {
-            RecepieTimeSelect select = new RecepieTimeSelect();
+            PrescTimeSelect select = new PrescTimeSelect();
             ListTime.Add(select);
             TimeContainer.Controls.Add(select);
         }
@@ -311,7 +316,7 @@ namespace Farmacop
         private void btnDelete_Click(object sender, EventArgs e)
         { 
             if(ListTime.Count > 0){
-                RecepieTimeSelect temp = ListTime[ListTime.Count - 1];
+                PrescTimeSelect temp = ListTime[ListTime.Count - 1];
                 ListTime.Remove(temp);
                 TimeContainer.Controls.Remove(temp);
             }

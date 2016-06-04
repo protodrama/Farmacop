@@ -10,14 +10,14 @@ using Newtonsoft.Json.Linq;
 
 namespace Farmacop
 {
-    public partial class RecepiePanel : UserControl
+    public partial class PrescriptionPanel : UserControl
     {
         List<Prescription> RecepiesShowing = new List<Prescription>();
         DataGridViewButtonColumn BtnModColumn;
         DataGridViewButtonColumn BtnShowColumn;
         DataGridViewButtonColumn BtnDeleteColumn;
 
-        public RecepiePanel()
+        public PrescriptionPanel()
         {
             InitializeComponent();
             SetTableSize();

@@ -14,47 +14,51 @@ namespace Farmacop
     {
         Prescription RecToMod = null;
         DataGridViewButtonColumn BtnDeleteColumn;
-        List<RecepieTimeSelect> SelecTimeControl = new List<RecepieTimeSelect>();
+        List<PrescTimeSelect> SelecTimeControl = new List<PrescTimeSelect>();
         List<string> timeShowing = new List<string>();
         List<string> newTime = new List<string>();
         List<string> deletedTime = new List<string>();
         MonthCalendar mCalendar;
         bool FInic = true;
 
-        public ModPrescriptionForm(Prescription recepie)
-        {
-            InitializeComponent();
-            this.RecToMod = recepie;
-            txtPatName.Text = RecToMod.Paciente;
-            txtDs.Text = "" + RecToMod.Dosis;
-            txtFInic.Text = RecToMod.FechaInicio;
-            txtFEnd.Text = RecToMod.FechaFin;
-            GetMedNames();
-            timeShowing = RecToMod.GetTimes();
-            SetTableData();
-            SetTableColumn();
-        }
-
-        public void GetMedNames()
+        public ModPrescriptionForm(Prescription prescription)
         {
             try
             {
-                cbbxMed.Items.Clear();
-                List<Medicament> medList = ReadData(Session.DBConnection.GetAllMedicaments());
-                List<string> algList = ReadAlg(Session.DBConnection.GetUserAlg(RecToMod.Paciente));
-                List<string> medNames = new List<string>();
-
-                foreach (Medicament temp in medList)
-                    if (!algList.Contains(temp.Nombre))
-                        medNames.Add(temp.Nombre);
-
-                cbbxMed.Items.AddRange(medNames.ToArray());
-                cbbxMed.SelectedItem = RecToMod.Medicamento;
+                InitializeComponent();
+                this.RecToMod = prescription;
+                txtPatName.Text = RecToMod.Paciente;
+                txtDs.Text = "" + RecToMod.Dosis;
+                txtFInic.Text = RecToMod.FechaInicio;
+                txtFEnd.Text = RecToMod.FechaFin;
+                lblmedicament.Text = RecToMod.Medicamento;
+                RecToMod.SetTimes(ReadControlData(Session.DBConnection.GetAllHours(RecToMod.getId())));
+                timeShowing = RecToMod.GetTimes();
+                SetTableData();
+                SetTableColumn();
+                txtDs.Focus();
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Error al obtener los datos de los medicamentos");
+                MessageBox.Show("Error al cargar los datos de la receta");
+                this.Close();
             }
+        }
+
+        public List<string> ReadControlData(string data)
+        {
+            List<string> thelist = new List<string>();
+            JObject jobject = JObject.Parse(data);
+            JToken jdata = jobject["data"];
+
+            for (int i = 0; i < jdata.Count<JToken>(); i++)
+            {
+                string rtemp = int.Parse(jdata[i]["Hora"].ToString()).ToString("00") + ":"
+                    + int.Parse(jdata[i]["Minuto"].ToString()).ToString("00");
+                thelist.Add(rtemp);
+            }
+
+            return thelist;
         }
 
         public List<string> ReadAlg(string data)
@@ -71,7 +75,6 @@ namespace Farmacop
 
             return thelist;
         }
-
 
         public List<Medicament> ReadData(string jsondata)
         {
@@ -122,7 +125,7 @@ namespace Farmacop
                 int ds = int.Parse(txtDs.Text);
                 if (ds > 0)
                 {
-                    foreach (RecepieTimeSelect tmp in SelecTimeControl)
+                    foreach (PrescTimeSelect tmp in SelecTimeControl)
                     {
                         if (!newTime.Contains(tmp.Time))
                             newTime.Add(tmp.Time);
@@ -136,7 +139,8 @@ namespace Farmacop
                         try
                         {
                             this.Cursor = Cursors.AppStarting;
-                            if (Session.DBConnection.ModRecepie(RecToMod.getId(), RecToMod.Paciente, RecToMod.Medicamento, txtFInic.Text, txtFEnd.Text, RecToMod.FechaFin, txtDs.Text, newTime, deletedTime, allRecepieTime, timeShowing))
+                            if (Session.DBConnection.ModRecepie(RecToMod.getId(), RecToMod.Paciente, RecToMod.Medicamento, DateTime.Parse(txtFInic.Text).ToString("yyyy-MM-dd"),
+                                DateTime.Parse(txtFEnd.Text).ToString("yyyy-MM-dd"), txtDs.Text, newTime, deletedTime, allRecepieTime))
                             {
                                 MessageBox.Show("Receta modificada correctamente");
                                 this.Cursor = Cursors.Default;
@@ -170,20 +174,14 @@ namespace Farmacop
             }
         }
 
-        private void btnAddMed_Click(object sender, EventArgs e)
-        {
-            new AddNewMed().ShowDialog();
-            GetMedNames();
-        }
-
         public void AddTimeSelect()
         {
-            RecepieTimeSelect SelectTemp = new RecepieTimeSelect();
+            PrescTimeSelect SelectTemp = new PrescTimeSelect();
             SelecTimeControl.Add(SelectTemp);
             TimeContainer.Controls.Add(SelectTemp);
         }
 
-        private void btnAddAlg_Click(object sender, EventArgs e)
+        private void btnAddTime_Click(object sender, EventArgs e)
         {
             AddTimeSelect();
         }
@@ -207,6 +205,23 @@ namespace Farmacop
             string allowed = "0123456789\b";
             if (!allowed.Contains(e.KeyChar))
                 e.Handled = true;
+        }    
+
+        public bool CheckData()
+        {
+            if (!txtDs.Text.Trim().Equals("") && !txtFInic.Text.Trim().Equals("") && !txtFEnd.Text.Trim().Equals(""))
+                return true;
+            else
+                return false;
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (SelecTimeControl.Count > 0) {
+                PrescTimeSelect SelectTemp = SelecTimeControl[SelecTimeControl.Count - 1];
+                SelecTimeControl.Remove(SelectTemp);
+                TimeContainer.Controls.Remove(SelectTemp);
+            }
         }
 
         private void txtFInic_Enter(object sender, EventArgs e)
@@ -223,29 +238,6 @@ namespace Farmacop
             mCalendar.BringToFront();
             mCalendar.Focus();
             txtFInic.Enabled = false;
-        }
-
-        private void txtFEnd_Enter(object sender, EventArgs e)
-        {
-            FInic = false;
-            mCalendar = new MonthCalendar()
-            {
-                Left = 160,
-                Top = 150
-            };
-            mCalendar.MouseLeave += MCalendar_MouseLeave;
-            mCalendar.DateSelected += MCalendar_DateSelected;
-            this.Controls.Add(mCalendar);
-            mCalendar.BringToFront();
-            mCalendar.Focus();
-            txtFEnd.Enabled = false;
-        }
-
-        private void MCalendar_Leave(object sender, EventArgs e)
-        {
-            this.Controls.Remove(mCalendar);
-            txtFInic.Enabled = true;
-            txtFEnd.Enabled = true;
         }
 
         private void MCalendar_DateSelected(object sender, DateRangeEventArgs e)
@@ -279,12 +271,12 @@ namespace Farmacop
                 if (FInic)
                 {
                     MessageBox.Show(ex.Message, "Error");
-                    txtFInic.Text = DateTime.Now.ToShortDateString();
+                    txtFInic.Text = RecToMod.FechaInicio;
                 }
                 else
                 {
                     MessageBox.Show(ex.Message, "Error");
-                    txtFEnd.Text = "";
+                    txtFEnd.Text = RecToMod.FechaFin;
                 }
             }
             this.Controls.Remove(mCalendar);
@@ -297,12 +289,20 @@ namespace Farmacop
             txtFEnd.Enabled = true;
         }
 
-        public bool CheckData()
+        private void txtFEnd_Enter(object sender, EventArgs e)
         {
-            if (!txtDs.Text.Trim().Equals("") && !txtFInic.Text.Trim().Equals("") && !txtFEnd.Text.Trim().Equals(""))
-                return true;
-            else
-                return false;
+            FInic = false;
+            mCalendar = new MonthCalendar()
+            {
+                Left = 160,
+                Top = 150
+            };
+            mCalendar.MouseLeave += MCalendar_MouseLeave;
+            mCalendar.DateSelected += MCalendar_DateSelected;
+            this.Controls.Add(mCalendar);
+            mCalendar.BringToFront();
+            mCalendar.Focus();
+            txtFEnd.Enabled = false;
         }
 
         public class Hour
@@ -328,13 +328,5 @@ namespace Farmacop
             }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            if (SelecTimeControl.Count > 0) {
-                RecepieTimeSelect SelectTemp = SelecTimeControl[SelecTimeControl.Count - 1];
-                SelecTimeControl.Remove(SelectTemp);
-                TimeContainer.Controls.Remove(SelectTemp);
-            }
-        }
     }
 }
