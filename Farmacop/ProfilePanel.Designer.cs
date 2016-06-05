@@ -37,6 +37,8 @@
             this.txtNewPass = new System.Windows.Forms.TextBox();
             this.txtOriginalPass = new System.Windows.Forms.TextBox();
             this.grpUserData = new System.Windows.Forms.GroupBox();
+            this.txtEmail = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.lblTUser = new System.Windows.Forms.Label();
             this.lblFNac = new System.Windows.Forms.Label();
             this.lblApl2 = new System.Windows.Forms.Label();
@@ -50,6 +52,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtbxEmail = new System.Windows.Forms.TextBox();
+            this.lblEmail = new System.Windows.Forms.Label();
             this.txtbxFNac = new System.Windows.Forms.TextBox();
             this.txtbxSApl = new System.Windows.Forms.TextBox();
             this.txtbxFApl = new System.Windows.Forms.TextBox();
@@ -59,10 +63,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.txtEmail = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.txtbxEmail = new System.Windows.Forms.TextBox();
-            this.lblEmail = new System.Windows.Forms.Label();
             this.PassBox.SuspendLayout();
             this.grpUserData.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -167,6 +167,23 @@
             this.grpUserData.TabIndex = 1;
             this.grpUserData.TabStop = false;
             this.grpUserData.Text = "Datos personales";
+            // 
+            // txtEmail
+            // 
+            this.txtEmail.AutoSize = true;
+            this.txtEmail.Location = new System.Drawing.Point(157, 230);
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.Size = new System.Drawing.Size(0, 13);
+            this.txtEmail.TabIndex = 13;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(116, 230);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(35, 13);
+            this.label12.TabIndex = 12;
+            this.label12.Text = "Email:";
             // 
             // lblTUser
             // 
@@ -291,6 +308,22 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Modificar datos";
             // 
+            // txtbxEmail
+            // 
+            this.txtbxEmail.Location = new System.Drawing.Point(148, 193);
+            this.txtbxEmail.Name = "txtbxEmail";
+            this.txtbxEmail.Size = new System.Drawing.Size(126, 20);
+            this.txtbxEmail.TabIndex = 9;
+            // 
+            // lblEmail
+            // 
+            this.lblEmail.AutoSize = true;
+            this.lblEmail.Location = new System.Drawing.Point(107, 196);
+            this.lblEmail.Name = "lblEmail";
+            this.lblEmail.Size = new System.Drawing.Size(35, 13);
+            this.lblEmail.TabIndex = 10;
+            this.lblEmail.Text = "Email:";
+            // 
             // txtbxFNac
             // 
             this.txtbxFNac.Location = new System.Drawing.Point(148, 158);
@@ -361,44 +394,11 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(95, 56);
+            this.label10.Location = new System.Drawing.Point(95, 59);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(47, 13);
             this.label10.TabIndex = 5;
             this.label10.Text = "Nombre:";
-            // 
-            // txtEmail
-            // 
-            this.txtEmail.AutoSize = true;
-            this.txtEmail.Location = new System.Drawing.Point(157, 230);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(0, 13);
-            this.txtEmail.TabIndex = 13;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(116, 230);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(35, 13);
-            this.label12.TabIndex = 12;
-            this.label12.Text = "Email:";
-            // 
-            // txtbxEmail
-            // 
-            this.txtbxEmail.Location = new System.Drawing.Point(148, 193);
-            this.txtbxEmail.Name = "txtbxEmail";
-            this.txtbxEmail.Size = new System.Drawing.Size(126, 20);
-            this.txtbxEmail.TabIndex = 9;
-            // 
-            // lblEmail
-            // 
-            this.lblEmail.AutoSize = true;
-            this.lblEmail.Location = new System.Drawing.Point(107, 196);
-            this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(35, 13);
-            this.lblEmail.TabIndex = 10;
-            this.lblEmail.Text = "Email:";
             // 
             // ProfilePanel
             // 

@@ -128,13 +128,21 @@ namespace Farmacop
                     else
                     {
                         //Delete
-                        if(DialogResult.Yes == MessageBox.Show("¿Está seguro que desea eliminar la receta del paciente '" + recTemp.Paciente + "' con el medicamento " + recTemp.Medicamento + "?","Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Question))  
+                        try
                         {
-                            if (Session.DBConnection.DeleteRecepie(recTemp))
+                            if (DialogResult.Yes == MessageBox.Show("¿Está seguro que desea eliminar la receta del paciente '" + recTemp.Paciente + "' con el medicamento " + recTemp.Medicamento + "?", "Eliminando", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                             {
-                                MessageBox.Show("Receta eliminada");
-                                GetData();
+                                if (Session.DBConnection.DeleteRecepie(recTemp))
+                                {
+                                    MessageBox.Show("Receta eliminada");
+                                    GetData();
+                                }
                             }
+                        }
+                        catch(Exception ex)
+                        {
+                            MessageBox.Show("Error al eliminar la receta.");
+                            GetData();
                         }
                         
                     }

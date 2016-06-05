@@ -42,6 +42,7 @@
             // txtMsg
             // 
             this.txtMsg.Location = new System.Drawing.Point(34, 96);
+            this.txtMsg.MaxLength = 300;
             this.txtMsg.Multiline = true;
             this.txtMsg.Name = "txtMsg";
             this.txtMsg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;

@@ -48,11 +48,10 @@ namespace Farmacop
         string DeletePrescriptionURL = "https://jfrodriguez.pw/slimrest/api/DeletePrescription";
         string DeleteTimeURL = "https://jfrodriguez.pw/slimrest/api/DeleteTime";
         string GetPrescTimeURL = "https://jfrodriguez.pw/slimrest/api/GetPrescriptionsTimetable";
-        string UpdatePrescriptionURL = "https://jfrodriguez.pw/slimrest/api/UpdatePrescription";
+        string UpdatePrescriptionURL = "https://jfrodriguez.pw/slimrest/api/UpdatePrescription"; 
+        string SendEmailURL = "https://jfrodriguez.pw/slimrest/api/SendEmail";
 
         string defApikey = "eadmghacdg";
-
-        MySqlConnection conexion;
 
         #region Usuarios
         //Obtiene las credenciales del usuario indicado
@@ -97,32 +96,7 @@ namespace Farmacop
                 Session.GettingData = false;
                 throw new Exception("Error obteniendo los datos de conexion");
             }
-        }
-
-        //Obtiene las credenciales del usuario indicado
-        public string GetUserEmail(string account)
-        {
-            Session.GettingData = true;
-            string data = "";
-            string sql = "select correo from Usuarios where Cuenta like \"" + account + "\" and Validada = 1";
-
-            MySqlCommand cmd = new MySqlCommand(sql, conexion); //Comando de consulta sql
-            MySqlDataReader DataReader = cmd.ExecuteReader();      //Lector de consulta sql
-
-            if (DataReader.HasRows)  //Si tiene filas lee el contenido y devuelve las credenciales
-                while (DataReader.Read())
-                {
-                    try
-                    {
-                        data = DataReader["correo"].ToString();
-                    }
-                    catch (Exception e) { throw new Exception("Error al conectar al servidor."); }
-                }
-
-            DataReader.Close();
-            Session.GettingData = false;
-            return data;
-        }
+        }     
 
         //Obtiene los datos del usuario en cuestión
         public string GetUserData(string account)
@@ -164,7 +138,7 @@ namespace Farmacop
             catch (Exception ex)
             {
                 Session.GettingData = false;
-                throw new Exception("Error obteniendo los datos de conexion");
+                throw new Exception("Error obteniendo los datos del usuario");
             }
         }
 
@@ -241,7 +215,7 @@ namespace Farmacop
             catch (Exception ex)
             {
                 Session.GettingData = false;
-                throw new Exception("Error obteniendo los datos de conexion");
+                throw new Exception("Error obteniendo los datos usuarios inactivos");
             }
         }
 
@@ -362,7 +336,7 @@ namespace Farmacop
             catch (Exception ex)
             {
                 Session.GettingData = false;
-                throw new Exception("Error al activar usuario");
+                throw new Exception("Error al actualizar la contraseña");
             }
         }
 
@@ -645,7 +619,7 @@ namespace Farmacop
             catch (Exception ex)
             {
                 Session.GettingData = false;
-                throw new Exception("Error al deshabilitar usuario");
+                throw new Exception("Error al habilitar usuario");
             }
         }
         #endregion
@@ -691,7 +665,7 @@ namespace Farmacop
             catch (Exception ex)
             {
                 Session.GettingData = false;
-                throw new Exception("Error obteniendo los datos de conexion");
+                throw new Exception("Error obteniendo los medicamentos");
             }
         }
 
@@ -730,7 +704,7 @@ namespace Farmacop
             catch (Exception ex)
             {
                 Session.GettingData = false;
-                throw new Exception("Error al eliminar el nuevo medicamento");
+                throw new Exception("Error al eliminar el medicamento");
             }
         }
 
@@ -839,7 +813,7 @@ namespace Farmacop
             catch (Exception ex)
             {
                 Session.GettingData = false;
-                throw new Exception("Error al añadir el nuevo usuario");
+                throw new Exception("Error al añadir la alergia");
             }
         }
 
@@ -1090,9 +1064,10 @@ namespace Farmacop
             catch (Exception ex)
             {
                 Session.GettingData = false;
-                throw new Exception("Error al activar usuario");
+                throw new Exception("Error al actualizar el estado del mensaje");
             }
         }
+
         //Insertar mensaje
         public bool InsertMsg(string Receiver, string Subject, string Message)
         {
@@ -1125,8 +1100,40 @@ namespace Farmacop
             catch (Exception ex)
             {
                 Session.GettingData = false;
-                throw new Exception("Error al activar usuario");
+                throw new Exception("Error al insertar mensaje");
             }
+        }
+
+        //Enviar un mensaje por correo electrónico
+        public void SendEmailToUser(string subject, string message, string patient)
+        {
+            Session.GettingData = true;
+            try
+            {
+                var postData = new List<KeyValuePair<string, string>>();
+                postData.Add(new KeyValuePair<string, string>("apikey", defApikey));
+                postData.Add(new KeyValuePair<string, string>("for", patient));
+                postData.Add(new KeyValuePair<string, string>("subject", subject));
+                postData.Add(new KeyValuePair<string, string>("message", message));
+                HttpContent content = new FormUrlEncodedContent(postData);
+                HttpClient client = new HttpClient();
+                client.Timeout = new TimeSpan(0, 0, 10);
+                using (client)
+                {
+                    HttpResponseMessage response = client.PutAsync(SendEmailURL, content).Result;
+                    Session.GettingData = false;
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        throw new Exception();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Session.GettingData = false;
+                throw new Exception("Error al enviar mensaje");
+            }
+
         }
 
         #endregion
@@ -1263,7 +1270,7 @@ namespace Farmacop
             }
         }
 
-        public bool DeleteRecepie(Prescription recepie)
+        public bool DeleteRecepie(Prescription thepresct)
         {
             Session.GettingData = true;
             try
@@ -1273,7 +1280,7 @@ namespace Farmacop
                 var query = HttpUtility.ParseQueryString(builder.Query);
                 query["account"] = Session.Account;
                 query["apikey"] = Session.Apikey;
-                query["id"] = "" + recepie.getId();
+                query["id"] = "" + thepresct.getId();
                 builder.Query = query.ToString();
                 string url = builder.ToString();
                 HttpClient client = new HttpClient();
@@ -1285,8 +1292,10 @@ namespace Farmacop
                         Session.GettingData = false;
                         if (response.IsSuccessStatusCode)
                         {
-                            InsertMsg(recepie.Paciente, "Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + recepie.Medicamento + " que comenzaba el día " + recepie.FechaInicio +
-                                " y terminaba el día " + recepie.FechaFin);
+                            InsertMsg(thepresct.Paciente, "Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + thepresct.Medicamento + " que comenzaba el día " + thepresct.FechaInicio +
+                                " y terminaba el día " + thepresct.FechaFin);
+                            SendEmailToUser("Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + thepresct.Medicamento + " que comenzaba el día " + thepresct.FechaInicio +
+                                        " y terminaba el día " + thepresct.FechaFin, thepresct.Paciente);
                             return true;
                         }
                         else
@@ -1300,9 +1309,7 @@ namespace Farmacop
             {
                 Session.GettingData = false;
                 throw new Exception("Error al eliminar la receta");
-            }
-                //Session.SendEmail("Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + recepie.Medicamento + " que comenzaba el día " + recepie.FechaInicio +
-                  //  " y terminaba el día " + recepie.FechaFin, GetUserEmail(recepie.Paciente));
+            }               
         }
 
         public string CheckBeforeAddPresciption(string patient, string medicament, string FInic)
@@ -1385,6 +1392,7 @@ namespace Farmacop
                             "[**]-Dosis: " + Amm + "[**]-Fecha de inicio: " + FIni + "[**]-Fecha fin: " + FEnd + "[**]-Horario de tomas diarias:" + hours;
 
                         InsertMsg(patient, "Nueva receta", msg);
+                        SendEmailToUser("Receta", msg.Replace("[**]", "\r\n"), patient);
                         Session.GettingData = false;
                         return true;
                     }
@@ -1398,11 +1406,8 @@ namespace Farmacop
             catch (Exception ex)
             {
                 Session.GettingData = false;
-                throw new Exception("Error al añadir el nuevo usuario");
+                throw new Exception("Error al añadir la nueva receta");
             }
-
-            
-            //Session.SendEmail("Receta", msg.Replace("[**]", "\r\n"), GetUserEmail(patient));
         }
 
         public int getPrescriptionID(string patient,string medic,string medicament,string FIni,string FEnd)
@@ -1474,7 +1479,6 @@ namespace Farmacop
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new Exception();
-
                 }
             }
 
@@ -1492,7 +1496,7 @@ namespace Farmacop
                 query["apikey"] = Session.Apikey;
                 query["id"] = "" + ID;
                 query["hour"] = hour;
-                query["min"] = min;
+                query["minute"] = min;
                 builder.Query = query.ToString();
                 string url = builder.ToString();
                 HttpClient client = new HttpClient();
@@ -1520,101 +1524,38 @@ namespace Farmacop
             }
         }
 
-        public void DeleteOldControl(int ID, string hour, string min)
-        {
-            string sql = "delete from Rec_Control where ID_Receta = " + ID + " and Fecha > '" + DateTime.Now.ToString("yyyy-MM-dd")+ "' and Hora = " + hour;
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            cmd.ExecuteNonQuery();
-
-            string sql2 = "delete from Rec_Control where ID_Receta = " + ID + " and Fecha = '" + DateTime.Now.ToString("yyyy-MM-dd") +
-                "' and Hora = " + hour + " and Hora > " + DateTime.Now.TimeOfDay.Hours;// + " and Minuto > " + DateTime.Now.TimeOfDay.Minutes;
-            MySqlCommand cmd2 = new MySqlCommand(sql2, conexion);
-            cmd2.ExecuteNonQuery();
-
-            string sql3 = "delete from Rec_Control where ID_Receta = " + ID + " and Fecha = '" + DateTime.Now.ToString("yyyy-MM-dd") +
-                "' and Hora = " + hour + " and Hora = " + DateTime.Now.TimeOfDay.Hours + " and Minuto > " + DateTime.Now.TimeOfDay.Minutes;
-            MySqlCommand cmd3 = new MySqlCommand(sql3, conexion);
-            cmd3.ExecuteNonQuery();
-
-        }
-
-        public void DeleteNewControl(int ID, string hour, string min)
-        {
-            string sql = "delete from Rec_Control where ID_Receta = " + ID + " and Fecha < '" + DateTime.Now.ToString("yyyy-MM-dd") + "'";
-            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-            cmd.ExecuteNonQuery();
-
-            string sql2 = "delete from Rec_Control where ID_Receta = " + ID + " and Fecha = '" + DateTime.Now.ToString("yyyy-MM-dd") +
-                "' and Hora < " + DateTime.Now.TimeOfDay.Hours;
-            MySqlCommand cmd2 = new MySqlCommand(sql2, conexion);
-            cmd2.ExecuteNonQuery();
-
-            string sql3 = "delete from Rec_Control where ID_Receta = " + ID + " and Fecha = '" + DateTime.Now.ToString("yyyy-MM-dd") +
-                "' and Hora = " + DateTime.Now.TimeOfDay.Hours + " and Minuto < " + DateTime.Now.TimeOfDay.Minutes;
-            MySqlCommand cmd3 = new MySqlCommand(sql3, conexion);
-            cmd2.ExecuteNonQuery();
-        }
-
-        public void ControlTableSincronization(int ID, string EndDate, bool isBigger, List<string> hours)
-        {
-            if (isBigger)
-            {
-                DateTime endDateTime = DateTime.Parse(EndDate);
-                DateTime DateData;
-                foreach (string time in hours)
-                {
-                    DateData = DateTime.Now;
-                    while (DateData <= endDateTime)
-                    {
-                        try
-                        {
-                            string sql = "insert into Rec_Control where values (" + ID + ", '" + DateData.ToString("yyyy-MM-dd") + "'," + time.Split(':')[0] + ", " + time.Split(':')[1] + ", 0)";
-                            MySqlCommand cmd = new MySqlCommand(sql, conexion);
-                            cmd.ExecuteNonQuery();
-                        }
-                        catch(Exception e) { }
-                        DateData = DateData.AddDays(1);
-                    }
-                }
-            }
-            else
-            {
-                string sql = "delete from Rec_Control where ID_Receta = " + ID + " and Fecha > '" + DateTime.Parse(EndDate).ToString("yyyy-MM-dd") + "'";
-                MySqlCommand cmd = new MySqlCommand(sql, conexion);
-                cmd.ExecuteNonQuery();
-            }
-        }
-
         public bool ModRecepie(int RecId, string patient, string medicament, string FIni, string FEnd, string Amm, List<string> newTime, List<string> delTime, List<string> totalTime)
         {
             Session.GettingData = true;
             
             try
             {
+                foreach (string tmp in delTime)
+                {
+                    DeletetHour(RecId, tmp.Split(':')[0], tmp.Split(':')[1]);
+                }
+
+                foreach (string tmp in newTime)
+                {
+                    InsertHour(RecId, tmp.Split(':')[0], tmp.Split(':')[1]);
+                }
+
                 var postData = new List<KeyValuePair<string, string>>();
                 postData.Add(new KeyValuePair<string, string>("account", Session.Account));
                 postData.Add(new KeyValuePair<string, string>("apikey", Session.Apikey));
                 postData.Add(new KeyValuePair<string, string>("finic", FIni));
                 postData.Add(new KeyValuePair<string, string>("fend", FEnd));
-                postData.Add(new KeyValuePair<string, string>("Amm", Amm));
+                postData.Add(new KeyValuePair<string, string>("am", Amm));
+                postData.Add(new KeyValuePair<string, string>("id", "" + RecId));
                 HttpContent content = new FormUrlEncodedContent(postData);
                 HttpClient client = new HttpClient();
                 client.Timeout = new TimeSpan(0, 0, 10);
                 using (client)
                 {
-                    HttpResponseMessage response = client.PutAsync(UpdateMedicamentURL, content).Result;
+                    HttpResponseMessage response = client.PutAsync(UpdatePrescriptionURL, content).Result;
                     Session.GettingData = false;
                     if (response.IsSuccessStatusCode)
                     {
-                        foreach (string tmp in delTime)
-                        {
-                            DeletetHour(RecId, tmp.Split(':')[0], tmp.Split(':')[1]);
-                        }
-
-                        foreach (string tmp in newTime)
-                        {
-                            InsertHour(RecId, tmp.Split(':')[0], tmp.Split(':')[1]);
-                        }
 
                         string hours = string.Empty;
                         foreach (string tmp in totalTime)
@@ -1625,7 +1566,7 @@ namespace Farmacop
                             "[**]-Dosis: " + Amm + "[**]-Fecha de inicio: " + FIni + "[**]-Fecha fin: " + FEnd + "[**]-Horario de tomas diarias:" + hours;
 
                         InsertMsg(patient, "Modificación de receta", msg);
-
+                        SendEmailToUser("Modificación de receta", msg.Replace("[**]", "\r\n"), patient);
                         return true;
                     }
                     else
@@ -1639,9 +1580,6 @@ namespace Farmacop
                 Session.GettingData = false;
                 throw new Exception("Error al actualizar la receta");
             }
-
-            //Session.SendEmail("Modificación de receta", msg.Replace("[**]", "\r\n"), GetUserEmail(patient));
-
         }
 
         #endregion

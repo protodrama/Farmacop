@@ -179,7 +179,7 @@
             // txtDs
             // 
             this.txtDs.Location = new System.Drawing.Point(148, 121);
-            this.txtDs.MaxLength = 1;
+            this.txtDs.MaxLength = 4;
             this.txtDs.Name = "txtDs";
             this.txtDs.Size = new System.Drawing.Size(100, 20);
             this.txtDs.TabIndex = 55;

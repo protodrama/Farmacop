@@ -327,6 +327,5 @@ namespace Farmacop
                 this.Hora = time;
             }
         }
-
     }
 }
