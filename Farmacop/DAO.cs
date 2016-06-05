@@ -6,6 +6,7 @@ using System.Web;
 using System.Net.Http;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json.Linq;
+using System.Threading;
 
 namespace Farmacop
 {
@@ -1522,7 +1523,7 @@ namespace Farmacop
                 Session.GettingData = false;
                 throw new Exception("Error al eliminar hora");
             }
-        }
+        }  
 
         public bool ModRecepie(int RecId, string patient, string medicament, string FIni, string FEnd, string Amm, List<string> newTime, List<string> delTime, List<string> totalTime)
         {
@@ -1533,11 +1534,7 @@ namespace Farmacop
                 foreach (string tmp in delTime)
                 {
                     DeletetHour(RecId, tmp.Split(':')[0], tmp.Split(':')[1]);
-                }
-
-                foreach (string tmp in newTime)
-                {
-                    InsertHour(RecId, tmp.Split(':')[0], tmp.Split(':')[1]);
+                    Thread.Sleep(200);
                 }
 
                 var postData = new List<KeyValuePair<string, string>>();
@@ -1567,13 +1564,20 @@ namespace Farmacop
 
                         InsertMsg(patient, "Modificación de receta", msg);
                         SendEmailToUser("Modificación de receta", msg.Replace("[**]", "\r\n"), patient);
+                        foreach (string tmp in newTime)
+                        {
+                            InsertHour(RecId, tmp.Split(':')[0], tmp.Split(':')[1]);
+                            Thread.Sleep(200);
+                        }
                         return true;
                     }
                     else
                     {
                         return false;
                     }
-                }
+                }     
+
+               
             }
             catch (Exception ex)
             {
