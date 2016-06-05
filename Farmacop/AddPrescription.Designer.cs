@@ -267,10 +267,11 @@
             this.lblMed.TabIndex = 0;
             this.lblMed.Text = "Medicamento:";
             // 
-            // AddRecepie
+            // AddPrescription
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(649, 375);
             this.ControlBox = false;
             this.Controls.Add(this.grpRecData);
@@ -280,7 +281,9 @@
             this.Controls.Add(this.btnAdd);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "AddRecepie";
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "AddPrescription";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Añadir receta";
             splAlg.Panel1.ResumeLayout(false);

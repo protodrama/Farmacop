@@ -41,12 +41,12 @@
             // 
             // txtMsg
             // 
-            this.txtMsg.Location = new System.Drawing.Point(34, 96);
+            this.txtMsg.Location = new System.Drawing.Point(34, 95);
             this.txtMsg.MaxLength = 300;
             this.txtMsg.Multiline = true;
             this.txtMsg.Name = "txtMsg";
             this.txtMsg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtMsg.Size = new System.Drawing.Size(354, 146);
+            this.txtMsg.Size = new System.Drawing.Size(354, 215);
             this.txtMsg.TabIndex = 2;
             // 
             // lblMsg
@@ -78,7 +78,7 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(238, 256);
+            this.btnClose.Location = new System.Drawing.Point(238, 324);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 4;
@@ -88,7 +88,7 @@
             // 
             // btnSend
             // 
-            this.btnSend.Location = new System.Drawing.Point(105, 256);
+            this.btnSend.Location = new System.Drawing.Point(105, 324);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(75, 23);
             this.btnSend.TabIndex = 3;
@@ -116,7 +116,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(418, 293);
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(418, 371);
             this.ControlBox = false;
             this.Controls.Add(this.txtMatter);
             this.Controls.Add(this.txtReceiver);
@@ -128,6 +129,8 @@
             this.Controls.Add(this.btnSend);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "NewMsgForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Nuevo mensaje";

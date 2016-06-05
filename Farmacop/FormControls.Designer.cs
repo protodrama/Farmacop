@@ -140,6 +140,8 @@
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnSendMsg);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormControls";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Control de tomas";

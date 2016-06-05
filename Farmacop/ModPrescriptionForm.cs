@@ -47,18 +47,25 @@ namespace Farmacop
 
         public List<string> ReadControlData(string data)
         {
-            List<string> thelist = new List<string>();
-            JObject jobject = JObject.Parse(data);
-            JToken jdata = jobject["data"];
-
-            for (int i = 0; i < jdata.Count<JToken>(); i++)
+            try
             {
-                string rtemp = int.Parse(jdata[i]["Hora"].ToString()).ToString("00") + ":"
-                    + int.Parse(jdata[i]["Minuto"].ToString()).ToString("00");
-                thelist.Add(rtemp);
-            }
+                List<string> thelist = new List<string>();
+                JObject jobject = JObject.Parse(data);
+                JToken jdata = jobject["data"];
 
-            return thelist;
+                for (int i = 0; i < jdata.Count<JToken>(); i++)
+                {
+                    string rtemp = int.Parse(jdata[i]["Hora"].ToString()).ToString("00") + ":"
+                        + int.Parse(jdata[i]["Minuto"].ToString()).ToString("00");
+                    thelist.Add(rtemp);
+                }
+
+                return thelist;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
+            }
         }
 
         public List<string> ReadAlg(string data)
