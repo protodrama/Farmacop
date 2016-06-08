@@ -49,6 +49,7 @@
             this.AlgDataGrid = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.txtemail = new System.Windows.Forms.TextBox();
+            this.lblalg = new System.Windows.Forms.Label();
             splAlg = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(splAlg)).BeginInit();
             splAlg.Panel1.SuspendLayout();
@@ -249,7 +250,7 @@
             this.AlgDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.AlgDataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.AlgDataGrid.GridColor = System.Drawing.SystemColors.AppWorkspace;
-            this.AlgDataGrid.Location = new System.Drawing.Point(440, 12);
+            this.AlgDataGrid.Location = new System.Drawing.Point(437, 31);
             this.AlgDataGrid.MultiSelect = false;
             this.AlgDataGrid.Name = "AlgDataGrid";
             this.AlgDataGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -276,6 +277,15 @@
             this.txtemail.Size = new System.Drawing.Size(287, 20);
             this.txtemail.TabIndex = 49;
             // 
+            // lblalg
+            // 
+            this.lblalg.AutoSize = true;
+            this.lblalg.Location = new System.Drawing.Point(466, 9);
+            this.lblalg.Name = "lblalg";
+            this.lblalg.Size = new System.Drawing.Size(101, 13);
+            this.lblalg.TabIndex = 51;
+            this.lblalg.Text = "Alergias del usuario:";
+            // 
             // ModifyUserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -283,6 +293,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(868, 405);
             this.ControlBox = false;
+            this.Controls.Add(this.lblalg);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtemail);
             this.Controls.Add(this.AlgDataGrid);
@@ -338,5 +349,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtemail;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Label lblalg;
     }
 }
