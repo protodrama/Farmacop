@@ -134,7 +134,7 @@ namespace Farmacop
                 {
                     foreach (PrescTimeSelect tmp in SelecTimeControl)
                     {
-                        if (!newTime.Contains(tmp.Time))
+                        if (!newTime.Contains(tmp.Time) && !RecToMod.GetTimes().Contains(tmp.Time))
                             newTime.Add(tmp.Time);
                     }
                     List<string> allRecepieTime = new List<string>();
