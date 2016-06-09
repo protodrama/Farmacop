@@ -166,7 +166,7 @@ namespace Farmacop
                             MessageBox.Show("Medicamento eliminado correctamente", "Eliminado");
                         }
                         else
-                            MessageBox.Show("Error al eliminar el medicamento. Puede que algunos pacientes tengan alergias asignadas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Error al eliminar el medicamento. Puede que algunos pacientes tengan alergias asignadas o esté asignado a alguna receta.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     catch(Exception ex)
                     {
