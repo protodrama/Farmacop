@@ -1469,7 +1469,7 @@ namespace Farmacop
             postData.Add(new KeyValuePair<string, string>("apikey", Session.Apikey));
             postData.Add(new KeyValuePair<string, string>("idpresc", "" + ID));
             postData.Add(new KeyValuePair<string, string>("hour", hour));
-            postData.Add(new KeyValuePair<string, string>("time", min));
+            postData.Add(new KeyValuePair<string, string>("min", min));
             HttpContent content = new FormUrlEncodedContent(postData);
             HttpClient client = new HttpClient();
             client.Timeout = new TimeSpan(0, 0, 10);
