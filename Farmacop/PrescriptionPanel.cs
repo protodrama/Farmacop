@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Farmacop
 {
+    //Panel que contiene todo lo referido a las recetas del entorno
     public partial class PrescriptionPanel : UserControl
     {
         List<Prescription> RecepiesShowing = new List<Prescription>();
@@ -24,6 +25,7 @@ namespace Farmacop
             GetData();
         }
 
+        //Obtiene los datos de las recetas desde la base de datos
         public void GetData()
         {
             RecGridView.DataSource = null;
@@ -48,6 +50,7 @@ namespace Farmacop
             }
         }
 
+        //Lee los datos de las recetas recibidos desde el servidor
         public List<Prescription> ReadPrescData(string data)
         {
             List<Prescription> thelist = new List<Prescription>();
@@ -65,6 +68,7 @@ namespace Farmacop
             return thelist;
         }
 
+        //Agrega las columnas de Modificar, Ver y Eliminar receta
         public void SetTableSize()
         {
             BtnModColumn = new DataGridViewButtonColumn()
@@ -105,6 +109,7 @@ namespace Farmacop
             RecGridView.Left = (this.Width / 2) - (RecGridView.Width / 2);
         }
 
+        //Controla la pulsación sobre los botones de las columnas Modificar, Ver y Eliminar receta
         private void RecGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             
@@ -150,6 +155,7 @@ namespace Farmacop
             }
         }
 
+        //Filtra las recetas mostradas
         private void btnFilter_Click(object sender, EventArgs e)
         {
             try
@@ -174,6 +180,7 @@ namespace Farmacop
             }
         }
 
+        //Abre el formulario para añadir una nueva receta
         private void AddRecep_Click(object sender, EventArgs e)
         {
             new AddPrescription().ShowDialog();

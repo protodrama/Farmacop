@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Farmacop
 {
+    //Formulario contenedor de toda la aplicación
     public partial class FormP : Form
     {
         #region fields
@@ -45,6 +46,7 @@ namespace Farmacop
             CheckLogin();
         }
 
+        //Reorganiza los controles al cambiar de tamaño
         private void Formulario_Resize(object sender, EventArgs e)
         {
             if (!logged)
@@ -60,13 +62,14 @@ namespace Farmacop
             tbxPass.Text = "";
         }
 
+        //Lanzar formulario de validación de cuenta
         private void lnkNewUser_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //Lanzar formulario de modificación de contraseña cuando todo vaya ok
             FReg = new FormReg();
             FReg.ShowDialog();
         }
 
+        //Método que captura el evento de desconexión del usuario y lanza otro evento que será capturado por Program.cs
         private void PPage_ExitPressed()
         {
             ExitPressed();
@@ -74,6 +77,7 @@ namespace Farmacop
         #endregion
 
         #region Methods
+        //Comprueba y obtiene los datos con las credenciales indicadas
         private void CheckLogin()
         {
             if (!tbxAccount.Text.Equals("") && !tbxPass.Text.Equals(""))
@@ -159,12 +163,14 @@ namespace Farmacop
             }
         }
 
+        //Comprueba que la contraseña introducida es igual a la de la cuenta indicada
         private bool CheckPassword(string pass, string original)
         {
             string Cripto = Session.StringToMD5(pass);
             return Cripto.ToString().Equals(original);
         }
 
+        //Obtiene los datos del usuario que se conecta
         private void GetUserData(string account)
         {
             JObject jobject = JObject.Parse(Session.DBConnection.GetUserData(account));
@@ -195,7 +201,8 @@ namespace Farmacop
         }
 
         #endregion
-
+        
+        //Para el hilo de la página principal que escucha los mensajes del usuario
         private void FormP_FormClosing(object sender, FormClosingEventArgs e)
         {
             try
@@ -205,6 +212,7 @@ namespace Farmacop
             
         }
 
+        //Abre el formulario de recuperación de contraseña
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             new RecPassForm().Show();

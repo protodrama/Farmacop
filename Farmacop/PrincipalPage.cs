@@ -11,16 +11,16 @@ using Newtonsoft.Json.Linq;
 
 namespace Farmacop
 {
+    //Control que contiene el menú y el panel de contenido de la aplicación
     public partial class PrincipalPage : UserControl
     {
- 
-        public Thread listenerThread;
+        public Thread listenerThread; //Hilo que se encarga de leer los mensajes recibidos por el usuario
         ProfilePanel Profilepanel;
         MedPanel Medpanel;
         UsersPanel UserPanel;
         MessPanel MessagePanel;
         PrescriptionPanel RecPanel;
-        public event MyDelegate ExitPressed;
+        public event MyDelegate ExitPressed; //Evento lanzado al desconectar el usuario
         delegate void ChangeText(int value);
         int sleep = 10000;
         public int msgs = 0;
@@ -34,6 +34,7 @@ namespace Farmacop
             listenerThread.Start();
         }
 
+        //Métido utilizado por el hilo lector de mensajes
         public void LookMsgs()
         {
             while (true)
@@ -48,7 +49,8 @@ namespace Farmacop
                 Thread.Sleep(sleep);
             }
         }
-
+        
+        //Establece el valor del label que indica el número de mensajes recibidos en el menú
         public void SetTxt(int msgs)
         {
             if (this.InvokeRequired) //preguntamos si la llamada se hace desde un hilo 
@@ -77,6 +79,7 @@ namespace Farmacop
         }
 
         #region Events
+        //Controla el cambio de tamaño de la pantalla
         private void PaginaPrincipal_SizeChanged(object sender, EventArgs e)
         {
             SplitPrincipal.Height = this.Height;
@@ -87,6 +90,7 @@ namespace Farmacop
             PanelTitle.Width = SplitPrincipal.Panel2.Width;
         }
 
+        //Controla el click en cada uno de los elementos del menu
         private void Menu_Click(object sender, EventArgs e)
         {
             try
@@ -150,6 +154,7 @@ namespace Farmacop
             }
         }
 
+        //Control de los colores de los elementos del menú al poner el ratón encima
         private void Menu_MouseEnter(object sender, EventArgs e)
         {
             ((FlowLayoutPanel)sender).BackColor = Color.White;
@@ -178,6 +183,7 @@ namespace Farmacop
             
         }
 
+        //Control de los colores del menú al quitar el ratón de encima
         private void Menu_MouseLeave(object sender, EventArgs e)
         {
                 ((FlowLayoutPanel)sender).BackColor = Color.MediumBlue;
@@ -204,6 +210,7 @@ namespace Farmacop
                 }
         }
 
+        //Control de la posición del ratón sobre los textos del menú
         private void lblMenu_MouseEnter(object sender, EventArgs e)
         {
             switch (((Label)sender).Tag.ToString())

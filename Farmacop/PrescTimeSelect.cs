@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 namespace Farmacop
 {
+    //Control utilizado para la selección de horas al agregar o modificar una receta
     public partial class PrescTimeSelect : UserControl
     {
         public PrescTimeSelect()

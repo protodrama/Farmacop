@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Farmacop
 {
+    //Control que contiene todo lo referente a los medicamentos del entorno
     public partial class MedPanel : UserControl
     {
         DataGridViewButtonColumn BtnDeleteColumn;
@@ -23,6 +24,7 @@ namespace Farmacop
             Center();
         }
 
+        //Centra todo el contenido del control
         public void Center()
         {
             foreach(Control tmp in this.Controls)
@@ -31,6 +33,7 @@ namespace Farmacop
             }
         }
 
+        //Agrega las columnas extras a la tabla de medicamentos
         private void InicializeTable()
         {
             BtnDeleteColumn = new DataGridViewButtonColumn()
@@ -48,6 +51,7 @@ namespace Farmacop
             MedTable.EnableHeadersVisualStyles = false;
         }
 
+        //Obtiene los datos de los medicamentos desde el servidor
         private void GetData()
         {
             try
@@ -82,6 +86,7 @@ namespace Farmacop
 
         }
 
+        //Lee los datos de los medicamentos recibidos por el servidor
         public List<Medicament> ReadData(string jsondata)
         {
             List<Medicament> thelist = new List<Medicament>();
@@ -97,6 +102,7 @@ namespace Farmacop
             return thelist;
         }
 
+        //Agrega un nuevo medicamento comprobando que los datos están correctos
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             string Name = "";
@@ -148,6 +154,7 @@ namespace Farmacop
                 MessageBox.Show("Debes introducir los datos del medicamento");
         }
 
+        //Captura el evento de pulsación sobre el botón "Eliminar" de la tabla de medicamentos
         private void MedTable_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
@@ -176,6 +183,7 @@ namespace Farmacop
             }
         }
 
+        //Modifica un medicamento comprobando que todos los datos están correctamente introducidos
         private void btnMod_Click(object sender, EventArgs e)
         {
             if (!lblTypeMedMod.Text.Equals("...") && !txtbxMedNewName.Text.Equals("") && !cbbxTypeMod.Text.Equals(""))
@@ -231,6 +239,7 @@ namespace Farmacop
                 MessageBox.Show("Debes introducir todos los datos del medicamento que se quiere modificar correctamente");
         }
 
+        //Comprueba si el nombre del medicamento a modificar existe y agrega el resto de datos al cuadro de modificación
         private void txtbxMedAMod_TextChanged(object sender, EventArgs e)
         {
             foreach(Medicament tmp in Session.MedList)

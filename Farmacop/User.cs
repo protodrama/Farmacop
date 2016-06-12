@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Farmacop
 {
+    //Representa un usuario en la aplicación
     public class User
     {
         private string _nombre;

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace Farmacop
 {
+    //Formulario utilizado para modificar una cuenta de usuario
     public partial class ModifyUserForm : Form
     {
         User UserToMod;
@@ -21,6 +22,7 @@ namespace Farmacop
             InitializeComponent();
         }
 
+        //Constructor que recibe el usuario a modificar
         public ModifyUserForm(User userToMod)
         {
             InitializeComponent();
@@ -56,7 +58,8 @@ namespace Farmacop
                 this.Close();
             }
         }
-
+        
+        //Lee las alergias del usuario recibidas desde el servidor
         public List<string> ReadAlg(string data)
         {
             List<string> thelist = new List<string>();
@@ -72,11 +75,13 @@ namespace Farmacop
             return thelist;
         }
 
+        //Cierra el formulario
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //Comprueba que los datos están correctamente introducidos y se realiza la modificación
         private void btnAccept_Click(object sender, EventArgs e)
         {
             try
@@ -128,6 +133,7 @@ namespace Farmacop
             }
         }
 
+        //Muestra un calendario para facilitar la selección de fecha de nacimiento
         private void txtFNac_Click(object sender, EventArgs e)
         {
             MyCalendar = new MonthCalendar()
@@ -178,6 +184,7 @@ namespace Farmacop
             txtFNac.Enabled = true;
         }
 
+        //Muestra un calendario para facilitar la selección de fecha de nacimiento
         private void txtFNac_Enter(object sender, EventArgs e)
         {
             MyCalendar = new MonthCalendar()
@@ -194,6 +201,7 @@ namespace Farmacop
             txtFNac.Enabled = false;
         }
 
+        //Agrega un control de selección de alergia a la lista de alergias nuevas
         private void AddAlgComboBox()
         {
             try
@@ -224,6 +232,7 @@ namespace Farmacop
             }
         }
 
+        //Lee los datos de los medicamentos recibidos desde el servidor
         public List<Medicament> ReadData(string jsondata)
         {
             List<Medicament> thelist = new List<Medicament>();
@@ -238,13 +247,13 @@ namespace Farmacop
 
             return thelist;
         }
-
-
+    
         private void btnAddAlg_Click(object sender, EventArgs e)
         {
             AddAlgComboBox();
         }
 
+        //Controla la pulsación sobre el botón de eliminación de alergia
         private void AlgDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (AlgDataGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
@@ -258,6 +267,7 @@ namespace Farmacop
             }
         }
 
+        //Comprueba el formato del email del usuario
         private bool CheckEmailFormat(string email)
         {
             if (email.Contains("@") && !email.Contains(" "))
@@ -272,6 +282,7 @@ namespace Farmacop
                 return false;
         }
 
+        //Elimina un control de alergias de la lista
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if(algContainer.Controls.Count > 0)

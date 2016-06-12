@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Farmacop
 {
+    //Control que contiene todo lo referido a mensajes en el entorno
     public partial class MessPanel : UserControl
     {
         List<Message> ReceivedReadedMessages;
@@ -26,6 +27,7 @@ namespace Farmacop
             SetTableSize();
         }
 
+        //Obtiene los mensajes desde el servidor
         public void GetData()
         {
             try
@@ -45,6 +47,7 @@ namespace Farmacop
             
         }
 
+        //Lee los datos de los mensajes recibidos desde el servidor
         public List<Message> GetMessages(string data)
         {
             List<Message> messagesList = new List<Message>();
@@ -61,6 +64,7 @@ namespace Farmacop
             return messagesList;
         }
 
+        //Agrega columnas extra para la manipulación de los datos de la tabla de mensajes
         public void SetTableSize()
         {
             int size = 0;
@@ -73,6 +77,7 @@ namespace Farmacop
             MessGridView.Left = this.Width / 2 - MessGridView.Width / 2;
         }
 
+        //Cambia la lista de mensajes mostrados
         private void chbxSended_CheckedChanged(object sender, EventArgs e)
         {
             ShowingReceibedMessages = !ShowingReceibedMessages;
@@ -80,12 +85,14 @@ namespace Farmacop
             GetData();
         }
 
+        //Cambia la lista de mensajes mostrados
         private void chbxReaded_CheckedChanged(object sender, EventArgs e)
         {
             ShowingReadedMessages = !ShowingReadedMessages;
             GetData();
         }
 
+        //Controla la pulsación sobre los mensajes 
         private void MessGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (ShowingReceibedMessages)
@@ -106,18 +113,21 @@ namespace Farmacop
             GetData();
         }
 
+        //Abre el formulario para agregar un mensaje nuevo
         private void btnNewMsg_Click(object sender, EventArgs e)
         {
             new NewMsgForm().ShowDialog();
             GetData();
         }
 
+        //Comprueba los datos indroducidos antes de filtrar los mensajes
         private void btnFilter_Click(object sender, EventArgs e)
         {
             if(!txtSender.Text.Trim().Equals("") || !txtReader.Text.Trim().Equals(""))
                 FilterMessages();
         }
-
+        
+        //Filtra los mensajes que se muestran en ese momento
         public void FilterMessages()
         {
             try
@@ -169,6 +179,7 @@ namespace Farmacop
             MessGridView.EnableHeadersVisualStyles = false;
         }
 
+        //Obtiene todos los mensajes en los que participe el usuario de la sesión
         public void GetAll()
         {
             Session.ReceivedMessages = GetMessages(Session.DBConnection.GetAllReceivedMessages());
@@ -205,6 +216,7 @@ namespace Farmacop
             }
         }
 
+        //Limpia el filtro de mensajes
         private void btnClean_Click(object sender, EventArgs e)
         {
             txtSender.Text = "";

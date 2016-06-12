@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Farmacop
 {
+    //Este control contiene todo lo relacionado con los usuarios del entorno
     public partial class UsersPanel : UserControl
     {
         bool UsingActiveUsers = true;
@@ -27,7 +28,8 @@ namespace Farmacop
             GetData();
             Center();
         }
-
+        
+        //Centra los elementos del control
         public void Center()
         {
             foreach (Control c in this.Controls)
@@ -36,6 +38,7 @@ namespace Farmacop
             }
         }
 
+        //Obtiene los datos de los usuarios
         public void GetData()
         {
             try
@@ -63,7 +66,8 @@ namespace Farmacop
             UsersGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.LightBlue;
             UsersGridView.EnableHeadersVisualStyles = false;
         }
-
+        
+        //Lee los datos de lus usuarios recibidos desde el servidor
         public List<User> ReadUsersData(string data)
         {
             List<User> userslist = new List<User>();
@@ -80,6 +84,7 @@ namespace Farmacop
             return userslist;
         }
 
+        //Agrega las columnas de Modificación, Habilitar y Deshabilitar usuarios
         public void PutColumns()
         {
 
@@ -137,6 +142,7 @@ namespace Farmacop
             UsersGridView.Left = (this.Width / 2) - (UsersGridView.Width / 2);
         }
 
+        //Controla la pulsación de los botones de las columnas Modificar, Habilitar y Deshabilitar usuarios
         private void UsersGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             
@@ -206,6 +212,7 @@ namespace Farmacop
             }
         }
 
+        //Filtra la lista de usuarios que se esté mostrando
         private void btnFilter_Click(object sender, EventArgs e)
         {
             List<User> FilteredUsers = new List<User>();
@@ -232,6 +239,7 @@ namespace Farmacop
             UsersGridView.DataSource = FilteredUsers;
         }
 
+        //Cambia la lista de usuarios mostrados
         private void chbxDisUsers_CheckedChanged(object sender, EventArgs e)
         {
             if (chbxDisUsers.Checked)
@@ -245,6 +253,7 @@ namespace Farmacop
             GetData();
         }
 
+        //Abre el formulario para añadir un nuevo usuario
         private void btnAddUser_Click(object sender, EventArgs e)
         {
             new AddUserForm().ShowDialog();

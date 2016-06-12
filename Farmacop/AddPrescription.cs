@@ -24,6 +24,7 @@ namespace Farmacop
             GetMedNames();
         }
 
+        //Obtiene la lista de nombres de usuario de la base de datos
         public void GetData()
         {
             List<string> names = ReadUsersData(Session.DBConnection.GetAllUsersNameAccount());
@@ -39,6 +40,7 @@ namespace Farmacop
             TimeContainer.Controls.Add(select);
         }
 
+        //Lee los datos de los usuarios recibidos desde el servidor
         public List<string> ReadUsersData(string data)
         {
             List<string> userslist = new List<string>();
@@ -53,6 +55,7 @@ namespace Farmacop
             return userslist;
         }
 
+        //Obtiene el nombre de los medicamentos del entorno
         public void GetMedNames()
         {
             try
@@ -68,6 +71,7 @@ namespace Farmacop
             }
         }
 
+        //Lee los datos de los medicamentos recibidos desde el servidor
         public List<Medicament> ReadData(string jsondata)
         {
             List<Medicament> thelist = new List<Medicament>();
@@ -83,11 +87,13 @@ namespace Farmacop
             return thelist;
         }
 
+        //Cierra el formulario
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
+        
+        //Agrega la receta a la base de datos.
         private void btnAdd_Click(object sender, EventArgs e)
         {
             if (!txtDs.Text.Trim().Equals("") && !txtFInic.Text.Trim().Equals("") && !txtFEnd.Text.Trim().Equals("") && !cbbxMed.Text.Trim().Equals(""))
@@ -150,6 +156,7 @@ namespace Farmacop
                 MessageBox.Show("Debes indicar un valor para todos los campos");
         }
 
+        //Comprueba si existen recetas activas para el mismo medicamento antes de agregar la receta
         public bool CheckRecepies(string data)
         {
             JObject jobject = JObject.Parse(data);
@@ -159,6 +166,7 @@ namespace Farmacop
             return temp > 0;
         }
 
+        //Lee los datos de las alergias del usuario al que se destina la receta
         public List<string> ReadAlg(string data)
         {
             List<string> thelist = new List<string>();
@@ -205,6 +213,7 @@ namespace Farmacop
             
         }
 
+        //Abre el formulario que permite añadir medicamentos
         private void btnAddMed_Click(object sender, EventArgs e)
         {
             new AddNewMed().ShowDialog();
@@ -218,6 +227,7 @@ namespace Farmacop
                 e.Handled = true;
         }
 
+        //Muestra un calendario para seleccionar las fechas
         private void txtFInic_Enter(object sender, EventArgs e)
         {
             FInic = true;
@@ -290,6 +300,7 @@ namespace Farmacop
             txtFEnd.Enabled = true;
         }
 
+        //Muestra un calendario para seleccionar las fechas
         private void txtFEnd_Enter(object sender, EventArgs e)
         {
             FInic = false;
@@ -306,6 +317,7 @@ namespace Farmacop
             txtFEnd.Enabled = false;
         }
 
+        //Agrega un control de selección de alergias a la lista
         private void btnAddAlg_Click(object sender, EventArgs e)
         {
             PrescTimeSelect select = new PrescTimeSelect();
@@ -313,6 +325,7 @@ namespace Farmacop
             TimeContainer.Controls.Add(select);
         }
 
+        //Elimina un control de selección de alergias de la lista
         private void btnDelete_Click(object sender, EventArgs e)
         { 
             if(ListTime.Count > 0){

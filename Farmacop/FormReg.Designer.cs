@@ -154,7 +154,6 @@
             this.Name = "FormReg";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Activación";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormReg_FormClosing);
             this.Load += new System.EventHandler(this.FormReg_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ImgTick)).EndInit();
             this.ResumeLayout(false);

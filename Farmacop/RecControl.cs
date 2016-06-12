@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Farmacop
 {
+    //Representa una toma de medicamento en la aplicación
     public class RecControl
     {
         private string _fecha;

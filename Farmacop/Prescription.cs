@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Farmacop
 {
+    //Esta clase actúa como receta en la aplicación
     public class Prescription
     {
         private int _id;

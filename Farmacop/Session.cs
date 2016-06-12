@@ -8,6 +8,8 @@ using System.Net;
 
 namespace Farmacop
 {
+    //Esta clase contiene los datos de la sesión de usuario que utiliza la aplicación
+    //También contiene elementos utilizados por toda la aplicación mientras esta está en funcionamiento
     public enum UserType {Admin,Medico,Paciente}; //Tipos de usuarios
 
     public static class Session

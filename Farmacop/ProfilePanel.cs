@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace Farmacop
 {
+    //Este control es el encargado de permitir al usuario manejar los datos de su cuenta
     public partial class ProfilePanel : UserControl
     {
         MonthCalendar mCalendar;
@@ -20,6 +21,7 @@ namespace Farmacop
             Inicialize();
         }
 
+        //Muestra los datos de la sesión
         public void Inicialize()
         {
             lblName.Text = Session.Name;
@@ -33,7 +35,8 @@ namespace Farmacop
                 lblTUser.Text = "Médico";
             txtEmail.Text = Session.Email;
         }
-
+        
+        //Comprueba y modifica la contraseña del usuario
         private void btnModifyPass_Click(object sender, EventArgs e)
         {
             //Modify password if everything is ok
@@ -84,6 +87,7 @@ namespace Farmacop
             }
         }
 
+        //Comprueba y modifica los datos de la cuenta
         private void btnModPData_Click(object sender, EventArgs e)
         {
             string Name, FApl, SApl, FNac, Email;   
@@ -175,6 +179,7 @@ namespace Farmacop
             this.Controls.Remove(mCalendar);
         }
 
+        //Muestra un calendario para facilitar la selección de la fecha de nacimiento
         private void txtbxFNac_Click(object sender, EventArgs e)
         {
             mCalendar = new MonthCalendar()
@@ -197,6 +202,7 @@ namespace Farmacop
             txtbxFNac.Enabled = true;
         }
 
+        //Muestra un calendario para facilitar la selección de la fecha de nacimiento
         private void txtbxFNac_Enter(object sender, EventArgs e)
         {
             mCalendar = new MonthCalendar()
@@ -213,6 +219,7 @@ namespace Farmacop
             txtbxFNac.Enabled = false;
         }
 
+        //Comprueba el formato del correo que se utiliza
         private bool CheckEmailFormat(string email)
         {
             return Regex.IsMatch(email, @"\A(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)\Z");

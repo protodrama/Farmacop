@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Net.Http;
-using MySql.Data.MySqlClient;
 using Newtonsoft.Json.Linq;
 using System.Threading;
 
@@ -14,6 +13,7 @@ namespace Farmacop
 
     public class DAO
     {
+        //Todas estas URLS son las utilizadas para hacer las diferentes operaciones con el servidor
         string loginURL = "https://jfrodriguez.pw/slimrest/api/Login";
         string UserdataURL = "https://jfrodriguez.pw/slimrest/api/Userdata";
         string GetNewMessagesURL = "https://jfrodriguez.pw/slimrest/api/NotReadedMessages";
@@ -1140,6 +1140,7 @@ namespace Farmacop
         #endregion
 
         #region Recetas
+        //Obtiene todas las recetas del entorno
         public string GetAllPrescriptions()
         {
             Session.GettingData = true;
@@ -1183,6 +1184,7 @@ namespace Farmacop
             }
         }
 
+        //Obtiene la tabla de controles de una receta
         public string GetAllRecControl(int idRec)
         {
             Session.GettingData = true;
@@ -1227,6 +1229,7 @@ namespace Farmacop
             }
         }
 
+        //Obtiene las horas de una receta
         public string GetAllHours(int idRec)
         {
             Session.GettingData = true;
@@ -1271,6 +1274,7 @@ namespace Farmacop
             }
         }
 
+        //Elimina una receta
         public bool DeleteRecepie(Prescription thepresct)
         {
             Session.GettingData = true;
@@ -1312,7 +1316,8 @@ namespace Farmacop
                 throw new Exception("Error al eliminar la receta");
             }               
         }
-
+        
+        //Comprueba antes de añadir una receta si existe una del mismo medicamento activa dentro del tiempo de actividad de la receta nueva
         public string CheckBeforeAddPresciption(string patient, string medicament, string FInic)
         {
             try
@@ -1357,6 +1362,7 @@ namespace Farmacop
             }
         }
 
+        //Agrega una nueva receta
         public bool AddRecepie(string patient, string medic, string medicament, string FIni, string FEnd, string Amm, List<string> Time)
         {
             Session.GettingData = true;
@@ -1411,6 +1417,7 @@ namespace Farmacop
             }
         }
 
+        //Obtiene el ID de la receta
         public int getPrescriptionID(string patient,string medic,string medicament,string FIni,string FEnd)
         {
             try
@@ -1460,6 +1467,7 @@ namespace Farmacop
 
         }
 
+        //Inserta horas para una receta
         public void InsertHour(int ID, string hour, string min)
         {
             Session.GettingData = true;
@@ -1485,6 +1493,7 @@ namespace Farmacop
 
         }
 
+        //Elimina horas de una receta
         public bool DeletetHour(int ID, string hour, string min)
         {
             Session.GettingData = true;
@@ -1525,6 +1534,7 @@ namespace Farmacop
             }
         }  
 
+        //Modifica una receta
         public bool ModRecepie(int RecId, string patient, string medicament, string FIni, string FEnd, string Amm, List<string> newTime, List<string> delTime, List<string> totalTime)
         {
             Session.GettingData = true;

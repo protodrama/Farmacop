@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace Farmacop
 {
+    //Este formulario se utiliza para mostrar la lista de tomas hasta el día de hoy de una receta
     public partial class FormControls : Form
     {
         Prescription RecToShow;
@@ -20,6 +21,7 @@ namespace Farmacop
             InitializeComponent();
         }
 
+        //Constructor que recibe la receta a mostrar
         public FormControls(Prescription recepie)
         {
             InitializeComponent();
@@ -37,6 +39,7 @@ namespace Farmacop
             }
         }
 
+        //Lee los datos de controles recibidos desde el servidor
         public List<RecControl> ReadControlData(string data)
         {
             List<RecControl> thelist = new List<RecControl>();
@@ -53,11 +56,13 @@ namespace Farmacop
             return thelist;
         }
 
+        //Cierra el formulario
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //Permite mandar un mensaje al paciente de la receta
         private void btnSendMsg_Click(object sender, EventArgs e)
         {
             new NewMsgForm(RecToShow.Paciente, "").ShowDialog();

@@ -50,19 +50,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>PMER0NiliUhg9PzL4MbboL8k4FlOfTZMev5PV/NFOAA=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MySql.Data.dll" size="457216">
-      <assemblyIdentity name="MySql.Data" version="6.9.5.0" publicKeyToken="C5687FC88969C44D" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>WPcBFBqHPtwDY/pecqj6M3JCg8MLiFteU5kVlLGx31M=</dsig:DigestValue>
+        <dsig:DigestValue>BjBTdUDLUj05gKSTwbQd+uiF9TWr52Pvf+sF/eD1K9g=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -78,13 +66,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Farmacop.exe.config" size="161">
+  <file name="Farmacop.exe.config" size="163">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>+K0Xw31ERSGzkFzL116my249J2OxbrVrLhqkJ0Fz5hQ=</dsig:DigestValue>
+      <dsig:DigestValue>FQU2BHvsgoaWXdGN6/mm4lJa6WlnXocpkJqHpXEw40A=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Ico.ico" size="99678">
@@ -121,15 +109,6 @@
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
       <dsig:DigestValue>2hWqssMFPq1X6iv+rVuurA08dtEQ5NW/7IC37bX4Cx0=</dsig:DigestValue>
-    </hash>
-  </file>
-  <file name="MySql.Data.dll" size="457216">
-    <hash>
-      <dsig:Transforms>
-        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-      </dsig:Transforms>
-      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>WPcBFBqHPtwDY/pecqj6M3JCg8MLiFteU5kVlLGx31M=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Pictures\Cruz.png" size="8893">

@@ -21,6 +21,7 @@ namespace Farmacop
         MonthCalendar mCalendar;
         bool FInic = true;
 
+        //Recibe la receta a modificar
         public ModPrescriptionForm(Prescription prescription)
         {
             try
@@ -32,7 +33,7 @@ namespace Farmacop
                 txtFInic.Text = RecToMod.FechaInicio;
                 txtFEnd.Text = RecToMod.FechaFin;
                 lblmedicament.Text = RecToMod.Medicamento;
-                RecToMod.SetTimes(ReadControlData(Session.DBConnection.GetAllHours(RecToMod.getId())));
+                RecToMod.SetTimes(ReadTimeData(Session.DBConnection.GetAllHours(RecToMod.getId())));
                 timeShowing = RecToMod.GetTimes();
                 SetTableData();
                 SetTableColumn();
@@ -45,7 +46,8 @@ namespace Farmacop
             }
         }
 
-        public List<string> ReadControlData(string data)
+        //Lee los datos de las horas de tratamiento recibidas desde el servidor
+        public List<string> ReadTimeData(string data)
         {
             try
             {
@@ -68,6 +70,7 @@ namespace Farmacop
             }
         }
 
+        //Lee las alergias del usuario recibidas desde el servidor
         public List<string> ReadAlg(string data)
         {
             List<string> thelist = new List<string>();
@@ -83,6 +86,7 @@ namespace Farmacop
             return thelist;
         }
 
+        //Lee los nombres de los medicamentos recibidos desde el servidor
         public List<Medicament> ReadData(string jsondata)
         {
             List<Medicament> thelist = new List<Medicament>();
@@ -98,6 +102,7 @@ namespace Farmacop
             return thelist;
         }
 
+        //Agrega los datos de las horas a la tabla de horas
         public void SetTableData()
         {
             List<Hour> TimeData = new List<Hour>();
@@ -108,6 +113,7 @@ namespace Farmacop
             TimeDataGrid.DataSource = TimeData;
         }
 
+        //Agrega la columna de eliminar a la tabla de horas
         public void SetTableColumn()
         {
             BtnDeleteColumn = new DataGridViewButtonColumn()
@@ -120,11 +126,13 @@ namespace Farmacop
             TimeDataGrid.Columns.Add(BtnDeleteColumn);
         }
 
+        //Cierra el formulario
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //Comprueba todos los datos y realiza la modificación de la receta
         private void btnMod_Click(object sender, EventArgs e)
         {
             if (CheckData())
@@ -181,6 +189,7 @@ namespace Farmacop
             }
         }
 
+        //Agrega un selector de tiempo a la lista de horas nuevas
         public void AddTimeSelect()
         {
             PrescTimeSelect SelectTemp = new PrescTimeSelect();
@@ -193,6 +202,7 @@ namespace Farmacop
             AddTimeSelect();
         }
 
+        //Controla la pulsación sobre el botón "Eliminar" de la tabla de horas
         private void TimeDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (TimeDataGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0)
@@ -207,6 +217,7 @@ namespace Farmacop
             }
         }
 
+        //Controla los datos introducidos en el cuadro te texto de "Dosis"
         private void txtDs_KeyPress(object sender, KeyPressEventArgs e)
         {
             string allowed = "0123456789\b";
@@ -214,6 +225,7 @@ namespace Farmacop
                 e.Handled = true;
         }    
 
+        //Comprueba que todos los datos han sido introducidos
         public bool CheckData()
         {
             if (!txtDs.Text.Trim().Equals("") && !txtFInic.Text.Trim().Equals("") && !txtFEnd.Text.Trim().Equals(""))
@@ -222,6 +234,7 @@ namespace Farmacop
                 return false;
         }
 
+        //Elimina un selector de tiempo de la lista 
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (SelecTimeControl.Count > 0) {
@@ -231,6 +244,7 @@ namespace Farmacop
             }
         }
 
+        //Muestra un calendario para agregar la fecha de inicio 
         private void txtFInic_Enter(object sender, EventArgs e)
         {
             FInic = true;
@@ -295,6 +309,7 @@ namespace Farmacop
             txtFInic.Enabled = true;
             txtFEnd.Enabled = true;
         }
+        //Muestra un calendario para agregar la fecha de fin 
 
         private void txtFEnd_Enter(object sender, EventArgs e)
         {
@@ -312,6 +327,7 @@ namespace Farmacop
             txtFEnd.Enabled = false;
         }
 
+        //Clase que representa las horas de la receta
         public class Hour
         {
             private string _hora;

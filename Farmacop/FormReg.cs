@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace Farmacop
 {
+    //Formulario que permite la validación de una cuenta
     public partial class FormReg : Form
     {
         List<string> AccountsToActive;
@@ -20,11 +21,13 @@ namespace Farmacop
             InitializeComponent();
         }
 
+        //Cierra el formulario
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //Obtiene los nombres de cuenta que se pueden utilizar
         private void FormReg_Load(object sender, EventArgs e)
         {
             try
@@ -39,11 +42,6 @@ namespace Farmacop
             }
         }
 
-        private void FormReg_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            
-        }
-
         private void txtAccount_Leave(object sender, EventArgs e)
         {
             if (!txtAccount.Text.Equals(""))
@@ -54,6 +52,7 @@ namespace Farmacop
                 lblEmailMsg.Text = "";
         }
 
+        //Comprueba que la cuenta indicada es correcta
         public void CheckAccount(string account)
         {
             bool find = false;
@@ -92,6 +91,7 @@ namespace Farmacop
             }
         }
 
+        //Comprueba que todo está correctamente insertado y valida la cuenta
         private void btnAccept_Click(object sender, EventArgs e)
         {
             if (Correct)
@@ -130,6 +130,7 @@ namespace Farmacop
             Cursor.Current = Cursors.Default;
         }
 
+        //Lee los datos de las cuentas recibidos desde el servidor
         public List<string> ReadData(string data)
         {
             List<string> usersdata = new List<string>();

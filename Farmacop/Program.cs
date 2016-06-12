@@ -23,6 +23,8 @@ namespace Farmacop
             Application.Run(MyFormP);
         }
 
+        //Evento lanzado por el formulario principal al desconectarse el usuario. 
+        //Reinicia el formulario y muestra la pantalla de Login de nuevo
         private static void MyFormP_ExitPressed()
         {
             Application.Restart();

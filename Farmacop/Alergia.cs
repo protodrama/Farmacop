@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Farmacop
 {
+    //Clase que representa alergias en el programa
     public class Alergia
     {
         private string _medicamento;

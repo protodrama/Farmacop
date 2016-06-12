@@ -5,10 +5,11 @@ using System.Text;
 
 namespace Farmacop
 {
+    //Representa un mensaje en la aplicación
     public class Message
     {
-        private string _transmitter;
-        private string _receiver;
+        private string _writer;
+        private string _reader;
         private string _matter;
         private string _text;
         private bool _readed;
@@ -18,12 +19,12 @@ namespace Farmacop
         {
             get
             {
-                return _transmitter;
+                return _writer;
             }
 
             set
             {
-                _transmitter = value;
+                _writer = value;
             }
         }
 
@@ -31,12 +32,12 @@ namespace Farmacop
         {
             get
             {
-                return _receiver;
+                return _reader;
             }
 
             set
             {
-                _receiver = value;
+                _reader = value;
             }
         }
 
@@ -76,11 +77,11 @@ namespace Farmacop
             return _id;
         }
 
-        public Message(int id, string transmitter, string receiver, string subject, string text, bool readed)
+        public Message(int id, string writer, string reader, string subject, string text, bool readed)
         {
             this._id = id;
-            this.Emisor = transmitter;
-            this.Receptor = receiver;
+            this.Emisor = writer;
+            this.Receptor = reader;
             this.Asunto = subject;
             this.Mensaje = text;
             this._readed = readed;

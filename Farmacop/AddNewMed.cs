@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 namespace Farmacop
 {
+    //Formulario para agregar un nuevo medicamento
     public partial class AddNewMed : Form
     {
         public AddNewMed()
@@ -16,6 +17,7 @@ namespace Farmacop
             InitializeComponent();
         }
 
+        //Agrega el medicamento si no existe y si se han indicado todos los datos
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             string Name = "";
@@ -48,6 +50,7 @@ namespace Farmacop
             }
         }
 
+        //Cierra el formulario
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();

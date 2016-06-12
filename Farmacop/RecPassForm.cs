@@ -12,6 +12,7 @@ using System.Windows.Forms;
 
 namespace Farmacop
 {
+    //Formulario que permite la recuperación de contraseña de los usuarios
     public partial class RecPassForm : Form
     {
         List<string> AccountsToActive;
@@ -23,6 +24,7 @@ namespace Farmacop
             InitializeComponent();
         }
 
+        //Comprueba que todo está correcto y efectúa la recuperación de la contraseña
         private void btnAccept_Click(object sender, EventArgs e)
         {
             if (Correct)
@@ -49,11 +51,13 @@ namespace Farmacop
             }
         }
 
+        //Cierra el formulario
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //Obtiene los datos de las cuentas de usuario
         private void RecPassForm_Load(object sender, EventArgs e)
         {
             Session.DBConnection = new DAO();
@@ -67,6 +71,7 @@ namespace Farmacop
             }
         }
 
+        //Lee los datos de las cuentas de usuario
         public List<string> getData(string data)
         {
             JObject jdata = JObject.Parse(data);
@@ -81,6 +86,7 @@ namespace Farmacop
             return names;
         }
 
+        //Lanza la comprobación de la cuenta
         private void txtAccount_Leave(object sender, EventArgs e)
         {
             if (!txtAccount.Text.Equals(""))
@@ -91,6 +97,7 @@ namespace Farmacop
                 lblEmailMsg.Text = "";
         }
 
+        //Comprueba que el nombre de usuario introducido es correcto
         public void CheckAccount(string account)
         {
             this.Cursor = Cursors.AppStarting;

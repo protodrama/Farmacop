@@ -10,17 +10,20 @@ using System.Windows.Forms;
 
 namespace Farmacop
 {
+    //Formulario utilizado para mandar mensajes internos a cualquier usuario del entorno
     public partial class NewMsgForm : Form
     {
-        List<string> Emails;
+        List<string> Accounts;
+
+        //Constructor general del formulario
         public NewMsgForm()
         {
             InitializeComponent();
             try
             {
-                Emails = ReadData(Session.DBConnection.GetAllUsersNameAccount());
+                Accounts = ReadData(Session.DBConnection.GetAllUsersNameAccount());
                 var source = new AutoCompleteStringCollection();
-                source.AddRange(Emails.ToArray());
+                source.AddRange(Accounts.ToArray());
                 txtReceiver.AutoCompleteMode = AutoCompleteMode.Suggest;
                 txtReceiver.AutoCompleteCustomSource = source;
                 txtReceiver.AutoCompleteSource = AutoCompleteSource.CustomSource;
@@ -32,6 +35,7 @@ namespace Farmacop
             }
         }
 
+        //Lee los datos de los nombres de cuenta recibidos desde el servidor
         public List<string> ReadData(string data)
         {
             List<string> userslist = new List<string>();
@@ -46,6 +50,7 @@ namespace Farmacop
             return userslist;
         }
 
+        //Constructor utilizado para abrir el formulario y responder a un mensaje
         public NewMsgForm(string Sender,string matter)
         {
             InitializeComponent();
@@ -54,9 +59,10 @@ namespace Farmacop
             txtMatter.Text = matter;
         }
 
+        //Comprueba los datos introducidos y envía el mensaje
         private void btnSend_Click(object sender, EventArgs e)
         {
-            if (CheckEmail())
+            if (CheckAccount())
             {
                 if (!txtMatter.Text.Trim().Equals("") && !txtMsg.Text.Trim().Equals("") && !txtReceiver.Text.Trim().Equals(""))
                 {
@@ -82,26 +88,29 @@ namespace Farmacop
                 MessageBox.Show("El nombre de cuenta indicado no es correcto.");
         }
 
+        //Cierra el formulario
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //Lanza la comprobación del usuario
         private void txtReceiver_Leave(object sender, EventArgs e)
         {
-            if (!CheckEmail())
+            if (!CheckAccount())
             {
                 MessageBox.Show("El nombre de cuenta indicado no es correcto.");
             }
         }
-
-        private bool CheckEmail()
+        
+        //Comprueba el nombre del usuario destinatario
+        private bool CheckAccount()
         {
             if (txtReceiver.Text.Equals(""))
                 return true;
-            if (Emails != null)
+            if (Accounts != null)
             {
-                if (!Emails.Contains(txtReceiver.Text))
+                if (!Accounts.Contains(txtReceiver.Text))
                 {
                     return false;
                 }

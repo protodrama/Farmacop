@@ -41,7 +41,7 @@
             // 
             // btnAnsw
             // 
-            this.btnAnsw.Location = new System.Drawing.Point(113, 265);
+            this.btnAnsw.Location = new System.Drawing.Point(112, 341);
             this.btnAnsw.Name = "btnAnsw";
             this.btnAnsw.Size = new System.Drawing.Size(75, 23);
             this.btnAnsw.TabIndex = 0;
@@ -51,7 +51,7 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(246, 265);
+            this.btnClose.Location = new System.Drawing.Point(245, 341);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 1;
@@ -109,7 +109,7 @@
             this.txtMsg.Name = "txtMsg";
             this.txtMsg.ReadOnly = true;
             this.txtMsg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtMsg.Size = new System.Drawing.Size(354, 146);
+            this.txtMsg.Size = new System.Drawing.Size(354, 209);
             this.txtMsg.TabIndex = 7;
             // 
             // MessageForm
@@ -117,7 +117,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(442, 317);
+            this.ClientSize = new System.Drawing.Size(442, 397);
             this.ControlBox = false;
             this.Controls.Add(this.txtMsg);
             this.Controls.Add(this.txtMatter);

@@ -28,6 +28,7 @@ namespace Farmacop
             AddAlgComboBox();
         }
 
+        //Obtiene las cuentas de usuario ya en uso
         public void GetData()
         {
             try
@@ -41,6 +42,7 @@ namespace Farmacop
             }
         }
 
+        //Lee los datos de las cuentas obtenidas desde el servidor
         public List<string> ReadUsersData(string data)
         {
             List<string> userslist = new List<string>();
@@ -55,6 +57,7 @@ namespace Farmacop
             return userslist;
         }
 
+        //Comprueba que todos los datos están introducidos y son correctos y agrega el usuario al entorno
         private void btnAccept_Click(object sender, EventArgs e)
         {
             try
@@ -107,11 +110,13 @@ namespace Farmacop
             
         }
 
+        //Cierra el formulario
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //Comprueba el nombre de cuenta que se está utilizando
         private bool CheckAccountName(string account)
         {
             if (Accounts.Contains(account))
@@ -122,6 +127,7 @@ namespace Farmacop
                 return true;
         }
 
+        //Carga un calendario utilizado para seleccionar la fecha de nacimiento
         private void txtFNac_Click(object sender, EventArgs e)
         {
             mCalendar = new MonthCalendar()
@@ -173,6 +179,7 @@ namespace Farmacop
             txtFNac.Enabled = true;
         }
 
+        //Carga un calendario utilizado para seleccionar la fecha de nacimiento
         private void txtFNac_Enter(object sender, EventArgs e)
         {
             mCalendar = new MonthCalendar()
@@ -188,12 +195,13 @@ namespace Farmacop
             mCalendar.Focus();
             txtFNac.Enabled = false;
         }
-
+        
         private void btnAddAlg_Click(object sender, EventArgs e)
         {
             AddAlgComboBox();
         }
 
+        //Agrega un control de alergia a la lista
         private void AddAlgComboBox()
         {
             try
@@ -225,6 +233,7 @@ namespace Farmacop
 
         }
 
+        //Lee los medicamentos del mensaje recibido por el servidor
         public List<Medicament> ReadData(string jsondata)
         {
             List<Medicament> thelist = new List<Medicament>();
@@ -240,11 +249,13 @@ namespace Farmacop
             return thelist;
         }
 
+        //Comprueba el formato del email del usuario
         private bool CheckEmailFormat(string email)
         {
             return Regex.IsMatch(email, @"\A(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)\Z");
         }
 
+        //Elimina un control de alergia de la lista
         private void btnDel_Click(object sender, EventArgs e)
         {
             if(algContainer.Controls.Count > 0)

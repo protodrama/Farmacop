@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Farmacop
 {
+    //Clase que representa medicamento en la aplicación
     public class Medicament
     {
         private string _name;
