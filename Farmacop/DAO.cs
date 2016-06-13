@@ -1570,14 +1570,13 @@ namespace Farmacop
                             hours += "[**]" + tmp;
                         }
                         string msg = "Se ha modificado una receta suya. [**]Datos nuevos:[**]-Medicamento: " + medicament +
-                            "[**]-Dosis: " + Amm + "[**]-Fecha de inicio: " + FIni + "[**]-Fecha fin: " + FEnd + "[**]-Horario de tomas diarias:" + hours;
+                            "[**]-Dosis: " + Amm + "[**]-Fecha de inicio: " + DateTime.Parse(FIni).ToShortDateString() + "[**]-Fecha fin: " + DateTime.Parse(FEnd).ToShortDateString() + "[**]-Horario de tomas diarias:" + hours;
 
                         InsertMsg(patient, "Modificación de receta", msg);
                         SendEmailToUser("Modificación de receta", msg.Replace("[**]", "\r\n"), patient);
                         foreach (string tmp in newTime)
                         {
                             InsertHour(RecId, tmp.Split(':')[0], tmp.Split(':')[1]);
-                            Thread.Sleep(200);
                         }
                         return true;
                     }
