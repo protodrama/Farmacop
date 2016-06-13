@@ -1299,6 +1299,9 @@ namespace Farmacop
                         {
                             InsertMsg(thepresct.Paciente, "Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + thepresct.Medicamento + " que comenzaba el día " + thepresct.FechaInicio +
                                 " y terminaba el día " + thepresct.FechaFin);
+
+                            string mesemail = "Se ha eliminado su receta de " + thepresct.Medicamento;
+
                             SendEmailToUser("Eliminacion de receta", "Se ha eliminaro su receta con el medicamento " + thepresct.Medicamento + " que comenzaba el día " + thepresct.FechaInicio +
                                         " y terminaba el día " + thepresct.FechaFin, thepresct.Paciente);
                             return true;
@@ -1398,8 +1401,10 @@ namespace Farmacop
                         string msg = "Se ha añadido una nueva receta para usted.[**]-Medicamento: " + medicament +
                             "[**]-Dosis: " + Amm + "[**]-Fecha de inicio: " + FIni + "[**]-Fecha fin: " + FEnd + "[**]-Horario de tomas diarias:" + hours;
 
+                        string mesemail = "Se ha agregado una receta para usted con el medicamento " + medicament;
+
                         InsertMsg(patient, "Nueva receta", msg);
-                        SendEmailToUser("Receta", msg.Replace("[**]", "\r\n"), patient);
+                        SendEmailToUser("Receta", mesemail, patient);
                         Session.GettingData = false;
                         return true;
                     }
@@ -1563,17 +1568,19 @@ namespace Farmacop
                     Session.GettingData = false;
                     if (response.IsSuccessStatusCode)
                     {
-
                         string hours = string.Empty;
                         foreach (string tmp in totalTime)
                         {
                             hours += "[**]" + tmp;
                         }
+
                         string msg = "Se ha modificado una receta suya. [**]Datos nuevos:[**]-Medicamento: " + medicament +
                             "[**]-Dosis: " + Amm + "[**]-Fecha de inicio: " + DateTime.Parse(FIni).ToShortDateString() + "[**]-Fecha fin: " + DateTime.Parse(FEnd).ToShortDateString() + "[**]-Horario de tomas diarias:" + hours;
 
+                        string mesemail = "Se ha modificado su receta de " + medicament;
+
                         InsertMsg(patient, "Modificación de receta", msg);
-                        SendEmailToUser("Modificación de receta", msg.Replace("[**]", "\r\n"), patient);
+                        SendEmailToUser("Modificación de receta", mesemail, patient);
                         foreach (string tmp in newTime)
                         {
                             InsertHour(RecId, tmp.Split(':')[0], tmp.Split(':')[1]);
